@@ -19,3 +19,7 @@ th {
 th:hover {
     background-color: blue;
 }
+
+#menu-item {
+    padding: 10px;
+}
