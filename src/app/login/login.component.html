@@ -1,0 +1,38 @@
+<button mat-button [matMenuTriggerFor]="menu">Login</button>
+<mat-menu #menu="matMenu">
+        <div class="row">
+                <div class="col s12 m6">
+                  <div class="card">
+                    <div class="col s6">
+                      <h3>User Registration</h3>
+                    </div>
+                    <div class="col s6">
+                      <img src = "/assets/img/geoquiz_logo_2.png" style="width:250px;height:250px;" class="offset-s3">
+                    </div>
+                    <div class="card-content">
+                      <form #registerForm= "ngForm">
+                        <div class = "row">
+                          <div class="input field col s12">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input type = "text" name = "Name" #Name ngModel required>
+                            <label>Name</label>
+                          </div>
+                        </div>
+                        <div class = "row">
+                          <div class="input field col s12">
+                            <i class="material-icons prefix">mail_outline</i>
+                            <input type = "text" name = "Email" #Email ngModel required [pattern]="emailPattern">
+                            <label>Email</label>
+                          </div>
+                        </div>
+                        <div class = "row">
+                          <div class="input field col s12">
+                            <button class = "btn-large btn-submit" type ="submit"> Submit !!</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+</mat-menu>
