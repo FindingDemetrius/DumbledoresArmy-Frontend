@@ -1,0 +1,22 @@
+.login-container {
+    margin: auto;
+    padding: 10px;
+}
+
+.forms-container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.forms-email, .forms-pass {
+    padding: 10px;
+}
+  
+.forms-container > * {
+    width: 100%;
+}
+
+.message-container {
+    margin: auto;
+}

@@ -1,38 +1,29 @@
-<button mat-button [matMenuTriggerFor]="menu">Login</button>
-<mat-menu #menu="matMenu">
-        <div class="row">
-                <div class="col s12 m6">
-                  <div class="card">
-                    <div class="col s6">
-                      <h3>User Registration</h3>
-                    </div>
-                    <div class="col s6">
-                      <img src = "/assets/img/geoquiz_logo_2.png" style="width:250px;height:250px;" class="offset-s3">
-                    </div>
-                    <div class="card-content">
-                      <form #registerForm= "ngForm">
-                        <div class = "row">
-                          <div class="input field col s12">
-                            <i class="material-icons prefix">account_circle</i>
-                            <input type = "text" name = "Name" #Name ngModel required>
-                            <label>Name</label>
-                          </div>
-                        </div>
-                        <div class = "row">
-                          <div class="input field col s12">
-                            <i class="material-icons prefix">mail_outline</i>
-                            <input type = "text" name = "Email" #Email ngModel required [pattern]="emailPattern">
-                            <label>Email</label>
-                          </div>
-                        </div>
-                        <div class = "row">
-                          <div class="input field col s12">
-                            <button class = "btn-large btn-submit" type ="submit"> Start </button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-</mat-menu>
+<div class="login-container">
+    <div class="forms-container">
+        <form>
+            <div class="forms-email">
+                <mat-form-field appearance="standard">
+                    <mat-label>Email</mat-label>
+                    <input matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher" #email required>
+                    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                        Please enter a valid email
+                    </mat-error>
+                    <mat-error *ngIf="emailFormControl.hasError('required')">Email is <strong>required</strong></mat-error>
+                </mat-form-field>
+            </div>
+            <div class="forms-pass">
+                <mat-form-field appearance="standard">
+                    <mat-label>Password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text' " #pass required>
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="forms-button">
+                <button mat-flat-button (click)="onSubmit(email.value,pass.value)">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="message-container">
+        <p>Don't have an account? Register <a routerLink="/register">here</a></p>
+    </div>
+</div>
