@@ -9,7 +9,7 @@ import { Component, ViewChild } from '@angular/core';
 
 /// <reference types="@types/googlemaps" />
 export class MapComponent {
-    @ViewChild('gmap') gmapElement: any;
+    /**@ViewChild('gmap') gmapElement: any;
     map: google.maps.Map;
 
     ngOnInit() {
@@ -20,5 +20,5 @@ export class MapComponent {
         };
 
         this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-    }
+    }**/
 }

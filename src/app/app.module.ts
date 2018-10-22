@@ -16,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { MapComponent } from './home/map/map.component';
 import { RegisterComponent } from './register/register.component';
+import { CreateChallengeComponent } from './challenge/create-challenge.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -26,7 +27,8 @@ import { AppRoutingModule } from './app-routing.module';
     HomeComponent,
     LoginComponent,
     MapComponent,
-    RegisterComponent
+    RegisterComponent,
+    CreateChallengeComponent
   ],
   imports: [
     BrowserModule,
