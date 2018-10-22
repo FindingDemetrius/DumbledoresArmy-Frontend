@@ -1,5 +1,6 @@
 export class Genre {
 
-    private genreId: number
-    private genreName: string
+    genreId: number
+    genreName: string
+
 }

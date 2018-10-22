@@ -5,6 +5,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Challenge } from '../model/Challenge';
+import { Genre } from '../model/Genre';
+import { User } from '../model/User';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,18 +15,29 @@ const httpOptions = {
 @Injectable({ providedIn: 'root'})
 export class ChallengeService {
 
-    private baseUrl = "http://hello-world-218204.appspot.com/api/"
+    private baseUrl = "http://geoquiz-1e874.appspot.com/api/"
 
     constructor(private http: HttpClient) { }
 
-    login(email, pass){
+    login(email, pass) {
         let info = { email, pass }
+        const url = this.baseUrl + 'users'
         console.log('trying to login')
-        return this.http.post<string>(this.baseUrl+'login', info)
+        this.http.post<string>(url, info)
             .pipe(
                 tap(_ => console.log('logging in')),
                 catchError(this.handleError('login', []))
             )
+        
+    }
+
+    logout() {
+
+    }
+
+    getUser(username: string): Observable<User> {
+        const url = `${this.baseUrl}/getUser/${username}`
+        return this.http.get<User>(this.baseUrl+'getUser')
     }
 
     getAllChallenges(): Observable<Challenge[]> {
@@ -33,6 +46,14 @@ export class ChallengeService {
                 tap(challenges => console.log('fetched challenges')),
                 catchError(this.handleError('getChallenges', []))
             );
+    }
+
+    getGenresList(): Observable<Genre[]> {
+        return this.http.get<Genre[]>(this.baseUrl+"getGenres")
+            .pipe(
+                tap(genres => console.log('fetched genres')),
+                catchError(this.handleError('getGenres', []))
+            )
     }
 
     private handleError<T> (operation = 'operation', result?: T) {

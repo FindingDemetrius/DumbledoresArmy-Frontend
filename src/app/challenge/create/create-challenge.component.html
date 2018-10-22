@@ -1,0 +1,19 @@
+<div class="create-challenge">
+    <div class="challenge-form">
+        <mat-form-field>
+            <mat-label>Challenge Name</mat-label>
+            <input matInput #name>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Genre</mat-label>
+            <mat-select>
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let genre of genres" [value]="genre">{{genre.genreName}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Question</mat-label>
+        </mat-form-field>
+        <button mat-flat-button (click)="addQuestion()"></button>
+    </div>
+</div>
