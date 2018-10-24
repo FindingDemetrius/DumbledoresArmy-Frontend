@@ -15,25 +15,9 @@ const httpOptions = {
 @Injectable({ providedIn: 'root'})
 export class ChallengeService {
 
-    private baseUrl = "http://geoquiz-1e874.appspot.com/api/"
+    private baseUrl = "https://geoquiz-1e874.appspot.com/api/"
 
     constructor(private http: HttpClient) { }
-
-    login(email, pass) {
-        let info = { email, pass }
-        const url = this.baseUrl + 'users'
-        console.log('trying to login')
-        this.http.post<string>(url, info)
-            .pipe(
-                tap(_ => console.log('logging in')),
-                catchError(this.handleError('login', []))
-            )
-        
-    }
-
-    logout() {
-
-    }
 
     getUser(username: string): Observable<User> {
         const url = `${this.baseUrl}/getUser/${username}`

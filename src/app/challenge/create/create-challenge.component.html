@@ -11,9 +11,12 @@
                 <mat-option *ngFor="let genre of genres" [value]="genre">{{genre.genreName}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field>
-            <mat-label>Question</mat-label>
-        </mat-form-field>
+        <div *ngFor="let question of questions.control; let i=index">
+            <mat-form-field>
+                <mat-label>Question</mat-label>
+                <input matInput [formControlName]="i">
+            </mat-form-field>
+        </div>
         <button mat-flat-button (click)="addQuestion()"></button>
     </div>
 </div>

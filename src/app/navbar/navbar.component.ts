@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, DoCheck } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'nav-bar',
@@ -6,4 +7,12 @@ import { Component } from '@angular/core';
     styleUrls: ['./navbar.component.css']
 })
 
-export class NavbarComponent { }
+export class NavbarComponent implements DoCheck {
+    login: boolean = false
+
+    constructor(private authService: AuthService) { }
+
+    ngDoCheck() {
+        this.login = this.authService.authenticated
+    }
+}
