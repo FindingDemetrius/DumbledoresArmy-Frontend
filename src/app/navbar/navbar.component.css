@@ -5,10 +5,6 @@
 .example-spacer {
     flex: 1 1 auto;
 }
-  
-.navbar-container {
-    border: 2px solid #73AD21
-}
 
 #menu-item {
     padding: 10px;

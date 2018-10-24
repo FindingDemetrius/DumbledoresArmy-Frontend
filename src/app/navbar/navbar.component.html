@@ -2,8 +2,13 @@
     <mat-toolbar color="primary">
         <span id="menu-item"><a routerLink="/home">Home</a></span>
         <span id="menu-item"><a routerLink="/challenge/create">Create Challenge</a></span>
-        <span id="menu-item">Profile</span>
+        <span id="menu-item"><a routerLink="/profile">Profile</a></span>
         <span class="example-spacer"></span>
-        <span id="menu-item"><a routerLink="/login">Login</a></span>
+        <div *ngIf="this.login">
+            <span id="menu-item"><a routerLink="/login">Login</a></span>
+        </div>
+        <div *ngIf="!this.login">
+            <span id="menu-item"(click)="logout"><a href="#">Logout</a></span>
+        </div>
     </mat-toolbar>
 </div>

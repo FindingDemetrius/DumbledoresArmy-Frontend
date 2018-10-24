@@ -1,22 +1,17 @@
-.login-container {
-    margin: auto;
-    padding: 10px;
-}
-
 .forms-container {
     display: flex;
     flex-direction: column;
-    margin: auto;
-}
-
-.forms-email, .forms-pass {
-    padding: 10px;
 }
   
 .forms-container > * {
-    width: 100%;
+    width: 40%;
+    margin: auto;
 }
 
-.message-container {
-    margin: auto;
+.forms-container > button {
+    width: 10%;
+}
+
+.message-container > * {
+    text-align: center;
 }

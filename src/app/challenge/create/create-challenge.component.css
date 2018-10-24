@@ -1,0 +1,13 @@
+.create-challenge {
+    width: 100%;
+}
+
+.challenge-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.challenge-form > * {
+    width: 60%;
+    margin: auto;
+}
