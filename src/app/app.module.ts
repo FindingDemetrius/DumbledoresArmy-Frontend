@@ -20,6 +20,9 @@ import { CreateChallengeComponent } from './challenge/create-challenge.component
 
 import { AppRoutingModule } from './app-routing.module';
 
+//Code that pertains to the map API
+import { AgmCoreModule } from '@agm/core';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +44,10 @@ import { AppRoutingModule } from './app-routing.module';
     MatInputModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAuWYQMjlgGD0hyuVTavbz5uXAENMWV6LA'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
