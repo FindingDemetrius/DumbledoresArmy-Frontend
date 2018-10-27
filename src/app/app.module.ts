@@ -22,6 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 //Code that pertains to the map API
 import { AgmCoreModule } from '@agm/core';
+import { ChallengeComponent } from './challenge/challenge.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AgmCoreModule } from '@agm/core';
     LoginComponent,
     MapComponent,
     RegisterComponent,
-    CreateChallengeComponent
+    CreateChallengeComponent,
+    ChallengeComponent
   ],
   imports: [
     BrowserModule,
