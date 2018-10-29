@@ -11,7 +11,8 @@ export const environment = {
     projectId: 'geoquiz-1e874',
     storageBucket: 'geoquiz-1e874.appspot.com',
     messagingSenderId: '804254899672'
-  }
+  },
+  apiUrl: 'https://geoquiz-1e874.appspot.com/api'
 };
 
 /*
