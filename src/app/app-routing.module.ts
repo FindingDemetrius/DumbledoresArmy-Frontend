@@ -15,7 +15,7 @@ const routes: Routes = [
     { path: 'challenge', children: [
         { path: 'create', component: CreateChallengeComponent }
     ] },
-    { path: 'profile/:username', component: ProfileComponent }
+    { path: 'profile/:id', component: ProfileComponent }
 ];
 
 @NgModule({
