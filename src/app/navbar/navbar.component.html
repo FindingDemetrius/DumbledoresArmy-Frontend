@@ -4,10 +4,10 @@
         <span id="menu-item"><a routerLink="/challenge/create">Create Challenge</a></span>
         <span id="menu-item"><a routerLink="/profile">Profile</a></span>
         <span class="example-spacer"></span>
-        <div *ngIf="this.login">
+        <div *ngIf="login">
             <span id="menu-item"><a routerLink="/login">Login</a></span>
         </div>
-        <div *ngIf="!this.login">
+        <div *ngIf="!login">
             <span id="menu-item"(click)="logout"><a href="#">Logout</a></span>
         </div>
     </mat-toolbar>

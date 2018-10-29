@@ -16,19 +16,19 @@ export class AuthService {
   private baseUrl = "https://geoquiz-1e874.appspot.com/api/"
 
   login(email, pass) {
-    this.afAuth.auth
-      .signInWithEmailAndPassword(email, pass)
-      .then(() => this.router.navigate(["/"]))
-      .catch(error => console.log(error));
+    return this.afAuth.auth.signInWithEmailAndPassword(email, pass)
+            .then(userCred => {
+                console.log(userCred.user.getIdToken())
+            })
+            .catch(error => console.log(error))
   }
 
   logout() {
-    this.afAuth.auth
-      .signOut()
+    this.afAuth.auth.signOut()
       .then(() => this.router.navigate(["/"]))
       .catch(error => console.log(error));
   }
-
+  
   register(email, pass): any {
     this.afAuth.auth
       .createUserWithEmailAndPassword(email, pass)
