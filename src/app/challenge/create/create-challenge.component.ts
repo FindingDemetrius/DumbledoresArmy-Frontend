@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray } from '@angular/forms';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
-import { Genre } from '../../model/Genre';
+import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material'
+
 import { ChallengeService } from '../../services/challenge.service';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
     selector: 'create-challenge',
@@ -12,15 +16,25 @@ import { ChallengeService } from '../../services/challenge.service';
 
 export class CreateChallengeComponent implements OnInit {
 
-    genres: Genre[] = []
+    visible = true
+    selectable = true
+    removable = true
+    addOnBlur = true
+    separatorKeyCodes: number[] = [ENTER, COMMA]
+    genreCtrl = new FormControl()
+    filteredGenres: Observable<string[]>
+    genres: string[]
+    allGenres: string[] = []
 
-    constructor(private fb: FormBuilder, private challengeService: ChallengeService) { }
+    @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>
+    @ViewChild('auto') matAutoComplete: MatAutocomplete
 
-    challengeForm = this.fb.group({
-        questions: this.fb.array([
-            this.fb.control('')
-        ])
-    })
+    constructor(private fb: FormBuilder, private challengeService: ChallengeService) {
+        this.filteredGenres = this.genreCtrl.valueChanges.pipe(
+            startWith(null),
+            map((genre: string | null) => genre ? this._filter(genre) : this.allGenres.slice())
+        )
+    }
 
     ngOnInit() {
         this.getGenres()
@@ -28,14 +42,43 @@ export class CreateChallengeComponent implements OnInit {
 
     getGenres() {
         this.challengeService.getGenresList()
-            .subscribe(genres => this.genres = genres)
+            .subscribe(genres => this.allGenres = genres)
     }
 
-    get questions() {
-        return this.challengeForm.get('questions') as FormArray
+    add(event: MatChipInputEvent) {
+        if (!this.matAutoComplete.isOpen) {
+            const input = event.input
+            const value = event.value
+
+            if ((value || '').trim()) {
+                this.genres.push(value.trim())
+            }
+
+            if (input) {
+                input.value = ''
+            }
+
+            this.genreCtrl.setValue(null)
+        }
     }
 
-    addQuestion() {
-        this.questions.push(this.fb.control(''))
+    remove(genre: string) {
+        const index = this.genres.indexOf(genre)
+        
+        if (index >= 0) {
+            this.genres.splice(index, 1)
+        }
+    }
+
+    selected(event: MatAutocompleteSelectedEvent) {
+        this.genres.push(event.option.viewValue)
+        this.genreInput.nativeElement.value = ''
+        this.genreCtrl.setValue(null)
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase()
+
+        return this.allGenres.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0)
     }
 }

@@ -14,5 +14,6 @@ export class NavbarComponent implements DoCheck {
 
     ngDoCheck() {
         this.login = this.authService.authenticated
+        console.log(`${this.login}`)
     }
 }

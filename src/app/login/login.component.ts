@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
 
@@ -22,10 +23,12 @@ export class LoginComponent {
     matcher = new MyErrorStateMatcher()
     hide = true
 
-    constructor(private authService: AuthService) { }
+    constructor(private authService: AuthService, private router: Router) { }
 
     onSubmit(email, pass) {
         //console.log('Submit button clicked email: ' + email + ' password: ' + pass)
         this.authService.login(email, pass)
+            .then(res => console.log(res))
+            .then(() => this.router.navigate(['/']))
     }
 }

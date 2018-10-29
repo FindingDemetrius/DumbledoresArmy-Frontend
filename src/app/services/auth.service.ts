@@ -10,8 +10,10 @@ export class AuthService {
     constructor(private afAuth: AngularFireAuth, private router: Router) { }
 
     login(email, pass) {
-        this.afAuth.auth.signInWithEmailAndPassword(email, pass)
-            .then(() => this.router.navigate(['/']))
+        return this.afAuth.auth.signInWithEmailAndPassword(email, pass)
+            .then(userCred => {
+                console.log(userCred.user.getIdToken())
+            })
             .catch(error => console.log(error))
     }
 
