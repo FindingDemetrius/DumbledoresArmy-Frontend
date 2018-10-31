@@ -12,7 +12,7 @@ export const environment = {
     storageBucket: 'geoquiz-1e874.appspot.com',
     messagingSenderId: '804254899672'
   },
-  apiUrl: 'https://geoquiz-1e874.appspot.com/api'
+  apiUrl: 'http://127.0.0.1:8080/api'
 };
 
 /*

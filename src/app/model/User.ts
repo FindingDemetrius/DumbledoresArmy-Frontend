@@ -1,24 +1,31 @@
 
 export class User {
 
-    username = '';
+    userName = '';
     name = '';
-    dateOfBirth = new Date(Date.now());
+    dateOfBirth = new Date(Date.now()).toUTCString();
     emailAddress = '';
     profileImageUrl = '';
-    totalScore = 0;
-    challengesPostedRef = [];
-    challengesTakenRef = [];
-    numberOfChallengesPosted = 0;
-    numberOfChallengesTaken = 0;
-    datePosted = new Date(Date.now());
-    dateModified = new Date(Date.now());
+    totalScore;
+    challengesPostedRef;
+    challengesTakenRef;
+    numberOfChallengesPosted;
+    numberOfChallengesTaken;
+    datePosted;
+    dateModified;
 
     constructor(user: Object = {}) {
         Object.assign(this, user);
     }
 
     public getJsonUser(): object {
-        return {};
+        const returnDict = {
+            'userName': this.userName,
+            'name': this.name,
+            'dateOfBirth': this.dateOfBirth,
+            'emailAddress': this.emailAddress,
+            'profileImageUrl': this.profileImageUrl
+        };
+        return JSON.parse(JSON.stringify(returnDict));
     }
 }

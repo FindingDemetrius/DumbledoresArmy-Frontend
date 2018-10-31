@@ -12,7 +12,7 @@ export class AppComponent implements OnDestroy {
   constructor(private authService: AuthService) { }
 
   ngOnDestroy() {
-    console.log('in onDestroy')
-    this.authService.logout()
+    console.log('in onDestroy');
+    this.authService.doSignOut();
   }
 }

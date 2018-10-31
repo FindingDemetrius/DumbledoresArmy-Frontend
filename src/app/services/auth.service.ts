@@ -5,22 +5,29 @@ import { SessionService } from './session.service';
 
 @Injectable()
 export class AuthService {
-
     constructor(
         private afAuth: AngularFireAuth,
         private router: Router,
         private session: SessionService) { }
 
-    public signUpWithFirebase(email: string, password: string): Promise<boolean> {
-        return new Promise<boolean>((res, rej) => {
+    public signUpWithFirebase(email: string, password: string): Promise<object> {
+        console.log('2');
+        return new Promise<object>((res, rej) => {
+            console.log('1');
             this.afAuth.auth.createUserWithEmailAndPassword(email, password)
                 .then(userCred => {
-                    this.session.name = userCred.user.displayName;
-                    return userCred.user.getIdToken();
-                })
-                .then(idToken => {
-                    this.session.accessToken = idToken;
-                    res(true);
+                    const emailAddress = userCred.user.email;
+                    userCred.user.getIdToken(true)
+                    .then(idToken => {
+                        console.log(idToken);
+                        res({
+                            'email': emailAddress,
+                            'accessToken': idToken
+                        });
+                    })
+                    .catch(error => {
+                        rej(error);
+                    });
                 })
                 .catch(error => {
                     rej(error);
@@ -28,7 +35,7 @@ export class AuthService {
         });
     }
 
-    private signInWithFirebaseAndGetToken(email: string, password: string) {
+    public signInWithFirebaseAndGetToken(email: string, password: string) {
         return new Promise<boolean>((res, rej) => {
             this.afAuth.auth.signInWithEmailAndPassword(email, password)
                 .then(userCred => {
@@ -60,7 +67,7 @@ export class AuthService {
         /**
          * Setup the accessToken for the session.
          */
-        if ((!accessToken) || (!name)) {
+        if ((accessToken === null) || (name === null)) {
             return;
         }
         this.session.accessToken = accessToken;

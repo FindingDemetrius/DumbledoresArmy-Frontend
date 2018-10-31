@@ -1,0 +1,14 @@
+
+#Profile
+{ 
+    margin: 50px auto;
+    width: 635px;
+    border: 1px solid red;
+}
+
+#Info
+{  
+    display: inline-block;
+    width: 250px;
+    border: 1px solid purple;
+}
