@@ -23,7 +23,7 @@ export class CreateChallengeComponent implements OnInit {
     separatorKeyCodes: number[] = [ENTER, COMMA]
     genreCtrl = new FormControl()
     filteredGenres: Observable<string[]>
-    genres: string[]
+    genres: string[] = []
     allGenres: string[] = []
 
     @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>
@@ -64,7 +64,7 @@ export class CreateChallengeComponent implements OnInit {
 
     remove(genre: string) {
         const index = this.genres.indexOf(genre)
-        
+
         if (index >= 0) {
             this.genres.splice(index, 1)
         }

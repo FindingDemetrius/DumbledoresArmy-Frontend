@@ -32,6 +32,15 @@ export class ChallengeService {
             );
     }
 
+    getChallengeByUser(userId): Observable<Challenge[]> {
+        const url = `${this.baseUrl}/challenges/userId`
+        return this.http.get<Challenge[]>(url)
+            .pipe(
+                tap(challenges => console.log('fetched user challenges')),
+                catchError(this.handleError('getUserChallenges', []))
+            )
+    }
+
     getGenresList(): Observable<string[]> {
         const url = `${this.baseUrl}/genres`
         return this.http.get<string[]>(url)
