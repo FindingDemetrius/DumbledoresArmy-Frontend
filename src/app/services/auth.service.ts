@@ -1,68 +1,80 @@
-import { Injectable } from "@angular/core";
-import { AngularFireAuth } from "@angular/fire/auth";
-import { auth } from "firebase/app";
-import { Router } from "@angular/router";
-import { Observable } from "rxjs";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-}
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import { SessionService } from './session.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private afAuth: AngularFireAuth, private router: Router, private http: HttpClient) {}
+    constructor(
+        private afAuth: AngularFireAuth,
+        private router: Router,
+        private session: SessionService) { }
 
-  private baseUrl = "https://geoquiz-1e874.appspot.com/api/"
+    public signUpWithFirebase(email: string, password: string): Promise<object> {
+        console.log('2');
+        return new Promise<object>((res, rej) => {
+            console.log('1');
+            this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+                .then(userCred => {
+                    const emailAddress = userCred.user.email;
+                    userCred.user.getIdToken(true)
+                    .then(idToken => {
+                        console.log(idToken);
+                        res({
+                            'email': emailAddress,
+                            'accessToken': idToken
+                        });
+                    })
+                    .catch(error => {
+                        rej(error);
+                    });
+                })
+                .catch(error => {
+                    rej(error);
+                });
+        });
+    }
 
-  login(email, pass) {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, pass)
-            .then(userCred => {
-                console.log(userCred.user.getIdToken())
-            })
-            .catch(error => console.log(error))
-  }
+    public signInWithFirebaseAndGetToken(email: string, password: string) {
+        return new Promise<boolean>((res, rej) => {
+            this.afAuth.auth.signInWithEmailAndPassword(email, password)
+                .then(userCred => {
+                    this.session.name = userCred.user.displayName;
+                    return userCred.user.getIdToken();
+                })
+                .then(idToken => {
+                    this.session.accessToken = idToken;
+                    res(true);
+                })
+                .catch(error => {
+                    rej(error);
+                 });
+        });
+    }
 
-  logout() {
-    this.afAuth.auth.signOut()
-      .then(() => this.router.navigate(["/"]))
-      .catch(error => console.log(error));
-  }
-  
-  register(email, pass): any {
-    this.afAuth.auth
-      .createUserWithEmailAndPassword(email, pass)
-      .then(userCred => {
-        var user = userCred.user;
-        user.getIdToken(true).then(idToken => {
-          console.log("IdToken", idToken);
-          return this.http.post<object>(this.baseUrl + 'users', {
-            headers: {
-              "authorization": idToken,
-              "Content-Type": 'application/json'
-            },
-            'userName': "Biswash",
-            "name": "Biswash Adhikari",
-            "dateOfBirth": "01/01/2000",
-            "emailAddress": "biswash@google.com",
-            "profileImageUrl": "sample-biswash.cdn.com"
-          })
-        })
-        .catch(error => {
-          return error;
-        })
-      });
-  }
+    public isSignedIn() {
+        return !!this.session.accessToken;
+    }
 
-  get authenticated(): boolean {
-    return this.afAuth.authState !== null;
-  }
+    public doSignOut() {
+        /**
+         * Destroy the session.
+         */
+        this.session.destroy();
+    }
 
-  get currentUser() {
-    return this.authenticated ? this.afAuth.auth : null;
-  }
+    public doSignIn(accessToken: string, name: string) {
+        /**
+         * Setup the accessToken for the session.
+         */
+        if ((accessToken === null) || (name === null)) {
+            return;
+        }
+        this.session.accessToken = accessToken;
+        this.session.name = name;
+    }
 
-  get currentUserId() {
-    return this.authenticated ? this.afAuth.idToken : "";
-  }
+    public setUsername(username: string){
+        this.session.userName = username;
+    }
 }

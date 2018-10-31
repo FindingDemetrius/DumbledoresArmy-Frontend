@@ -28,7 +28,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { QuestionsChallengeComponent } from './challenge/create/questions/questions-challenge.component';
 
 import { AuthService } from './services/auth.service';
-
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 

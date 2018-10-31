@@ -27,8 +27,8 @@ export class LoginComponent {
 
     onSubmit(email, pass) {
         //console.log('Submit button clicked email: ' + email + ' password: ' + pass)
-        this.authService.login(email, pass)
+        this.authService.signInWithFirebaseAndGetToken(email, pass)
             .then(res => console.log(res))
-            .then(() => this.router.navigate(['/']))
+            .then(() => this.router.navigate(['/']));
     }
 }
