@@ -2,7 +2,6 @@ export class User {
     
     private userId: number
     private userName: string
-    private password: string
     private email: string
     private dob: Date
     private points: number
@@ -22,14 +21,6 @@ export class User {
 
     setUserName(userName: string) {
         this.userName = userName
-    }
-
-    getPassword(): string {
-        return this.password
-    }
-
-    setPassword(password: string) {
-        this.password = password
     }
 
     getEmail(): string {

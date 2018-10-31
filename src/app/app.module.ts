@@ -25,6 +25,7 @@ import { MapComponent } from './home/map/map.component';
 import { RegisterComponent } from './register/register.component';
 import { CreateChallengeComponent } from './challenge/create/create-challenge.component';
 import { ProfileComponent } from './profile/profile.component';
+import { QuestionsChallengeComponent } from './challenge/create/questions/questions-challenge.component';
 
 import { AuthService } from './services/auth.service';
 
@@ -40,7 +41,8 @@ import { environment } from '../environments/environment';
     MapComponent,
     RegisterComponent,
     CreateChallengeComponent,
-    ProfileComponent
+    ProfileComponent,
+    QuestionsChallengeComponent
   ],
   imports: [
     BrowserModule,
