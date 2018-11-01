@@ -4,10 +4,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from './../model/User';
 import { AuthService } from './auth.service';
 import { environment } from './../../environments/environment';
-import { Observable, of } from 'rxjs';
+import { Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Challenge } from '../model/Challenge';
+import {throwError} from 'rxjs';
 
 const API_URL: string = environment.apiUrl;
 
@@ -23,7 +24,7 @@ export class UserService {
 
   public getUser(username: string): Observable<User> {
     if (!this.auth.isSignedIn()) {
-      return Observable.throw(new Error('The user is not signed in.'));
+      return throwError(new Error('The user is not signed in.'));
     }
     return this.http.get<User>(API_URL + '/users/' + username, this.getRequestOptions()).map(
       response => {
@@ -37,7 +38,7 @@ export class UserService {
 
   public createUser(user: User): Observable<User> {
     if (!this.auth.isSignedIn()) {
-      return Observable.throw(new Error('The user is not signed in.'));
+      return throwError(new Error('The user is not signed in.'));
     }
     const userInJson: object = JSON.parse(JSON.stringify(user, ['username', 'name', 'profileImageUrl', 'dateOfBirth', 'emailAddress']));
     return this.http.post(API_URL + '/users', userInJson, this.getRequestOptions()).map(
@@ -52,7 +53,7 @@ export class UserService {
 
   public getListOfUsers(limit?: string, sortBy?: string): Observable<User[]> {
     if (!this.auth.isSignedIn()) {
-      return Observable.throw(new Error('The user is not signed in.'));
+      return throwError(new Error('The user is not signed in.'));
     }
     return this.http.get(API_URL + '/users/', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
       response => {
@@ -67,11 +68,11 @@ export class UserService {
   }
 
   public updateUser(username: string, updateObject: object): Observable<User> {
-    if (!this.auth.isSignedIn()) {
-      return Observable.throw(new Error('The user is not signed in.'));
+    if (!this.auth.isSignedIn())  {
+      return throwError(new Error('The user is not signed in.'));
     }
-    if (this.IsUpdateUserObjectFieldsValid(updateObject)) {
-      return Observable.throw(new Error('One of the fields is not allowed to be updated. '));
+    if (!this.IsUpdateUserObjectFieldsValid(updateObject)) {
+      return throwError(new Error('One of the fields is not allowed to be updated. '));
     }
     this.http.patch(API_URL + '/users/' + username, updateObject, this.getRequestOptions()).map(
       response => {
@@ -85,7 +86,7 @@ export class UserService {
 
   public deleteUser(username: string): Observable<object> {
     if (!this.auth.isSignedIn()) {
-      return Observable.throw(new Error('The user is not signed in.'));
+      return throwError(new Error('The user is not signed in.'));
     }
     this.http.delete(API_URL + '/users/' + username, this.getRequestOptions()).map(
       reponse => {
@@ -99,7 +100,7 @@ export class UserService {
 
   public getChallengesPostedByUser(username: string, limit?: string, sortBy?: string): Observable<Challenge[]> {
     if (!this.auth.isSignedIn()) {
-      return Observable.throw(new Error('The user is not signed in.'));
+      return throwError(new Error('The user is not signed in.'));
     }
     this.http.get(API_URL + '/users/username/challengesPosted', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
       response => {
@@ -115,7 +116,7 @@ export class UserService {
 
   public getChallengesTakenByUser(username: string, limit?: string, sortBy?: string): Observable<Challenge[]> {
     if (!this.auth.isSignedIn()) {
-      return Observable.throw(new Error('The user is not signed in.'));
+      return throwError(new Error('The user is not signed in.'));
     }
     this.http.get(API_URL + '/users/username/challengesTakem', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
       response => {
