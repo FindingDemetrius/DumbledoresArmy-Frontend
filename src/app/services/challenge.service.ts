@@ -43,4 +43,13 @@ export class ChallengeService {
             return of(result as T);
         };
     }
+
+    private getRequestOptions(): object {
+        return {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.session.accessToken
+            })
+        };
+    }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SessionService } from './session.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from './../model/User';
 import { AuthService } from './auth.service';
 import { environment } from './../../environments/environment';
@@ -24,7 +24,7 @@ export class UserService {
     if (!this.auth.isSignedIn()) {
       return Observable.throw(new Error('The user is not signed in.'));
     }
-    this.http.get(API_URL + '/users/' + username, this.getRequestOptions());
+    return this.http.get<User>(API_URL + '/users/' + username, this.getRequestOptions());
   }
 
   public createUser(user: User): Observable<User> {
@@ -34,11 +34,11 @@ export class UserService {
     return this.http.post<User>(API_URL + '/users', user.getJsonUser(), this.getRequestOptions());
   }
 
-  public getListOfUsers(limit: string, sortBy: string): Observable<User[]> {
+  public getListOfUsers(limit?: string, sortBy?: string): Observable<User[]> {
     if (!this.auth.isSignedIn()) {
       return Observable.throw(new Error('The user is not signed in.'));
     }
-    this.http.get(API_URL + '/users/', this.getRequestOptions());
+    return this.http.get<User[]>(API_URL + '/users/', this.getRequestOptions(params));
   }
 
   public updateUser(username: string, updateObject: object): Observable<User> {
@@ -55,13 +55,24 @@ export class UserService {
     this.http.delete(API_URL + '/users/' + username, this.getRequestOptions());
   }
 
-  private getRequestOptions(): object {
-    return {
+  public getChallengesPostedByUser(username: string): Observable<User[]> {
+    if (!this.auth.isSignedIn()) {
+      return Observable.throw(new Error('The user is not signed in.'));
+    }
+    this.http.get(API_URL + '/users/username/challengesPosted', this.getRequestOptions());
+  }
+
+  private getRequestOptions(params?: HttpParams): object {
+    const requestOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + this.session.accessToken
       })
     };
+    if (params !== null) {
+      requestOptions['params'] = params;
+    }
+    return requestOptions;
   }
 }
 
