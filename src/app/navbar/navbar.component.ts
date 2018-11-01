@@ -13,6 +13,7 @@ export class NavbarComponent implements DoCheck {
     constructor(private authService: AuthService) { }
 
     ngDoCheck() {
-        this.login = this.authService.authenticated
+        this.login = this.authService.isSignedIn();
+        console.log(`${this.login}`)
     }
 }

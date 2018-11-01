@@ -37,13 +37,13 @@ export class CreateChallengeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getGenres()
+        // this.getGenres()
     }
 
-    getGenres() {
-        this.challengeService.getGenresList()
-            .subscribe(genres => this.allGenres = genres)
-    }
+    // getGenres() {
+    //     this.challengeService.getGenresList()
+    //         .subscribe(genres => this.allGenres = genres)
+    // }
 
     add(event: MatChipInputEvent) {
         if (!this.matAutoComplete.isOpen) {

@@ -24,8 +24,8 @@ export class ProfileComponent implements OnInit {
 
     getUserProfile() {
         const username = this.route.snapshot.paramMap.get('username')
-        this.challengeService.getUser(username)
-            .subscribe(user => this.user = user)
+        // this.challengeService.getUser(username)
+        //     .subscribe(user => this.user = user)
     }
 
     getChallenges() {
