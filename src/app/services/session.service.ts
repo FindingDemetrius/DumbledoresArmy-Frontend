@@ -5,12 +5,12 @@ import { Injectable } from '@angular/core';
 export class SessionService {
 
   public accessToken: string;
-  public name: string;
+  public username: string;
 
   constructor() { }
 
   public destroy() {
     this.accessToken = null;
-    this.name = null;
+    this.username = null;
   }
 }

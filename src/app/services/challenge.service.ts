@@ -1,11 +1,10 @@
-import { HttpHeaders } from '@angular/common/http';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
-
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Challenge } from './../model/Challenge';
-import { User } from './../model/User';
 import { environment } from './../../environments/environment';
-import { Observable, of } from 'rxjs';
+import { SessionService } from './session.service';
+import { ChallengeResponse } from '../model/ChallengeResponse';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,32 +15,34 @@ const API_URL: string = environment.apiUrl;
 @Injectable({ providedIn: 'root' })
 export class ChallengeService {
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private session: SessionService) { }
 
-    getChallenge(challengeId: string) {
+    getChallengeById(challengeId: String) {
+
     }
 
-    getUser(username: string) {
+    getListOfChallenges(limit: String, sortBy: String) {
+
     }
 
-    getAllChallenges() {
+    createChallenge(challenge: Challenge) {
+
     }
 
-    getGenresList() {
+    editChalleneg(challenge: Challenge, challengeId: String) {
+
     }
 
-    private handleError<T>(operation = 'operation', result?: T) {
-        return (error: any): Observable<T> => {
+    deleteChallenge(challengeId: String) {
 
-            // TODO: send the error to remote logging infrastructure
-            console.error(error); // log to console instead
+    }
 
-            // TODO: better job of transforming error for user consumption
-            console.log(`${operation} failed: ${error.message}`);
+    postChallengeResponse(challengeResponse: ChallengeResponse, challengeId: String) {
 
-            // Let the app keep running by returning an empty result.
-            return of(result as T);
-        };
+    }
+
+    getChallengeResponse(challengeId: String) {
+
     }
 
     private getRequestOptions(): object {
@@ -52,4 +53,11 @@ export class ChallengeService {
             })
         };
     }
+
+    private getParameters(limit: string, sortBy: string): HttpParams {
+        const params = new HttpParams();
+        if (limit !== null) { params.append('limit', limit); }
+        if (sortBy !== null) { params.append('sortBy', sortBy); }
+        return params;
+      }
 }

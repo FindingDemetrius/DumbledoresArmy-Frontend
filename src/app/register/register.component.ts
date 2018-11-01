@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../model/User';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -60,24 +59,23 @@ export class RegisterComponent implements OnInit {
 
     const user = new User({
       'emailAddress': email,
-      'userName': username,
+      'username': username,
       'name': name,
       'dateOfBirth': dateOfBirth
     });
-    // Submit request to API
     this.auth
       .signUpWithFirebase(email, password)
-      .then(response => {
-        this.auth.doSignIn(response['accessToken'], response['name']);
-        // Send POST req to backend to create a user.
+      .then(authToken => {
+        this.auth.setAuthToken(String(authToken));
         this.userService.createUser(user)
           .subscribe((u: User) => {
+            this.auth.setUsername(u.username);
             this.router.navigate(['home']);
           },
-            error => {
+          errorMessage => {
               this.isBusy = false;
               this.serverResponse = true;
-              this.errorPlaceHolder = error['error']['result']['Error'];
+              this.errorPlaceHolder = errorMessage;
             });
       })
       .catch(error => {
