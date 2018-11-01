@@ -1,5 +1,5 @@
 export class User {
-  userName = "";
+  username = "";
   name = "";
   dateOfBirth = new Date(Date.now()).toUTCString();
   emailAddress = "";
@@ -18,7 +18,7 @@ export class User {
 
   public getJsonUser(): object {
     const returnDict = {
-      userName: this.userName,
+      username: this.username,
       name: this.name,
       dateOfBirth: this.dateOfBirth,
       emailAddress: this.emailAddress,

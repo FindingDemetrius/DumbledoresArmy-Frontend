@@ -1,5 +1,4 @@
-import { HttpHeaders } from '@angular/common/http';
-import { Http } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Challenge } from './../model/Challenge';
@@ -16,7 +15,7 @@ const API_URL: string = environment.apiUrl;
 @Injectable({ providedIn: 'root' })
 export class ChallengeService {
 
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
     getChallenge(challengeId: string) {
     }

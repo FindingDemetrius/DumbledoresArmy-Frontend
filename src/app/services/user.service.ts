@@ -31,7 +31,7 @@ export class UserService {
     if (!this.auth.isSignedIn()) {
       return Observable.throw(new Error('The user is not signed in.'));
     }
-    return this.http.post<User>(API_URL + '/users', user.getJsonUser(), this.getRequestOptions());
+    return this.http.post(API_URL + '/users', user.getJsonUser(), this.getRequestOptions()).map(o => new User(o['result']));
   }
 
   public getListOfUsers(limit: string, sortBy: string): Observable<User[]> {

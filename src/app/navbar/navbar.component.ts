@@ -2,6 +2,7 @@ import { Component, DoCheck } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import { SessionService } from "../services/session.service";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "nav-bar",
@@ -11,23 +12,24 @@ import { SessionService } from "../services/session.service";
 export class NavbarComponent implements DoCheck {
   login: boolean = false;
 
-  constructor(private authService: AuthService, private sessionService: SessionService,  private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private sessionService: SessionService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   ngDoCheck() {
     this.login = this.authService.isSignedIn();
-    console.log(`${this.login}`);
   }
 
-  getUserNameAndRouteToProfilePage(){
-    console.log("Here");
-      if (!this.authService.isSignedIn()){
-          console.log("Registes");
-          this.router.navigate(['register']);
-          return
-      }else{
-        console.log("Not register");
-        const username: String = this.sessionService.userName;
-        this.router.navigate(['users/', username]);
-      }
+  getUserNameAndRouteToProfilePage() {
+    if (!this.authService.isSignedIn()) {
+      this.router.navigate(["register"]);
+      return;
+    } else {
+      const username: String = this.sessionService.username;
+      this.router.navigate(["/profile", username]);
+    }
   }
 }

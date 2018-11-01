@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from './../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,9 +11,11 @@ import { map } from 'rxjs/operators';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
 
   public frm: FormGroup;
+
+  private subs: any; 
 
   public isBusy = false;
   public hasFailed = false;
@@ -39,6 +41,10 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnDestroy(){
+    this.subs.unsubscribe();
+  }
+
   public doSignIn() {
 
     // Make sure form values are valid
@@ -60,7 +66,7 @@ export class RegisterComponent implements OnInit {
 
     const user = new User({
       'emailAddress': email,
-      'userName': username,
+      'username': username,
       'name': name,
       'dateOfBirth': dateOfBirth
     });
@@ -68,11 +74,12 @@ export class RegisterComponent implements OnInit {
     this.auth
       .signUpWithFirebase(email, password)
       .then(response => {
-        this.auth.doSignIn(response['accessToken'], response['name']);
+        this.auth.doSignIn(response['accessToken'], response['email']);
         // Send POST req to backend to create a user.
-        this.userService.createUser(user)
+        this.subs = this.userService.createUser(user)
           .subscribe((u: User) => {
-            this.auth.setUsername(u.userName);
+            console.log(u);
+            this.auth.setUsername(u.username);
             this.router.navigate(['home']);
           },
             error => {

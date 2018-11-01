@@ -8,20 +8,17 @@ export class AuthService {
     constructor(
         private afAuth: AngularFireAuth,
         private router: Router,
-        private session: SessionService) { }
+        public session: SessionService) { }
 
     public signUpWithFirebase(email: string, password: string): Promise<object> {
-        console.log('2');
         return new Promise<object>((res, rej) => {
-            console.log('1');
             this.afAuth.auth.createUserWithEmailAndPassword(email, password)
                 .then(userCred => {
-                    const emailAddress = userCred.user.email;
+                    const email = userCred.user.email;
                     userCred.user.getIdToken(true)
                     .then(idToken => {
-                        console.log(idToken);
                         res({
-                            'email': emailAddress,
+                            'name': email,
                             'accessToken': idToken
                         });
                     })
@@ -75,6 +72,7 @@ export class AuthService {
     }
 
     public setUsername(username: string){
-        this.session.userName = username;
+        console.log(username);
+        this.session.username = username;
     }
 }

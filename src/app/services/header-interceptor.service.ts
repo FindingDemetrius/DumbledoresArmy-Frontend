@@ -16,7 +16,6 @@ export class HeaderInterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("Intercept");
     if (this.authService.isSignedIn()) { // e.g. if token exists, otherwise use incomming request.
       return next.handle(req.clone({
         setHeaders: {
