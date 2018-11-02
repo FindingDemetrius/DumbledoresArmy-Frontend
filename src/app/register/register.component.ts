@@ -4,14 +4,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../model/User';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit {
 
   public frm: FormGroup;
 
@@ -41,10 +40,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  ngOnDestroy(){
-    this.subs.unsubscribe();
-  }
-
   public doSignIn() {
 
     // Make sure form values are valid
@@ -70,22 +65,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
       'name': name,
       'dateOfBirth': dateOfBirth
     });
-    // Submit request to API
     this.auth
       .signUpWithFirebase(email, password)
-      .then(response => {
-        this.auth.doSignIn(response['accessToken'], response['email']);
-        // Send POST req to backend to create a user.
-        this.subs = this.userService.createUser(user)
+      .then(authToken => {
+        this.auth.setAuthToken(String(authToken));
+        this.userService.createUser(user)
           .subscribe((u: User) => {
-            console.log(u);
             this.auth.setUsername(u.username);
             this.router.navigate(['home']);
           },
-            error => {
+          errorMessage => {
               this.isBusy = false;
               this.serverResponse = true;
-              this.errorPlaceHolder = error['error']['result']['Error'];
+              this.errorPlaceHolder = errorMessage;
             });
       })
       .catch(error => {

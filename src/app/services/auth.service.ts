@@ -7,24 +7,13 @@ import { SessionService } from './session.service';
 export class AuthService {
     constructor(
         private afAuth: AngularFireAuth,
-        private router: Router,
-        public session: SessionService) { }
+        private session: SessionService) { }
 
     public signUpWithFirebase(email: string, password: string): Promise<object> {
         return new Promise<object>((res, rej) => {
             this.afAuth.auth.createUserWithEmailAndPassword(email, password)
                 .then(userCred => {
-                    const email = userCred.user.email;
-                    userCred.user.getIdToken(true)
-                    .then(idToken => {
-                        res({
-                            'name': email,
-                            'accessToken': idToken
-                        });
-                    })
-                    .catch(error => {
-                        rej(error);
-                    });
+                    res(userCred.user.getIdToken(true));
                 })
                 .catch(error => {
                     rej(error);
@@ -32,20 +21,15 @@ export class AuthService {
         });
     }
 
-    public signInWithFirebaseAndGetToken(email: string, password: string) {
-        return new Promise<boolean>((res, rej) => {
+    public signInWithFirebaseAndGetToken(email: string, password: string): Promise<object> {
+        return new Promise<object>((res, rej) => {
             this.afAuth.auth.signInWithEmailAndPassword(email, password)
                 .then(userCred => {
-                    this.session.name = userCred.user.displayName;
-                    return userCred.user.getIdToken();
-                })
-                .then(idToken => {
-                    this.session.accessToken = idToken;
-                    res(true);
+                    res(userCred.user.getIdToken(true));
                 })
                 .catch(error => {
                     rej(error);
-                 });
+                });
         });
     }
 
@@ -60,19 +44,20 @@ export class AuthService {
         this.session.destroy();
     }
 
-    public doSignIn(accessToken: string, name: string) {
+    public setAuthToken(accessToken: string) {
         /**
          * Setup the accessToken for the session.
          */
-        if ((accessToken === null) || (name === null)) {
+        if ((accessToken === null)) {
             return;
         }
         this.session.accessToken = accessToken;
-        this.session.name = name;
     }
 
-    public setUsername(username: string){
-        console.log(username);
+    public setUsername(username: string) {
+        if (username === null) {
+            return;
+        }
         this.session.username = username;
     }
 }

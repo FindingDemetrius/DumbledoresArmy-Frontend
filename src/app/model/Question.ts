@@ -1,8 +1,15 @@
 export class Question {
+    questionText: String = '';
+    choices: String[] = [];
 
-    private questionId: number
-    private challengeId: number
-    private question: string
-    private options: string[]
-    private genres: string[]
+    constructor(questionObject: object) {
+        Object.assign(this, questionObject);
+    }
+
+    getQuestion() {
+        return {
+            questionText: this.questionText,
+            choices: this.choices
+        };
+    }
 }
