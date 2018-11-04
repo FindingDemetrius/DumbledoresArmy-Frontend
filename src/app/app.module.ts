@@ -29,6 +29,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { AuthService } from './services/auth.service';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
+import { AgmCoreModule } from '@agm/core';
+import { InfoWindowComponent } from './home/map/info-window/info-window.component';
+import { AnswerChallengeComponent } from './challenge/answer-challenge/answer-challenge.component';
+import { ClarityModule } from '@clr/angular';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,9 @@ import { environment } from '../environments/environment';
     MapComponent,
     RegisterComponent,
     CreateChallengeComponent,
-    ProfileComponent
+    ProfileComponent,
+    InfoWindowComponent,
+    AnswerChallengeComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +64,11 @@ import { environment } from '../environments/environment';
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCAywy9aaWOwm4NKexDKM02Vko-_I_GIH0'
+    }),
+    ClarityModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

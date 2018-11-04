@@ -30,14 +30,18 @@ export class ChallengeService {
         );
     }
 
-    getListOfChallenges(limit: string, sortBy: string): Observable<Challenge[]> {
+    getListOfChallenges(limit?: string, sortBy?: string): Observable<Challenge[]> {
         if (!this.auth.isSignedIn()) {
             return throwError(new Error('The user is not signed in.'));
         }
         return this.http.get(API_URL + '/challenges/', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
             response => {
                 const listOfChallenges: Challenge[] = [];
-                response['result'].foreach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
+                for (let i = 0; i < response['result'].length; i++) {
+                    console.log(response['result'][i]);
+                    listOfChallenges.push(new Challenge(response['result'][i]));
+                }
+                console.log(listOfChallenges);
                 return listOfChallenges;
             },
             error => {

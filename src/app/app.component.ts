@@ -7,7 +7,7 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnDestroy { 
+export class AppComponent implements OnDestroy {
 
   constructor(private authService: AuthService) { }
 

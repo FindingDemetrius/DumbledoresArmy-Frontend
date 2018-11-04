@@ -80,6 +80,11 @@
         <div *ngIf="!isBusy">Sign up</div>
         <div *ngIf="isBusy">Signing up, please wait...</div>
       </button>
+
+      <button (click)='doSignInWithGoogle()' [disabled]='isBusy'>
+        <div *ngIf="!isBusy">Sign up With Google</div>
+        <div *ngIf="isBusy">Signing up, please wait...</div>
+      </button> 
   
     </form>
   </div>

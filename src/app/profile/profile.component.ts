@@ -11,16 +11,16 @@ import { User } from '../model/User';
 })
 
 export class ProfileComponent implements OnInit {
-    user: User = new User()
+    user: User = new User();
 
     constructor(private route: ActivatedRoute, private challengeService: ChallengeService) { }
 
     ngOnInit() {
-        this.getUserProfile()
+        this.getUserProfile();
     }
 
     getUserProfile() {
-        const username = this.route.snapshot.paramMap.get('username')
+        const username = this.route.snapshot.paramMap.get('username');
         // this.challengeService.getUser(username)
         //     .subscribe(user => this.user = user)
     }

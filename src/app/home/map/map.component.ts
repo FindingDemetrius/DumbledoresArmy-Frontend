@@ -1,4 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { MouseEvent as AGMMouseEvent } from '@agm/core';
+import { Observable } from 'rxjs';
+import { Challenge } from '../../model/Challenge';
+import { ChallengeService } from '../../services/challenge.service';
 
 @Component({
     selector: 'app-map',
@@ -6,19 +10,30 @@ import { Component, ViewChild } from '@angular/core';
     styleUrls: ['./map.component.css']
 })
 
+export class MapComponent implements OnInit {
+    zoom = 8;
+    lat = 51.673858;
+    lng = 7.815982;
 
-/// <reference types="@types/googlemaps" />
-export class MapComponent {
-    /**@ViewChild('gmap') gmapElement: any;
-    map: google.maps.Map;
+    private challengeListObservale: Observable<Challenge[]>;
+
+    clickedMarker(label: string, index: number) {
+        console.log(`clicked the marker: ${label || index}`);
+    }
 
     ngOnInit() {
-        var mapProp = {
-            center: new google.maps.LatLng(18.5793, 73.8143),
-            zoom: 15,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
+        console.log('Maps Component started');
+        this.challengeListObservale = this.challengeService.getListOfChallenges();
+    }
 
-        this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-    }**/
+    constructor(private challengeService: ChallengeService) {
+    }
+}
+
+// just an interface for type safety.
+interface Marker {
+    lat: number;
+    lng: number;
+    label?: string;
+    draggable: boolean;
 }
