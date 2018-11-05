@@ -121,7 +121,7 @@ export class ChallengeService {
             }
         );
     }
-
+    
     private getRequestOptions(params?: HttpParams): object {
         const requestOptions = {
             headers: new HttpHeaders({
