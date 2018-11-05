@@ -102,13 +102,12 @@ export class UserService {
     if (!this.auth.isSignedIn()) {
       return throwError(new Error('The user is not signed in.'));
     }
-    this.http.get(API_URL + '/users/username/challengesPosted', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
+    return this.http.get(API_URL + '/users/username/challengesPosted', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
       response => {
         console.log(response);
-        return new Challenge(response['result'])
-        // const listOfChallenges: Challenge[] = [];
-        // response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
-        // return listOfChallenges;
+        const listOfChallenges: Challenge[] = [];
+        response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
+        return listOfChallenges;
       },
       error => {
         return error['error']['result']['Error'];
