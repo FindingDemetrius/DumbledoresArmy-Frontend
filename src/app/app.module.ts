@@ -33,6 +33,7 @@ import { AgmCoreModule } from '@agm/core';
 import { InfoWindowComponent } from './home/map/info-window/info-window.component';
 import { AnswerChallengeComponent } from './challenge/answer-challenge/answer-challenge.component';
 import { ClarityModule } from '@clr/angular';
+import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { ClarityModule } from '@clr/angular';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCAywy9aaWOwm4NKexDKM02Vko-_I_GIH0'
     }),
-    ClarityModule
+    ClarityModule,
+    AgmJsMarkerClustererModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

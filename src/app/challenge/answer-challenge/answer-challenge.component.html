@@ -1,3 +1,25 @@
-<p>
-  answer-challenge works!
-</p>
+<clr-wizard #answerChallengeWizard [(clrWizardOpen)]="mdOpen" 
+clrWizardSize="md"
+(clrWizardOnFinish) = "onChallengeAnswered()">
+    <clr-wizard-title>{{ challenge.challengeName }}</clr-wizard-title>
+
+    <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+    <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+    <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+    <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+
+    <div *ngFor="let key of Object.keys(challenge.questions)">
+      <clr-wizard-page>
+        <ng-template clrPageTitle>Page {{key}}</ng-template>
+          <h3> {{ challenge.questions[key].questionText }}</h3>
+          <div style="border: 10px;"class="tags-container" *ngFor="let tag of challenge.tags">
+            <span style="float: left;" class="label">{{ tag }}</span>
+          </div>
+          <div class="btn-group btn-primary">
+            <div *ngFor="let choice of challenge.questions[key].choices; let i = index">
+              <button style="float: bottom;" class="btn" (click)="onResponseForChallenge(key, i)">{{ choice }}</button>
+            </div>
+          </div>
+      </clr-wizard-page>
+    </div>
+</clr-wizard>

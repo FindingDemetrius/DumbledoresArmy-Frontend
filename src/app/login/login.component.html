@@ -1,38 +1,37 @@
-<clr-modal [(clrModalOpen)]="isModalOpen" [clrModalClosable]="false">
-    <h3 class="modal-title">Login</h3>
-    <div class="modal-body">
-        <form [formGroup] = "frm">
-          <input type="email" formControlName="emailAddress" placeholder="Your email address">
-            <!-- Email validation message -->
-            <div
-              class="input-errors"
-              *ngIf="(frm.get('emailAddress').invalid && frm.get('emailAddress').touched) || showInputErrors">
-              <div *ngIf="frm.get('emailAddress').hasError('required')">
-                Please enter your email address.
-              </div>
+<div class="login-component">
+  <div class="modal-body">
+      <form [formGroup] = "frm">
+        <input type="email" formControlName="emailAddress" placeholder="Your email address">
+          <!-- Email validation message -->
+          <div
+            class="input-errors"
+            *ngIf="(frm.get('emailAddress').invalid && frm.get('emailAddress').touched) || showInputErrors">
+            <div *ngIf="frm.get('emailAddress').hasError('required')">
+              Please enter your email address.
             </div>
-            <!-- Password input -->
-            <input type="password" formControlName="password" placeholder="Your password">
-            <div
-              class="input-errors"
-              *ngIf="(frm.get('password').invalid && frm.get('password').touched) || showInputErrors">
-              <div *ngIf="frm.get('password').hasError('required')">
-                Please enter your password.
-              </div>
+          </div>
+          <!-- Password input -->
+          <input type="password" formControlName="password" placeholder="Your password">
+          <div
+            class="input-errors"
+            *ngIf="(frm.get('password').invalid && frm.get('password').touched) || showInputErrors">
+            <div *ngIf="frm.get('password').hasError('required')">
+              Please enter your password.
             </div>
+          </div>
 
-            <!-- Sign-in error message -->
-            <div class="sign-in-error" *ngIf="hasFailed">
-              Invalid username and password.
-            </div>
+          <!-- Sign-in error message -->
+          <div class="sign-in-error" *ngIf="hasFailed">
+            Invalid username and password.
+          </div>
 
-            <!-- Sing-in button -->
-          </form>
-    </div>
-    <div class="modal-footer">
-        <button (click)="doSignIn()" [disabled]="isBusy" type="button" class="btn btn-primary">
-              <div *ngIf="!isBusy">Login</div>
-              <div *ngIf="isBusy">Logging In ...</div>
-        </button>
-    </div>
-</clr-modal>
+          <!-- Sing-in button -->
+        </form>
+  </div>
+  <div class="modal-footer">
+      <button (click)="doSignIn()" [disabled]="isBusy" type="button" class="btn btn-primary">
+            <div *ngIf="!isBusy">Login</div>
+            <div *ngIf="isBusy">Logging In ...</div>
+      </button>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+.btn-group button {
+    border: 1px solid black; /* Green border */
+    display: block; /* Make the buttons appear below each other */
+}
+
+.btn-group button:not(:last-child) {
+    border-bottom: none; /* Prevent double borders */
+}

@@ -7,15 +7,10 @@ import { AuthService } from '../services/auth.service';
     styleUrls: ['./navbar.component.css']
 })
 
-export class NavbarComponent implements DoCheck {
+export class NavbarComponent {
     login = false;
 
     constructor(private authService: AuthService) { }
-
-    ngDoCheck() {
-        this.login = this.authService.isSignedIn();
-        console.log(`${this.login}`);
-    }
 
     navigateToProfilePage() {
         console.log('Going to profile page');

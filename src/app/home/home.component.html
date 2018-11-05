@@ -1,19 +1,24 @@
 <div class="home-maps">
     <div class="login-placeHolder" *ngIf="!login">
-        <clr-tabs>
-            <clr-tab>
-                <button clrTabLink id="link1">Login</button>
-                <clr-tab-content id="content1" *clrIfActive>
-                    <app-login-button></app-login-button>
-                </clr-tab-content>
-            </clr-tab>
-            <clr-tab>
-                <button clrTabLink>SignUp</button>
-                <clr-tab-content *clrIfActive="true">
-                    <app-register></app-register>
-                </clr-tab-content>
-            </clr-tab>
-        </clr-tabs>
+        <clr-modal [(clrModalOpen)]="isModalOpen" [clrModalClosable]="false">
+            <h3 class="modal-title">GeoQuiz</h3>
+            <div class="modal-body">
+                <clr-tabs>
+                    <clr-tab>
+                        <button clrTabLink>Login</button>
+                        <clr-tab-content *clrIfActive>
+                            <app-login-button></app-login-button>
+                        </clr-tab-content>
+                    </clr-tab>
+                    <clr-tab>
+                        <button clrTabLink>SignUp</button>
+                        <clr-tab-content *clrIfActive="true">
+                            <app-register></app-register>
+                        </clr-tab-content>
+                    </clr-tab>
+                </clr-tabs>
+            </div>
+        </clr-modal>
     </div>
     <app-map></app-map>
 </div>

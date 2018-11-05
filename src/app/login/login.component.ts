@@ -22,7 +22,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class LoginComponent implements OnInit {
     public frm: FormGroup;
 
-    isModalOpen = true;
     public isBusy = false;
     public hasFailed = false;
     public showInputErrors = false;
@@ -54,7 +53,6 @@ export class LoginComponent implements OnInit {
         this.authService.signInWithFirebaseAndGetToken(emailAddress, password)
             .then(authToken => {
                 this.authService.setAuthToken(String(authToken));
-                this.isModalOpen = false;
             })
             .catch(error => {
                 this.isBusy = false;

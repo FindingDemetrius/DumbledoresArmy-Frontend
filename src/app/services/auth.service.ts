@@ -77,9 +77,11 @@ export class AuthService {
         /**
          * Setup the accessToken for the session.
          */
+        console.log(accessToken);
         if ((accessToken === null)) {
             return;
         }
+        console.log('Access token is not null');
         this.session.accessToken = accessToken;
     }
 }

@@ -14,6 +14,8 @@ export class MapComponent implements OnInit {
     zoom = 8;
     lat = 51.673858;
     lng = 7.815982;
+    isChallengeResponseDialogOpen = false;
+    tappedChallenge: Challenge;
 
     private challengeListObservale: Observable<Challenge[]>;
 
@@ -24,6 +26,16 @@ export class MapComponent implements OnInit {
     ngOnInit() {
         console.log('Maps Component started');
         this.challengeListObservale = this.challengeService.getListOfChallenges();
+    }
+
+    onTapMarker(challenge: Challenge) {
+        console.log(challenge);
+    }
+
+    showChallengeResponseDialog(challenge: Challenge) {
+        console.log('From the map component');
+        this.tappedChallenge = challenge;
+        this.isChallengeResponseDialogOpen = true;
     }
 
     constructor(private challengeService: ChallengeService) {
