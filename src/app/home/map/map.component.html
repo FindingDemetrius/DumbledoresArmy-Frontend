@@ -8,5 +8,17 @@
       [latitude]="latitude"
       [longitude]="longitude">
     </agm-marker>
+
+    <agm-info-window [disableAutoPan]="false" #infoWindow>
+
+      <div>
+          {{MapComponent.latitude}}
+          {{MapComponent.longitude}}
+      </div>
+      <!-- <div>
+          <a (click)="onClickInfoView({id:m.id})" class="btn btn-attention pull-right">Daje <i class="fa fa-angle-double-right"></i></a>
+      </div> -->
+
+  </agm-info-window>
   
 </agm-map>
