@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { Router } from '@angular/router';
 
-import { ChallengeService } from '../services/challenge.service';
+import { AuthService } from '../services/auth.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -22,10 +23,12 @@ export class LoginComponent {
     matcher = new MyErrorStateMatcher()
     hide = true
 
-    constructor(private challengeService: ChallengeService) { }
+    constructor(private authService: AuthService, private router: Router) { }
 
     onSubmit(email, pass) {
         //console.log('Submit button clicked email: ' + email + ' password: ' + pass)
-        this.challengeService.login(email, pass)
+        this.authService.signInWithFirebaseAndGetToken(email, pass)
+            .then(res => console.log(res))
+            .then(() => this.router.navigate(['/']));
     }
 }

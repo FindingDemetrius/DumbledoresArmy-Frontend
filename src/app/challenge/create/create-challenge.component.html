@@ -1,0 +1,42 @@
+<div class="create-challenge">
+    <h1>Create a new Challenge</h1>
+    <div class="challenge-form">
+        <mat-form-field>
+            <mat-label>Challenge Name</mat-label>
+            <input matInput #name>
+        </mat-form-field>
+        <mat-form-field class="genre-chip-list">
+            <mat-chip-list #chipList>
+                <mat-chip *ngFor="let genre of genres"
+                    [selectable]="selectable" [removable]="removable" 
+                    (removed)="remove(genre)" >
+                    {{genre}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input 
+                    placeholder="Genres..." #genreInput 
+                    [formControl]="genreCtrl" [matAutocomplete]="auto" 
+                    [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeyCodes"
+                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let genre of filteredGenres | async" [value] = genre>
+                    {{genre}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+        <div class="city-country-fields">
+            <mat-form-field>
+                <mat-label>City</mat-label>
+                <input matInput #city>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Country</mat-label>
+                <input matInput #country>
+            </mat-form-field>
+        </div>
+        <questions-challenge></questions-challenge>
+        <br>
+        <button mat-flat-button>Submit</button>
+    </div>
+</div>

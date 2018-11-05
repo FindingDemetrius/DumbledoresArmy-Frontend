@@ -1,0 +1,22 @@
+.create-challenge {
+    width: 100%;
+}
+
+.create-challenge > h1 {
+    text-align: center;
+}
+
+.challenge-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.challenge-form > * {
+    width: 60%;
+    margin: auto;
+}
+
+.city-country-fields > * {
+    width: 50%;
+    padding: 10px;
+}

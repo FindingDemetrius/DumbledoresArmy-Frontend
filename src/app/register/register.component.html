@@ -1,40 +1,86 @@
-<div class="row">
-        <div class="col s12 m6">
-            <div class="card">
-                <div class="col s6">
-                    <h3>User Registration</h3>
-                </div>
-            
-                <div class="col s6">
-                    <img src = "/assets/img/geoquiz_logo_2.png" style="width:250px;height:250px;" class="offset-s3">
-                </div>
-            
-                <div class="card-content">
-                    <form #registerForm= "ngForm">
-                        <div class = "row">
-                            <div class="input field col s12">
-                                <i class="material-icons prefix">account_circle</i>
-                                <input type = "text" name = "Name" #Name ngModel required>
-                                <label>Name</label>
-                            </div>
-                        </div>
-    
-                        <div class = "row">
-                            <div class="input field col s12">
-                                <i class="material-icons prefix">mail_outline</i>
-                                <input type = "text" name = "Email" #Email ngModel required [pattern]="emailPattern">
-                                <label>Email</label>
-                            </div>
-                        </div>
-                        
-                        <div class = "row">
-                            <div class="input field col s12">
-                                <button class = "btn-large btn-submit" type ="submit"> Start </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+<div class="register-wrapper">
+    <form [formGroup]="frm">
+  
+      <h1>GeoQuiz</h1>
+  
+      <!-- Email input -->
+      <input type="email" formControlName="emailAddress" placeholder="Your email address">
+  
+      <!-- Email validation message -->
+      <div
+        class="input-errors"
+        *ngIf="(frm.get('emailAddress') && frm.get('emailAddress').invalid && frm.get('emailAddress').touched) || showInputErrors"
+      >
+        <div *ngIf="frm.get('emailAddress').hasError('required')">
+          Please enter your email address.
         </div>
-    </div>
-    
+      </div>
+
+      <!-- Date of birth input -->
+      <input type="date" formControlName="dateOfBirth" placeholder="Your Date of Birth">
+  
+      <!-- Date validation message -->
+      <div
+        class="input-errors"
+        *ngIf="(frm.get('dateOfBirth').invalid && frm.get('dateOfBirth').touched) || showInputErrors"
+      >
+        <div *ngIf="frm.get('dateOfBirth').hasError('required')">
+          Please enter your email address.
+        </div>
+      </div>
+
+      <!-- Username input -->
+      <input type="text" formControlName="username" placeholder="Your username">
+  
+      <!-- Username validation message -->
+      <div
+        class="input-errors"
+        *ngIf="(frm.get('username').invalid && frm.get('username').touched) || showInputErrors"
+      >
+        <div *ngIf="frm.get('username').hasError('required')">
+          Please enter your email address.
+        </div>
+      </div>
+  
+      <!-- Password input -->
+      <input type="password" formControlName="password" placeholder="Your password">
+  
+      <!-- Password validation message -->
+      <div
+        class="input-errors"
+        *ngIf="(frm.get('password').invalid && frm.get('password').touched) || showInputErrors"
+      >
+        <div *ngIf="frm.get('password').hasError('required')">
+          Please enter your password
+        </div>
+      </div>
+
+      <!-- Password input -->
+      <input type="text" formControlName="name" placeholder="Your Name">
+  
+      <!-- Password validation message -->
+      <div
+        class="input-errors"
+        *ngIf="(frm.get('name').invalid && frm.get('name').touched) || showInputErrors"
+      >
+        <div *ngIf="frm.get('name').hasError('required')">
+          Please enter your name. 
+        </div>
+      </div>
+  
+      <!-- Sign-in error message -->
+      <div class="sign-in-error" *ngIf="hasFailed">
+        Invalid username and password.
+      </div>
+
+      <div class="sign-in-error" *ngIf="serverResponse"> {{ errorPlaceHolder }} </div>
+  
+      <!-- Sing-in button -->
+      <button (click)="doSignIn()" [disabled]="isBusy">
+        <div *ngIf="!isBusy">Sign up</div>
+        <div *ngIf="isBusy">Signing up, please wait...</div>
+      </button>
+  
+    </form>
+  </div>
+ 

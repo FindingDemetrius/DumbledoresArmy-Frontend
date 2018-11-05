@@ -1,10 +1,15 @@
-import { Genre } from './Genre';
-
 export class Question {
+    questionText: String = '';
+    choices: String[] = [];
 
-    private questionId: number
-    private challengeId: number
-    private question: string
-    private options: string[]
-    private genre: Genre
+    constructor(questionObject: object) {
+        Object.assign(this, questionObject);
+    }
+
+    getQuestion() {
+        return {
+            questionText: this.questionText,
+            choices: this.choices
+        };
+    }
 }

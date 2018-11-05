@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { CreateChallengeComponent } from './challenge/create-challenge.component';
+import { CreateChallengeComponent } from './challenge/create/create-challenge.component';
+import { ProfileComponent } from './profile/profile.component';
 import { ChallengeComponent } from './challenge/challenge.component';
 
 const routes: Routes = [
@@ -12,7 +13,11 @@ const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'challenge', component: ChallengeComponent}
+    { path: 'challenge-jonathan-test', component: ChallengeComponent},
+    { path: 'challenge', children: [
+        { path: 'create', component: CreateChallengeComponent }
+    ] },
+    { path: 'profile/:id', component: ProfileComponent }
 ];
 
 @NgModule({
