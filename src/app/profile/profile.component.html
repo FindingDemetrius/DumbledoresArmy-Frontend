@@ -1,27 +1,70 @@
+<div class="profile-page">
+    <div class="user-info">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-md-10 offset-md-1">
+              [User Photo] {{ user.profileImageUrl }}
+              <h4>Username: {{ username }}</h4>
+              <h5>User score: {{ user.totalScore }}</h5>
+              <br><br>
+              <h6>Number of Posted Challenges: {{user.numberOfChallengesPosted}}</h6>
+            
+              <table id="Challenges Posted" *ngFor= "let challenge of challengeListArray">
+                  <tr>
+                    <th>Challenge Posted</th>
+                    <!-- <th>Contact</th>
+                    <th>Country</th> -->
+                  </tr>
+                  <tr>
+                    <td> 
+                      {{challenge.challengeName}}
+                    </td>
+                    <!-- <td>Maria Anders</td>
+                    <td>Germany</td> -->
+                  </tr>
+                  <tr>
+                    <td>[Challenge2]</td>
+                    <!-- <td>Christina Berglund</td>
+                    <td>Sweden</td> -->
+                  </tr>
+                  <tr>
+                    <td>[Challenge3]</td>
+                    <!-- <td>Francisco Chang</td>
+                    <td>Mexico</td> -->
+                  </tr>
+                  
+                </table>
 
-<div id="Profile">
-    
-    <div id="Info">
-        <p>
-            <strong>Challenge 1:</strong>
-            <span>USA</span>
-        </p>
-        <p>
-            <strong>Challenge 2:</strong>
-            <span>UK</span>
-        </p>
-        <p>
-            <strong>Challenge 3:</strong>
-            <span>Australia</span>
-        </p>
-        <p>
-            <strong>Challenge 4:</strong>
-            <span>India</span>
-        </p>
-        <p>
-            <strong>Challenge 5:</strong>
-            <span>Brazil</span>
-        </p>
+              
+                <br><br><br>
+                <h6>Number of Answered Challenges: {{user.numberOfChallengesTaken}}</h6>
+                  
+                  <table id="Challenges Posted">
+                      <tr>
+                        <th>Challenge Answered</th>
+                        <!-- <th>Contact</th>
+                        <th>Country</th> -->
+                      </tr>
+                      <tr>
+                        <td>[Challenge1]</td>
+                        <!-- <td>Maria Anders</td>
+                        <td>Germany</td> -->
+                      </tr>
+                      <tr>
+                        <td>[Challenge2]</td>
+                        <!-- <td>Christina Berglund</td>
+                        <td>Sweden</td> -->
+                      </tr>
+                      <tr>
+                        <td>[Challenge3]</td>
+                        <!-- <td>Francisco Chang</td>
+                        <td>Mexico</td> -->
+                      </tr>
+                      
+                    </table>
+            <!-- <follow-btn user="$ctrl.profile" ng-hide="$ctrl.isUser"></follow-btn> -->
+          </div>
+        </div>
+      </div>
     </div>
-    
-</div>
+  </div>

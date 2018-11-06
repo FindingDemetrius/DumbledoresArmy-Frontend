@@ -104,9 +104,11 @@ export class UserService {
     }
     this.http.get(API_URL + '/users/username/challengesPosted', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
       response => {
-        const listOfChallenges: Challenge[] = [];
-        response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
-        return listOfChallenges;
+        console.log(response);
+        return new Challenge(response['result'])
+        // const listOfChallenges: Challenge[] = [];
+        // response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
+        // return listOfChallenges;
       },
       error => {
         return error['error']['result']['Error'];

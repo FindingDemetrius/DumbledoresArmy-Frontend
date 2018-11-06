@@ -22,6 +22,7 @@ export class ChallengeService {
         }
         return this.http.get(API_URL + '/challenges/' + challengeId, this.getRequestOptions()).map(
             response => {
+                console.log(response['result']);
                 return new Challenge(response['result']);
             },
             error => {

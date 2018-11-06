@@ -21,8 +21,8 @@ export class Challenge {
     set datePosted(datePosted) { this._datePosted = datePosted; }
 
     _dateModified: String;
-    get dateModified() { return this.dateModified; }
-    set dateModified(dateModified) { this.dateModified = dateModified; }
+    get dateModified() { return this._dateModified; }
+    set dateModified(dateModified) { this._dateModified = dateModified; }
 
     _numberOfAttempts: Number;
     get numberOfAttempts() { return this._numberOfAttempts; }
@@ -33,9 +33,7 @@ export class Challenge {
     set id(id) { this._id = id; }
 
     constructor(challengeObject: object) {
-        Object.assign(this, challengeObject, {
-            'questions': Object.assign({}, challengeObject['questions'])
-        });
+        Object.assign(this, challengeObject);
     }
 
     getChallenge() {
