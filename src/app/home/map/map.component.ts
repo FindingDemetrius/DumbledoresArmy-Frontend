@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { AgmCoreModule } from '@agm/core';
 
 @Component({
     selector: 'app-map',
@@ -9,16 +10,6 @@ import { Component, ViewChild } from '@angular/core';
 
 /// <reference types="@types/googlemaps" />
 export class MapComponent {
-    /**@ViewChild('gmap') gmapElement: any;
-    map: google.maps.Map;
-
-    ngOnInit() {
-        var mapProp = {
-            center: new google.maps.LatLng(18.5793, 73.8143),
-            zoom: 15,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-
-        this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-    }**/
+  latitude = 51.678418;
+  longitude = 7.809007;
 }

@@ -1,3 +1,24 @@
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuWYQMjlgGD0hyuVTavbz5uXAENMWV6LA&callback=initMap"
-    async defer></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuWYQMjlgGD0hyuVTavbz5uXAENMWV6LA&callback=initMap"
+  type="text/javascript"></script>
 <div #gmap style='width:100%;height:400px'></div>
+
+<agm-map [latitude]="latitude" [longitude]="longitude">
+
+    <agm-marker 
+      [latitude]="latitude"
+      [longitude]="longitude">
+    </agm-marker>
+
+    <agm-info-window [disableAutoPan]="false" #infoWindow>
+
+      <div>
+          {{MapComponent.latitude}}
+          {{MapComponent.longitude}}
+      </div>
+      <div>
+          <a (click)="onClickInfoView({id:m.id})" class="btn btn-attention pull-right">Daje <i class="fa fa-angle-double-right"></i></a>
+      </div>
+
+  </agm-info-window>
+  
+</agm-map>

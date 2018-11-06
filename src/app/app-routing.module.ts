@@ -6,12 +6,14 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { CreateChallengeComponent } from './challenge/create/create-challenge.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ChallengeComponent } from './challenge/challenge.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+    { path: 'challenge-jonathan-test', component: ChallengeComponent},
     { path: 'challenge', children: [
         { path: 'create', component: CreateChallengeComponent }
     ] },
