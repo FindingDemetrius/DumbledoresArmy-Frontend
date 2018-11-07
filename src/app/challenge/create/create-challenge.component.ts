@@ -16,17 +16,6 @@ import { map, startWith } from 'rxjs/operators';
 
 export class CreateChallengeComponent implements OnInit {
 
-<<<<<<< HEAD
-    visible = true
-    selectable = true
-    removable = true
-    addOnBlur = true
-    separatorKeyCodes: number[] = [ENTER, COMMA]
-    genreCtrl = new FormControl()
-    filteredGenres: Observable<string[]>
-    genres: string[] = []
-    allGenres: string[] = []
-=======
     visible = true;
     selectable = true;
     removable = true;
@@ -36,7 +25,6 @@ export class CreateChallengeComponent implements OnInit {
     filteredGenres: Observable<string[]>;
     genres: string[];
     allGenres: string[] = [];
->>>>>>> Aayush-addServices
 
     @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>;
     @ViewChild('auto') matAutoComplete: MatAutocomplete;
@@ -75,12 +63,7 @@ export class CreateChallengeComponent implements OnInit {
     }
 
     remove(genre: string) {
-<<<<<<< HEAD
-        const index = this.genres.indexOf(genre)
-
-=======
         const index = this.genres.indexOf(genre);
->>>>>>> Aayush-addServices
         if (index >= 0) {
             this.genres.splice(index, 1);
         }

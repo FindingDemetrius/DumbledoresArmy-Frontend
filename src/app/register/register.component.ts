@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from './../services/auth.service';
-=======
 import { Component, OnInit } from '@angular/core';
 import { AuthService, GoogleSignInResponse } from './../services/auth.service';
->>>>>>> Aayush-addServices
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
@@ -19,7 +14,7 @@ export class RegisterComponent implements OnInit {
 
   public frm: FormGroup;
 
-  private subs: any; 
+  private subs: any;
 
   public isBusy = false;
   public hasFailed = false;

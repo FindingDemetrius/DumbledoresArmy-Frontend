@@ -26,13 +26,6 @@ export class LoginComponent implements OnInit {
     public hasFailed = false;
     public showInputErrors = false;
 
-<<<<<<< HEAD
-    onSubmit(email, pass) {
-        //console.log('Submit button clicked email: ' + email + ' password: ' + pass)
-        this.authService.signInWithFirebaseAndGetToken(email, pass)
-            .then(res => this.authService.setAuthToken(String(res)))
-            .then(() => this.router.navigate(['/']));
-=======
     constructor(private authService: AuthService,
         private fb: FormBuilder,
         private router: Router) {
@@ -40,7 +33,6 @@ export class LoginComponent implements OnInit {
             emailAddress: ['', Validators.email],
             password: ['', Validators.required]
         });
->>>>>>> Aayush-addServices
     }
 
     ngOnInit() {

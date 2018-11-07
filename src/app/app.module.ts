@@ -30,13 +30,12 @@ import { QuestionsChallengeComponent } from './challenge/create/questions/questi
 import { AuthService } from './services/auth.service';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
-import { AgmCoreModule } from '@agm/core';
 import { InfoWindowComponent } from './home/map/info-window/info-window.component';
 import { AnswerChallengeComponent } from './challenge/answer-challenge/answer-challenge.component';
 import { ClarityModule } from '@clr/angular';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 
-//Code that pertains to the map API
+// Code that pertains to the map API
 import { AgmCoreModule } from '@agm/core';
 import { ChallengeComponent } from './challenge/challenge.component';
 
@@ -49,15 +48,12 @@ import { ChallengeComponent } from './challenge/challenge.component';
     MapComponent,
     RegisterComponent,
     CreateChallengeComponent,
-<<<<<<< HEAD
     ChallengeComponent,
     ProfileComponent,
-    QuestionsChallengeComponent
-=======
+    QuestionsChallengeComponent,
     ProfileComponent,
     InfoWindowComponent,
     AnswerChallengeComponent
->>>>>>> Aayush-addServices
   ],
   imports: [
     BrowserModule,

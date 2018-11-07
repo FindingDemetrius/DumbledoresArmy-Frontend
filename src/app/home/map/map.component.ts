@@ -1,13 +1,8 @@
-<<<<<<< HEAD
-import { Component, ViewChild } from '@angular/core';
-import { AgmCoreModule } from '@agm/core';
-=======
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MouseEvent as AGMMouseEvent } from '@agm/core';
 import { Observable } from 'rxjs';
 import { Challenge } from '../../model/Challenge';
 import { ChallengeService } from '../../services/challenge.service';
->>>>>>> Aayush-addServices
 
 @Component({
     selector: 'app-map',
@@ -22,13 +17,6 @@ export class MapComponent implements OnInit {
     isChallengeResponseDialogOpen = false;
     tappedChallenge: Challenge;
 
-<<<<<<< HEAD
-/// <reference types="@types/googlemaps" />
-export class MapComponent {
-  latitude = 51.678418;
-  longitude = 7.809007;
-}
-=======
     private challengeListObservale: Observable<Challenge[]>;
 
     clickedMarker(label: string, index: number) {
@@ -66,4 +54,3 @@ interface Marker {
     label?: string;
     draggable: boolean;
 }
->>>>>>> Aayush-addServices
