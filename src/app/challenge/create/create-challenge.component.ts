@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
 import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material'
@@ -7,6 +7,7 @@ import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from
 import { ChallengeService } from '../../services/challenge.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { Challenge } from '../../model/Challenge';
 
 @Component({
     selector: 'create-challenge',
@@ -25,6 +26,12 @@ export class CreateChallengeComponent implements OnInit {
     filteredGenres: Observable<string[]>
     genres: string[] = []
     allGenres: string[] = []
+    choice: number[] = [1,2,3,4]
+
+    challenge: Challenge
+    challengeForm: FormGroup
+
+    q_index = 1
 
     @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>
     @ViewChild('auto') matAutoComplete: MatAutocomplete
@@ -38,6 +45,66 @@ export class CreateChallengeComponent implements OnInit {
 
     ngOnInit() {
         this.getGenres()
+        this.createForm()
+    }
+
+    createForm() {
+        this.challengeForm = new FormGroup({
+            challengeName: new FormControl(''),
+            tags: new FormArray([
+                new FormControl('')
+            ]),
+            location: new FormGroup({
+                city: new FormControl(''),
+                country: new FormControl('')
+            }),
+            questions: new FormArray([
+                this.initQuestionBlock()
+            ])
+        })
+    }
+
+    initQuestionBlock() {
+        return new FormGroup({
+            [''+this.q_index]: new FormGroup({
+                questionText: new FormControl(''),
+                choices: new FormArray([
+                    new FormControl(''),
+                    new FormControl(''),
+                    new FormControl(''),
+                    new FormControl('')
+                ]),
+                correctAnswerIndex: new FormControl('')
+            })
+        })
+    }
+
+    addQuestion() {
+        if (this.q_index < 10) {
+            this.q_index++
+            let questions = this.challengeForm.get('questions') as FormArray
+            questions.push(this.initQuestionBlock())
+        } else {
+            alert('Max question size is 10')
+        }
+    }
+
+    removeQuestion() {
+        if (this.q_index > 1) {
+            this.q_index--
+            const control = this.challengeForm.get('questions') as FormArray
+            control.removeAt(this.q_index)
+        } else {
+            alert('Challenges must have at least one question')
+        }
+    }
+
+    getQuestions(form) {
+        return form.controls.questions.controls
+    }
+
+    getChoices(form) {
+        return form.controls.choices.controls
     }
 
     getGenres() {

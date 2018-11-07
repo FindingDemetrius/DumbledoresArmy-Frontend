@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -25,7 +26,6 @@ import { MapComponent } from './home/map/map.component';
 import { RegisterComponent } from './register/register.component';
 import { CreateChallengeComponent } from './challenge/create/create-challenge.component';
 import { ProfileComponent } from './profile/profile.component';
-import { QuestionsChallengeComponent } from './challenge/create/questions/questions-challenge.component';
 
 import { AuthService } from './services/auth.service';
 
@@ -41,8 +41,7 @@ import { environment } from '../environments/environment';
     MapComponent,
     RegisterComponent,
     CreateChallengeComponent,
-    ProfileComponent,
-    QuestionsChallengeComponent
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +56,7 @@ import { environment } from '../environments/environment';
     MatButtonModule,
     MatChipsModule,
     MatAutocompleteModule,
+    MatCardModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,

@@ -20,3 +20,17 @@
     width: 50%;
     padding: 10px;
 }
+
+.form-fields > * {
+    width: 100%;
+}
+
+.question-buttons {
+    display: inline;
+}
+
+.divider {
+    width: 10px;
+    height: auto;
+    display: inline-block;
+}

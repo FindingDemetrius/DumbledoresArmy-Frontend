@@ -1,42 +1,90 @@
-<div class="create-challenge">
-    <h1>Create a new Challenge</h1>
-    <div class="challenge-form">
-        <mat-form-field>
-            <mat-label>Challenge Name</mat-label>
-            <input matInput #name>
-        </mat-form-field>
-        <mat-form-field class="genre-chip-list">
-            <mat-chip-list #chipList>
-                <mat-chip *ngFor="let genre of genres"
-                    [selectable]="selectable" [removable]="removable" 
-                    (removed)="remove(genre)" >
-                    {{genre}}
-                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                </mat-chip>
-                <input 
-                    placeholder="Genres..." #genreInput 
-                    [formControl]="genreCtrl" [matAutocomplete]="auto" 
-                    [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeyCodes"
-                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
-            </mat-chip-list>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                <mat-option *ngFor="let genre of filteredGenres | async" [value] = genre>
-                    {{genre}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-        <div class="city-country-fields">
-            <mat-form-field>
-                <mat-label>City</mat-label>
-                <input matInput #city>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Country</mat-label>
-                <input matInput #country>
-            </mat-form-field>
+<form [formGroup]="challengeForm" class="form">
+    <div class="create-challenge">
+        <h1>Create a new Challenge</h1>
+        <div class="challenge-form">
+            <mat-card class="form-card">
+                <div class="form-fields">
+                    <mat-form-field>
+                        <mat-label>Challenge Name</mat-label>
+                        <input matInput #name formControlName="challengeName">
+                    </mat-form-field>
+
+                    <mat-form-field class="genre-chip-list">
+                        <mat-chip-list #chipList>
+                            <mat-chip *ngFor="let genre of genres"
+                                [selectable]="selectable" [removable]="removable" 
+                                (removed)="remove(genre)" >
+                                {{genre}}
+                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                            </mat-chip>
+                            <input 
+                                placeholder="Genres..." #genreInput 
+                                [formControl]="genreCtrl" [matAutocomplete]="auto" 
+                                [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeyCodes"
+                                [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)"
+                                formArrayName="tags">
+                        </mat-chip-list>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                            <mat-option *ngFor="let genre of filteredGenres | async" [value] = genre>
+                                {{genre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+            
+                    <div class="city-country-fields" formGroupName="location">
+                        <mat-form-field>
+                            <mat-label>City</mat-label>
+                            <input matInput formControlName="city" #city>
+                        </mat-form-field>
+                
+                        <mat-form-field>
+                            <mat-label>Country</mat-label>
+                            <input matInput formControlName="country" #country>
+                        </mat-form-field>
+                    </div>
+                
+                    <div class="questions-container" formArrayName="questions">
+                        <div formGroupName="{{q_index}}">
+                            <div class="question-buttons">
+                                <button mat-flat-button (click)="addQuestion()">Add Question +</button>
+                                <div class="divider"></div>
+                                <button mat-flat-button (click)="removeQuestion(i)">Remove Question</button>
+                            </div>
+
+                            <div *ngFor="let question of getQuestions(challengeForm); let i=index">
+                                <mat-form-field>
+                                    <mat-label>Question</mat-label>
+                                    <input matInput formControlName="questionText">
+                                </mat-form-field>
+
+                                <div formArrayName="choices">
+                                    <div *ngFor="let choice of [0,1,2,3]; let j=index">
+                                        <mat-form-field>
+                                            <mat-label>Choice {{j+1}}:</mat-label>
+                                            <input matInput formControlName="j">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <mat-form-field>
+                                    <mat-label>Correct answer</mat-label>
+                                    <mat-select>
+                                        <mat-option *ngFor="let answer of [0,1,2,3]">
+                                            {{answer}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+            
+            <br>
+            
+            <button mat-flat-button>Submit</button>
         </div>
-        <questions-challenge></questions-challenge>
-        <br>
-        <button mat-flat-button>Submit</button>
     </div>
-</div>
+</form>
+
+<pre> {{ challengeForm.value | json }} </pre>
