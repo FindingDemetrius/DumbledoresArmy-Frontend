@@ -13,13 +13,19 @@ import { UserService } from "../services/user.service";
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
+<<<<<<< HEAD
   user: User = new User();
   serverErrorResponse: String = "";
   challengeListArray: Challenge[];
+=======
+export class ProfileComponent implements OnInit {
+    user: User = new User();
+>>>>>>> Aayush-addServices
 
   sub: any;
   username: string = "";
 
+<<<<<<< HEAD
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -67,4 +73,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
   //     this.challengeService.getChallengeByUser(this.user.getUserId())
   //         .subscribe(challenges => this.challengeList = challenges)
   // }
+=======
+    ngOnInit() {
+        this.getUserProfile();
+    }
+
+    getUserProfile() {
+        const username = this.route.snapshot.paramMap.get('username');
+        // this.challengeService.getUser(username)
+        //     .subscribe(user => this.user = user)
+    }
+>>>>>>> Aayush-addServices
 }
