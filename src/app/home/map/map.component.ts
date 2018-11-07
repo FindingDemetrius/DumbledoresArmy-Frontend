@@ -38,6 +38,11 @@ export class MapComponent implements OnInit {
         this.isChallengeResponseDialogOpen = true;
     }
 
+    changeIsModalOpen(isComplete: boolean) {
+        console.log('Lah bhayo aba banda gareko!');
+        this.isChallengeResponseDialogOpen = false;
+    }
+
     constructor(private challengeService: ChallengeService) {
     }
 }

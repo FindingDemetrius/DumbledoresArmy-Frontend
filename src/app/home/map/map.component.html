@@ -23,6 +23,6 @@
     </agm-marker-cluster>
 </agm-map>
 <div *ngIf="isChallengeResponseDialogOpen" class = "challenge-response-dialog-wrapper">
-  <app-answer-challenge (challengeResponseEventEmitter) = "showChallengeResponseDialog($event)"[challenge] = "tappedChallenge"></app-answer-challenge>
+  <app-answer-challenge (challengeResponseCompleteEventEmitter) = "changeIsModalOpen($event)" [challenge] = "tappedChallenge"></app-answer-challenge>
 </div>
 </div>

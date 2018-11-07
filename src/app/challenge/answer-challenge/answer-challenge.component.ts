@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClrWizard } from '@clr/angular';
 import { Challenge } from '../../model/Challenge';
@@ -13,8 +13,12 @@ import { ChallengeResponse } from '../../model/ChallengeResponse';
 })
 export class AnswerChallengeComponent implements OnInit {
   @Input() challenge: Challenge;
+  @Output() challengeResponseCompleteEventEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
   challengeResponseIndex: Number[];
   mdOpen = true;
+  challengeResponse: ChallengeResponse;
+  isChallengeComplete = false;
+  isScoreCardModalOpen = false;
 
   Object = Object;
 
@@ -43,12 +47,16 @@ export class AnswerChallengeComponent implements OnInit {
     this.challengeService.postChallengeResponse(challengeResponse, this.challenge.id).
       subscribe(
         res => {
+          this.challengeResponse = res;
+          this.isChallengeComplete = true;
+          this.isScoreCardModalOpen = true;
           console.log(res);
         },
         error => {
           console.log(error);
         }
       );
+    this.challengeResponseCompleteEventEmitter.emit(true);
   }
 
 

@@ -23,3 +23,13 @@ clrWizardSize="md"
       </clr-wizard-page>
     </div>
 </clr-wizard>
+
+<div class="score-card" *ngIf="isChallengeComplete">
+        <clr-modal [(clrModalOpen)]="isScoreCardModalOpen" [clrModalClosable]="true" >
+            <h3 class="modal-title">Score</h3>
+            <div class="modal-body">
+                <h3>Congratulations</h3>
+                <h3>Score {{challengeResponse.score}} </h3>
+            </div>
+        </clr-modal>
+    </div>
