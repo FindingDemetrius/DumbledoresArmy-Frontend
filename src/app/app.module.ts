@@ -31,6 +31,10 @@ import { AuthService } from './services/auth.service';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 
+//Code that pertains to the map API
+import { AgmCoreModule } from '@agm/core';
+import { ChallengeComponent } from './challenge/challenge.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +44,7 @@ import { environment } from '../environments/environment';
     MapComponent,
     RegisterComponent,
     CreateChallengeComponent,
+    ChallengeComponent,
     ProfileComponent,
     QuestionsChallengeComponent
   ],
@@ -59,6 +64,9 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAuWYQMjlgGD0hyuVTavbz5uXAENMWV6LA'
+    }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],

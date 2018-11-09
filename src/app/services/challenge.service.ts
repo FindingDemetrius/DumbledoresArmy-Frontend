@@ -121,7 +121,16 @@ export class ChallengeService {
             }
         );
     }
-    
+    // getGenresList(): Observable<string[]> {
+    //     const url = `${this.baseUrl}/genres`
+    //     return this.http.get<string[]>(url)
+    //         .pipe(
+    //             tap(genres => console.log('fetched genres')),
+    //             catchError(this.handleError('getGenres', []))
+    //         )
+
+    // }
+
     private getRequestOptions(params?: HttpParams): object {
         const requestOptions = {
             headers: new HttpHeaders({
