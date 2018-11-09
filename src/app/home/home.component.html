@@ -1,4 +1,5 @@
 <div class="home-maps">
+    <app-map></app-map>
     <div class="login-placeHolder" *ngIf="!login">
         <clr-modal [(clrModalOpen)]="isModalOpen" [clrModalClosable]="false" >
             <h3 class="modal-title">GeoQuiz</h3>
@@ -20,5 +21,4 @@
             </div>
         </clr-modal>
     </div>
-    <app-map></app-map>
 </div>

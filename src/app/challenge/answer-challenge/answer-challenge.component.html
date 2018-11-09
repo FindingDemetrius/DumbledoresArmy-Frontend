@@ -17,7 +17,10 @@ clrWizardSize="md"
           </div>
           <div class="btn-group btn-primary">
             <div *ngFor="let choice of challenge.questions[key].choices; let i = index">
+              <ul>  
               <button style="float: bottom;" class="btn" (click)="onResponseForChallenge(key, i)">{{ choice }}</button>
+                <br>
+              </ul>
             </div>
           </div>
       </clr-wizard-page>
@@ -25,11 +28,47 @@ clrWizardSize="md"
 </clr-wizard>
 
 <div class="score-card" *ngIf="isChallengeComplete">
-        <clr-modal [(clrModalOpen)]="isScoreCardModalOpen" [clrModalClosable]="true" >
-            <h3 class="modal-title">Score</h3>
-            <div class="modal-body">
-                <h3>Congratulations</h3>
-                <h3>Score {{challengeResponse.score}} </h3>
-            </div>
-        </clr-modal>
+  <clr-modal [(clrModalOpen)]="isScoreCardModalOpen" [clrModalClosable]="false" >
+    <h3 class="modal-title">Score</h3>
+    <div class="modal-body">
+      <h3>Congratulations</h3>
+      <h3>Score {{challengeResponse.score}} </h3>
+      <div *ngFor="let question of challengeResponse.challenge.questions; let qIndex=index">
+        <h3>{{ question.questionText }}</h3>
+        <div *ngFor="let choice of question.choices; let i=index">
+          <div *ngIf="challengeResponse.questionChoices[qIndex] === challengeResponse.correctChoices[qIndex]">
+            <span style="float: left; " class="label label-info">{{ choice }}</span>
+          </div>
+          <div *ngIf="challengeResponse.questionChoices[qIndex] === i">
+            <span style="float: left; " class="label label-success">{{ choice }}</span>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="onScoreCardDialogClosed()">
+            Continue
+        </button>
+    </div>
+  </clr-modal>
+</div>
+
+
+<div class="error-card" *ngIf="isChallengeError">
+  <clr-modal [(clrModalOpen)]="isErrorModalOpen" [clrModalClosable]="false" >
+      <h3 class="modal-title">Error</h3>
+      <div class="modal-body">
+          <h3>You seem to have already taken this challenge :'(</h3>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="onErrorDialogClosed()">
+            Continue
+        </button>
+    </div>
+  </clr-modal>
+</div>
+
+
+

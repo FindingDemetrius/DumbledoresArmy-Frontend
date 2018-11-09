@@ -20,6 +20,7 @@ const routes: Routes = [
             { path: 'answer/:challengeId', component: AnswerChallengeComponent }
         ]
     },
+    { path: 'me', component: ProfileComponent },
     { path: 'profile/:id', component: ProfileComponent }
 ];
 

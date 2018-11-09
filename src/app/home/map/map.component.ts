@@ -17,7 +17,7 @@ export class MapComponent implements OnInit {
     isChallengeResponseDialogOpen = false;
     tappedChallenge: Challenge;
 
-    private challengeListObservale: Observable<Challenge[]>;
+    private challengeListObservale$: Observable<Challenge[]>;
 
     clickedMarker(label: string, index: number) {
         console.log(`clicked the marker: ${label || index}`);
@@ -25,7 +25,7 @@ export class MapComponent implements OnInit {
 
     ngOnInit() {
         console.log('Maps Component started');
-        this.challengeListObservale = this.challengeService.getListOfChallenges();
+        this.challengeListObservale$ = this.challengeService.getListOfChallenges();
     }
 
     onTapMarker(challenge: Challenge) {

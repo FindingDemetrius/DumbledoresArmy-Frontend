@@ -4,6 +4,7 @@ export class ChallengeResponse {
 
     numberOfQuestions: Number = 0;
     questionChoices: Number[] = [];
+    correctChoices: Number[] = [];
     score: Number = 0;
     challenge: Challenge = null;
     _challengeId: Number = 0;

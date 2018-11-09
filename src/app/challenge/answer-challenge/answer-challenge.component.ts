@@ -5,6 +5,7 @@ import { Challenge } from '../../model/Challenge';
 import { ChallengeService } from '../../services/challenge.service';
 import { Observable } from 'rxjs';
 import { ChallengeResponse } from '../../model/ChallengeResponse';
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'app-answer-challenge',
@@ -19,6 +20,9 @@ export class AnswerChallengeComponent implements OnInit {
   challengeResponse: ChallengeResponse;
   isChallengeComplete = false;
   isScoreCardModalOpen = false;
+  isErrorModalOpen = false;
+  isLoading = false;
+  isChallengeError = false;
 
   Object = Object;
 
@@ -44,20 +48,37 @@ export class AnswerChallengeComponent implements OnInit {
         numberOfQuestions: this.challengeResponseIndex.length,
         questionChoices: this.challengeResponseIndex,
       });
+    this.isLoading = true;
     this.challengeService.postChallengeResponse(challengeResponse, this.challenge.id).
+      finally(() => {
+        console.log('Final emit');
+      }).
       subscribe(
         res => {
+          this.isLoading = false;
           this.challengeResponse = res;
           this.isChallengeComplete = true;
           this.isScoreCardModalOpen = true;
           console.log(res);
         },
         error => {
+          this.isLoading = false;
+          this.isChallengeError = true;
+          this.isErrorModalOpen = true;
           console.log(error);
         }
       );
+  }
+
+  onErrorDialogClosed() {
+    this.isChallengeError = false;
+    this.isErrorModalOpen = false;
     this.challengeResponseCompleteEventEmitter.emit(true);
   }
 
-
+  onScoreCardDialogClosed() {
+    this.isChallengeComplete = false;
+    this.isScoreCardModalOpen = false;
+    this.challengeResponseCompleteEventEmitter.emit(true);
+  }
 }
