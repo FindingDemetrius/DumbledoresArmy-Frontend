@@ -41,14 +41,14 @@ export class AnswerChallengeComponent implements OnInit {
   }
 
   onChallengeAnswered() {
-    console.log('Challenge Complete');
     console.log(this.challengeResponseIndex);
+    this.isLoading = true;
+    console.log('Loading', this.isLoading);
     const challengeResponse = new ChallengeResponse(
       {
         numberOfQuestions: this.challengeResponseIndex.length,
         questionChoices: this.challengeResponseIndex,
       });
-    this.isLoading = true;
     this.challengeService.postChallengeResponse(challengeResponse, this.challenge.id).
       finally(() => {
         console.log('Final emit');
@@ -80,5 +80,19 @@ export class AnswerChallengeComponent implements OnInit {
     this.isChallengeComplete = false;
     this.isScoreCardModalOpen = false;
     this.challengeResponseCompleteEventEmitter.emit(true);
+  }
+
+  colorQuestionResponseLabel(questionIndex: number, index: number) {
+    if (this.challengeResponse.correctChoices[questionIndex] === index) {
+      if (index === this.challengeResponse.questionChoices[questionIndex]) {
+        return 2; // Green
+      }
+      return 1; // Blue
+    } else {
+      if (index === this.challengeResponse.questionChoices[questionIndex]) {
+        return 0; // Red
+      }
+      return -1; // Normal
+    }
   }
 }
