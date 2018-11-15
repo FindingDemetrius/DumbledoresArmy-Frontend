@@ -130,31 +130,31 @@ export class ChallengeService {
 
     // }
 
-    private getRequestOptions(params?: HttpParams): object {
-        const requestOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + this.session.accessToken
-            })
-        };
-        if (params !== null) {
-            requestOptions['params'] = params;
-        }
-        return requestOptions;
-    }
+    // private getRequestOptions(params?: HttpParams): object {
+    //     const requestOptions = {
+    //         headers: new HttpHeaders({
+    //             'Content-Type': 'application/json',
+    //             'Authorization': 'Bearer ' + this.session.accessToken
+    //         })
+    //     };
+    //     if (params !== null) {
+    //         requestOptions['params'] = params;
+    //     }
+    //     return requestOptions;
+    // }
 
-    private getParameters(limit: string, sortBy: string): HttpParams {
-        const params = new HttpParams();
-        if (limit !== null) { params.append('limit', limit); }
-        if (sortBy !== null) { params.append('sortBy', sortBy); }
-        return params;
-    }
+    // private getParameters(limit: string, sortBy: string): HttpParams {
+    //     const params = new HttpParams();
+    //     if (limit !== null) { params.append('limit', limit); }
+    //     if (sortBy !== null) { params.append('sortBy', sortBy); }
+    //     return params;
+    // }
 
-    private IsUpdateUserObjectFieldsValid(updateObject: object): boolean {
-        // Check if the fields in the object are only within the allowed fields.
-        Object.keys(updateObject).forEach(key => {
-            if (!Challenge.FIELDS_ALLOWED_TO_UPDATE.includes(key)) { return false; }
-        });
-        return true;
-    }
-}
+    // private IsUpdateUserObjectFieldsValid(updateObject: object): boolean {
+    //     // Check if the fields in the object are only within the allowed fields.
+    //     Object.keys(updateObject).forEach(key => {
+    //         if (!Challenge.FIELDS_ALLOWED_TO_UPDATE.includes(key)) { return false; }
+    //     });
+    //     return true;
+    // }
+//}
