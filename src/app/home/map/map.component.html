@@ -7,20 +7,49 @@
     <agm-marker 
       [latitude]="latitude"
       [longitude]="longitude"
-      (markerClick)="clickedMarker(m.label, i)"
-      >
-    </agm-marker>
+      (markerClick)="clickedMarker()">
 
     <agm-info-window [disableAutoPan]="false" #infoWindow>
-
       <div>
-          {{MapComponent.latitude}}
-          {{MapComponent.longitude}}
+          <h4>Challenge Name</h4>
+          <h5>Genre</h5>
+          <p>Description: </p>
+          <a (click)="onClickInfoView({id:m.id})" class="btn btn-attention pull-right">{{attemptText}} <i class="fa fa-angle-double-right"></i></a>
       </div>
-      <div>
-          <a (click)="onClickInfoView({id:m.id})" class="btn btn-attention pull-right">Daje <i class="fa fa-angle-double-right"></i></a>
-      </div>
+    </agm-info-window>
+  </agm-marker>
 
-  </agm-info-window>
+  <agm-marker 
+      [latitude]="lat2"
+      [longitude]="long2"
+      (markerClick)="clickedMarker()">
+
+    <agm-info-window [disableAutoPan]="false" #infoWindow>
+      <div>
+          <h4>Challenge Name</h4>
+          <h5>Genre</h5>
+          <p>Description: </p>
+          <a (click)="onClickInfoView({id:m.id})" class="btn btn-attention pull-right">{{attemptText}} <i class="fa fa-angle-double-right"></i></a>
+      </div>
+    </agm-info-window>
+  </agm-marker>
+
+  <agm-marker 
+      [latitude]="lat3"
+      [longitude]="long3"
+      (markerClick)="clickedMarker()">
+
+    <agm-info-window [disableAutoPan]="false" #infoWindow>
+      <div>
+          <h4>Challenge Name</h4>
+          <h5>Genre</h5>
+          <p>Description: </p>
+          <a (click)="onClickInfoView({id:m.id})" class="btn btn-attention pull-right">{{attemptText}} <i class="fa fa-angle-double-right"></i></a>
+      </div>
+    </agm-info-window>
+  </agm-marker>
+
+
+    
   
 </agm-map>

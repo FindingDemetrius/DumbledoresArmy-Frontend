@@ -13,8 +13,16 @@ export class MapComponent {
   latitude = 51.678418;
   longitude = 7.809007;
 
+  lat2 = this.latitude + 20;
+  long2 = this.longitude + 30;
+
+  lat3 = this.latitude - 25;
+  long3 = this.longitude + 80;
+
+  attemptText = "Attmept";
+
   //Detects when a marker is cliked on 
-  clickedMarker(label: string, index: number){
+  clickedMarker(){
     console.log("Marker has been pressed!");
   }
 }
