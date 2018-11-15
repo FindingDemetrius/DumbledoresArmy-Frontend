@@ -6,7 +6,9 @@
 
     <agm-marker 
       [latitude]="latitude"
-      [longitude]="longitude">
+      [longitude]="longitude"
+      (markerClick)="clickedMarker(m.label, i)"
+      >
     </agm-marker>
 
     <agm-info-window [disableAutoPan]="false" #infoWindow>

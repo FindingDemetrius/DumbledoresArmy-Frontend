@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
     }
 
     getChallenges() {
-        this.challengeService.getChallengeByUser(this.user.getUserId())
-            .subscribe(challenges => this.challengeList = challenges)
+        // this.challengeService.getChallengeByUser(this.user.getUserId())
+        //     .subscribe(challenges => this.challengeList = challenges)
     }
 }

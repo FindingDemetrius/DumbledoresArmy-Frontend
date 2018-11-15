@@ -119,42 +119,46 @@ export class ChallengeService {
                 return error['error']['result']['Error'];
             }
         );
+     }
 
-    // getGenresList(): Observable<string[]> {
-    //     const url = `${this.baseUrl}/genres`
-    //     return this.http.get<string[]>(url)
-    //         .pipe(
-    //             tap(genres => console.log('fetched genres')),
-    //             catchError(this.handleError('getGenres', []))
-    //         )
+    getGenresList(): Observable<string[]> {
+        // const url = `${this.baseUrl}/genres`
+        // return this.http.get<string[]>(url)
+        //     .pipe(
+        //         tap(genres => console.log('fetched genres')),
+        //         catchError(this.handleError('getGenres', []))
+        //     )
 
-    // }
+        //Temporary return to stop errors
+        return null;
+    }
 
-    // private getRequestOptions(params?: HttpParams): object {
-    //     const requestOptions = {
-    //         headers: new HttpHeaders({
-    //             'Content-Type': 'application/json',
-    //             'Authorization': 'Bearer ' + this.session.accessToken
-    //         })
-    //     };
-    //     if (params !== null) {
-    //         requestOptions['params'] = params;
-    //     }
-    //     return requestOptions;
-    // }
+    private getRequestOptions(params?: HttpParams): object {
+        const requestOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.session.accessToken
+            })
+        };
+        if (params !== null) {
+            requestOptions['params'] = params;
+        }
+        return requestOptions;
+    }
 
-    // private getParameters(limit: string, sortBy: string): HttpParams {
-    //     const params = new HttpParams();
-    //     if (limit !== null) { params.append('limit', limit); }
-    //     if (sortBy !== null) { params.append('sortBy', sortBy); }
-    //     return params;
-    // }
+    private getParameters(limit: string, sortBy: string): HttpParams {
+        const params = new HttpParams();
+        if (limit !== null) { params.append('limit', limit); }
+        if (sortBy !== null) { params.append('sortBy', sortBy); }
+        return params;
+    }
 
-    // private IsUpdateUserObjectFieldsValid(updateObject: object): boolean {
-    //     // Check if the fields in the object are only within the allowed fields.
-    //     Object.keys(updateObject).forEach(key => {
-    //         if (!Challenge.FIELDS_ALLOWED_TO_UPDATE.includes(key)) { return false; }
-    //     });
-    //     return true;
-    // }
-//}
+    private IsUpdateUserObjectFieldsValid(updateObject: object): boolean {
+        // Check if the fields in the object are only within the allowed fields.
+        Object.keys(updateObject).forEach(key => {
+            if (!Challenge.FIELDS_ALLOWED_TO_UPDATE.includes(key)) { return false; }
+        });
+        return true;
+    }
+
+}

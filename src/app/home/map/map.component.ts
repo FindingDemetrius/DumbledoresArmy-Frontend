@@ -12,4 +12,9 @@ import { AgmCoreModule } from '@agm/core';
 export class MapComponent {
   latitude = 51.678418;
   longitude = 7.809007;
+
+  //Detects when a marker is cliked on 
+  clickedMarker(label: string, index: number){
+    console.log("Marker has been pressed!");
+  }
 }
