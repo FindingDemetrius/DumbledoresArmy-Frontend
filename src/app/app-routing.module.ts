@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { CreateChallengeComponent } from './challenge/create/create-challenge.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ChallengeComponent } from './challenge/challenge.component';
 import { AnswerChallengeComponent } from './challenge/answer-challenge/answer-challenge.component';
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
             { path: 'answer/:challengeId', component: AnswerChallengeComponent }
         ]
     },
+    { path: 'me', component: ProfileComponent },
     { path: 'profile/:id', component: ProfileComponent }
 ];
 

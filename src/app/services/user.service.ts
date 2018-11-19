@@ -36,6 +36,20 @@ export class UserService {
     );
   }
 
+  public getCurrentUser(): Observable<User> {
+    if (!this.auth.isSignedIn()) {
+      return throwError(new Error('The user is not signed in.'));
+    }
+    return this.http.get<User>(API_URL + '/users/me', this.getRequestOptions()).map(
+      response => {
+        return new User(response['result']);
+      },
+      error => {
+        return error['error']['result']['Error'];
+      }
+    );
+  }
+
   public createUser(user: User): Observable<User> {
     if (!this.auth.isSignedIn()) {
       return throwError(new Error('The user is not signed in.'));
@@ -102,32 +116,36 @@ export class UserService {
     if (!this.auth.isSignedIn()) {
       return throwError(new Error('The user is not signed in.'));
     }
-    return this.http.get(API_URL + '/users/username/challengesPosted', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
-      response => {
-        const listOfChallenges: Challenge[] = [];
-        response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
-        return listOfChallenges;
-      },
-      error => {
-        return error['error']['result']['Error'];
-      }
-    );
+    return this.http.get(API_URL + '/users/' + username + '/challengesPosted', this.getRequestOptions(
+      this.getParameters(limit, sortBy))).map(
+        response => {
+          console.log(response);
+          const listOfChallenges: Challenge[] = [];
+          response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
+          return listOfChallenges;
+        },
+        error => {
+          return error['error']['result']['Error'];
+        }
+      );
   }
 
   public getChallengesTakenByUser(username: string, limit?: string, sortBy?: string): Observable<Challenge[]> {
     if (!this.auth.isSignedIn()) {
       return throwError(new Error('The user is not signed in.'));
     }
-    return this.http.get(API_URL + '/users/username/challengesTakem', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
-      response => {
-        const listOfChallenges: Challenge[] = [];
-        response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
-        return listOfChallenges;
-      },
-      error => {
-        return error['error']['result']['Error'];
-      }
-    );
+    return this.http.get(API_URL + '/users/' + username + '/challengesTaken', this.getRequestOptions(
+      this.getParameters(limit, sortBy))).map(
+        response => {
+          const listOfChallenges: Challenge[] = [];
+          console.log(response['result']);
+          response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
+          return listOfChallenges;
+        },
+        error => {
+          return error['error']['result']['Error'];
+        }
+      );
   }
 
   private getRequestOptions(params?: HttpParams): object {

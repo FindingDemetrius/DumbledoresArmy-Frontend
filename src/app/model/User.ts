@@ -1,6 +1,4 @@
-
 export class User {
-
     public static FIELDS_ALLOWED_TO_UPDATE = ['name', 'daetOfBirth', 'emailAddress', 'profileImageUrl'];
 
     username = '';

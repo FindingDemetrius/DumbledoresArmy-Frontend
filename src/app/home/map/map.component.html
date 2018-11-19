@@ -8,19 +8,21 @@
   (mapClick)="mapClicked($event)">
 
 
-    <agm-marker-cluster imagePath="https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclustererplus/images/m">
-      <agm-marker 
-      *ngFor="let challenge of challengeListObservale | async"
-      [latitude]="challenge.location.latitude"
-      [longitude]="challenge.location.latitude"
-      [label]="challenge.challengeName">
+    <div *ngIf="challengeListObservale$ | async as challengeListObservale">
+      <agm-marker-cluster imagePath="https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclustererplus/images/m">
+        <agm-marker 
+        *ngFor="let challenge of challengeListObservale"
+        [latitude]="challenge.location.latitude"
+        [longitude]="challenge.location.latitude"
+        [label]="challenge.challengeName">
+        
+        <agm-info-window>
+          <app-info-window (challengeResponseEventEmitter) = "showChallengeResponseDialog($event)" [challenge] = "challenge"></app-info-window>
+        </agm-info-window>
       
-      <agm-info-window>
-        <app-info-window (challengeResponseEventEmitter) = "showChallengeResponseDialog($event)" [challenge] = "challenge"></app-info-window>
-      </agm-info-window>
-    
-      </agm-marker>
-    </agm-marker-cluster>
+        </agm-marker>
+      </agm-marker-cluster>
+    </div>
 </agm-map>
 <div *ngIf="isChallengeResponseDialogOpen" class = "challenge-response-dialog-wrapper">
   <app-answer-challenge (challengeResponseCompleteEventEmitter) = "changeIsModalOpen($event)" [challenge] = "tappedChallenge"></app-answer-challenge>

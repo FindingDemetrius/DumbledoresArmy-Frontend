@@ -1,12 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { ENTER, COMMA } from '@angular/cdk/keycodes';
-
-import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
-
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { QuestionPost } from '../../model/QuestionPost';
+import { Challenge } from '../../model/Challenge';
 import { ChallengeService } from '../../services/challenge.service';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { IQuestion } from '../../model/IQuestion';
 
 @Component({
     selector: 'app-create-challenge',
@@ -14,70 +11,59 @@ import { map, startWith } from 'rxjs/operators';
     styleUrls: ['create-challenge.component.css']
 })
 
-export class CreateChallengeComponent implements OnInit {
+export class CreateChallengeComponent {
 
-    visible = true;
-    selectable = true;
-    removable = true;
-    addOnBlur = true;
-    separatorKeyCodes: number[] = [ENTER, COMMA];
-    genreCtrl = new FormControl();
-    filteredGenres: Observable<string[]>;
-    genres: string[];
-    allGenres: string[] = [];
-
-    @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>;
-    @ViewChild('auto') matAutoComplete: MatAutocomplete;
+    public createChallengeForm: FormGroup;
+    public newTag = '';
+    public listOfTags: String[] = [];
+    public listOfQuestions: IQuestion[] = [];
 
     constructor(private fb: FormBuilder, private challengeService: ChallengeService) {
-        this.filteredGenres = this.genreCtrl.valueChanges.pipe(
-            startWith(null),
-            map((genre: string | null) => genre ? this._filter(genre) : this.allGenres.slice())
-        );
+        this.createChallengeForm = fb.group({
+            challengeName: ['', Validators.required],
+            latitude: ['', Validators.required],
+            longitude: ['', Validators.required]
+        });
     }
 
-    ngOnInit() {
-        // this.getGenres()
+    doCreateChallenge() {
+        const challengeName = this.createChallengeForm.get('challengeName').value;
+        const latitude = this.createChallengeForm.get('latitude').value;
+        const longitude = this.createChallengeForm.get('longitude').value;
+        console.log(challengeName, latitude, longitude, this.listOfTags, this.listOfQuestions);
+        console.log('Create new challenge');
+        const challenge = new Challenge({
+            'challengeName': this.createChallengeForm.get('challengeName').value,
+            'tags': this.listOfTags,
+            'location': {
+                'latitude': this.createChallengeForm.get('latitude').value,
+                'longitude': this.createChallengeForm.get('longitude').value
+            },
+            'questions': this.listOfQuestions
+        });
+        console.log(challenge);
+        this.challengeService.createChallenge(challenge)
+            .subscribe((ch: Challenge) => {
+                console.log(ch);
+            },
+                errorMessage => {
+                    console.log(errorMessage);
+                });
     }
 
-    // getGenres() {
-    //     this.challengeService.getGenresList()
-    //         .subscribe(genres => this.allGenres = genres)
-    // }
-
-    add(event: MatChipInputEvent) {
-        if (!this.matAutoComplete.isOpen) {
-            const input = event.input;
-            const value = event.value;
-
-            if ((value || '').trim()) {
-                this.genres.push(value.trim());
-            }
-
-            if (input) {
-                input.value = '';
-            }
-
-            this.genreCtrl.setValue(null);
-        }
+    onAddNewTag() {
+        console.log(this.newTag);
+        this.listOfTags.push(this.newTag);
+        this.newTag = '';
     }
 
-    remove(genre: string) {
-        const index = this.genres.indexOf(genre);
-        if (index >= 0) {
-            this.genres.splice(index, 1);
-        }
+    onCreateNewQuestion(question: QuestionPost) {
+        this.listOfQuestions.push(question);
     }
 
-    selected(event: MatAutocompleteSelectedEvent) {
-        this.genres.push(event.option.viewValue);
-        this.genreInput.nativeElement.value = '';
-        this.genreCtrl.setValue(null);
+    removeTag(tagToDelete) {
+        this.listOfTags = this.listOfTags.filter(tag => tag !== tagToDelete);
     }
 
-    private _filter(value: string): string[] {
-        const filterValue = value.toLowerCase();
 
-        return this.allGenres.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
-    }
 }

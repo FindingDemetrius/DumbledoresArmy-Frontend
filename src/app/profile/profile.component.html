@@ -1,27 +1,26 @@
-
-<div id="Profile">
-    
-    <div id="Info">
-        <p>
-            <strong>Challenge 1:</strong>
-            <span>USA</span>
-        </p>
-        <p>
-            <strong>Challenge 2:</strong>
-            <span>UK</span>
-        </p>
-        <p>
-            <strong>Challenge 3:</strong>
-            <span>Australia</span>
-        </p>
-        <p>
-            <strong>Challenge 4:</strong>
-            <span>India</span>
-        </p>
-        <p>
-            <strong>Challenge 5:</strong>
-            <span>Brazil</span>
-        </p>
+<div class="profile-page">
+    <div class="user-info">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-md-10 offset-md-1">
+              <h4>Username: {{ user.username }}</h4>
+              <h5>User score: {{ user.totalScore }}</h5>
+              <br><br>
+              <h6>Number of Posted Challenges: {{user.numberOfChallengesPosted}}</h6>
+            
+              <div *ngFor="let challenge of listOfChallengesPosted$ | async">
+                <h1>challenge.challengeName</h1>
+              </div>
+               
+              <h6>Number of Taken Challenges: {{user.numberOfChallengesTaken}}</h6>
+            
+               <div *ngFor="let challenge of listOfChallengesTaken$ | async">
+                <h1>{{ challenge.getChallenge().challengeName }}</h1>
+              </div>
+               
+            <!-- <follow-btn user="$ctrl.profile" ng-hide="$ctrl.isUser"></follow-btn> -->
+          </div>
+        </div>
+      </div>
     </div>
-    
-</div>
+  </div>
