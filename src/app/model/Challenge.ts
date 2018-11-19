@@ -1,4 +1,5 @@
 import { Question } from './Question';
+import { IQuestion } from './IQuestion';
 
 export class Challenge {
 
@@ -8,7 +9,7 @@ export class Challenge {
     tags: String[] = [];
     location: Object = null;
 
-    _questions: Question[];
+    _questions: IQuestion[];
     get questions() { return this._questions; }
     set questions(questions) { this._questions = questions; }
 
