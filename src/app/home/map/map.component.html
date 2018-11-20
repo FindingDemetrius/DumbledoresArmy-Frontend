@@ -13,7 +13,7 @@
         <agm-marker 
         *ngFor="let challenge of challengeListObservale"
         [latitude]="challenge.location.latitude"
-        [longitude]="challenge.location.latitude"
+        [longitude]="challenge.location.longitude"
         [label]="challenge.challengeName">
         
         <agm-info-window>

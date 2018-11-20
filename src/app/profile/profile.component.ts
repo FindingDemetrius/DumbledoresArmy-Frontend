@@ -7,6 +7,7 @@ import { Challenge } from '../model/Challenge';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { ChallengeResponse } from '../model/ChallengeResponse';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +18,7 @@ import { AuthService } from '../services/auth.service';
 export class ProfileComponent implements OnInit {
   user: User = new User();
   listOfChallengesPosted$: Observable<Challenge[]>;
-  listOfChallengesTaken$: Observable<Challenge[]>;
+  listOfChallengesTaken$: Observable<ChallengeResponse[]>;
 
   sub: any;
   username = '';

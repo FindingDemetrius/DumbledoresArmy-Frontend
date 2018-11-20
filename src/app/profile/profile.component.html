@@ -9,13 +9,13 @@
               <h6>Number of Posted Challenges: {{user.numberOfChallengesPosted}}</h6>
             
               <div *ngFor="let challenge of listOfChallengesPosted$ | async">
-                <h1>challenge.challengeName</h1>
+                <h1>{{challenge.challengeName}}</h1>
               </div>
                
               <h6>Number of Taken Challenges: {{user.numberOfChallengesTaken}}</h6>
             
-               <div *ngFor="let challenge of listOfChallengesTaken$ | async">
-                <h1>{{ challenge.getChallenge().challengeName }}</h1>
+               <div *ngFor="let challengeResponse of listOfChallengesTaken$ | async">
+                <h1>{{ challengeResponse.challenge.challengeName }}</h1>
               </div>
                
             <!-- <follow-btn user="$ctrl.profile" ng-hide="$ctrl.isUser"></follow-btn> -->
