@@ -9,6 +9,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Challenge } from '../model/Challenge';
 import { throwError } from 'rxjs';
+import { ChallengeResponse } from '../model/ChallengeResponse';
 
 const API_URL: string = environment.apiUrl;
 
@@ -130,16 +131,16 @@ export class UserService {
       );
   }
 
-  public getChallengesTakenByUser(username: string, limit?: string, sortBy?: string): Observable<Challenge[]> {
+  public getChallengesTakenByUser(username: string, limit?: string, sortBy?: string): Observable<ChallengeResponse[]> {
     if (!this.auth.isSignedIn()) {
       return throwError(new Error('The user is not signed in.'));
     }
     return this.http.get(API_URL + '/users/' + username + '/challengesTaken', this.getRequestOptions(
       this.getParameters(limit, sortBy))).map(
         response => {
-          const listOfChallenges: Challenge[] = [];
+          const listOfChallenges: ChallengeResponse[] = [];
           console.log(response['result']);
-          response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
+          response['result'].forEach(challengeObject => listOfChallenges.push(new ChallengeResponse(challengeObject)));
           return listOfChallenges;
         },
         error => {
