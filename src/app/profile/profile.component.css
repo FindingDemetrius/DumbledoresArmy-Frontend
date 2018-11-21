@@ -1,14 +1,62 @@
-
-#Profile
-{ 
-    margin: 50px auto;
-    width: 635px;
-    border: 1px solid red;
+.card {
+    max-width: 500px;
+    margin: auto;
+    text-align: center;
+    background-color: green;
+    background-color:#cccccc;
+    overflow: hidden;
 }
 
-#Info
-{  
+.rank {
+    color: grey;
+    font-size: 18px;
+}
+
+button {
+    border: none;
+    outline: 0;
     display: inline-block;
-    width: 250px;
-    border: 1px solid purple;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
 }
+
+a {
+    text-decoration: none;
+    font-size: 22px;
+    margin: 20px;
+    color: black;
+}
+
+button:hover, a:hover {
+    opacity: 0.7;
+}
+
+img {
+    border-radius: 50%;
+}
+
+.col-md-4 {
+    background-color: yellow;   
+}
+
+.test {
+    background-color: yellow;
+}
+
+.Row {
+    background-color: yellow;
+}
+
+.float-left {
+    float:left;
+    width:165px; // or 33% for equal width independent of parent width
+    background-color: #4C8EFF;
+}
+
+
+
