@@ -40,18 +40,6 @@ img {
     border-radius: 50%;
 }
 
-.col-md-4 {
-    background-color: yellow;   
-}
-
-.test {
-    background-color: yellow;
-}
-
-.Row {
-    background-color: yellow;
-}
-
 .float-left {
     float:left;
     width:165px; // or 33% for equal width independent of parent width
