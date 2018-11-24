@@ -30,8 +30,12 @@ import { QuestionsChallengeComponent } from './challenge/create/questions/questi
 import { AuthService } from './services/auth.service';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
+import { InfoWindowComponent } from './home/map/info-window/info-window.component';
+import { AnswerChallengeComponent } from './challenge/answer-challenge/answer-challenge.component';
+import { ClarityModule } from '@clr/angular';
+import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 
-//Code that pertains to the map API
+// Code that pertains to the map API
 import { AgmCoreModule } from '@agm/core';
 import { ChallengeComponent } from './challenge/challenge.component';
 
@@ -46,7 +50,10 @@ import { ChallengeComponent } from './challenge/challenge.component';
     CreateChallengeComponent,
     ChallengeComponent,
     ProfileComponent,
-    QuestionsChallengeComponent
+    QuestionsChallengeComponent,
+    ProfileComponent,
+    InfoWindowComponent,
+    AnswerChallengeComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +75,12 @@ import { ChallengeComponent } from './challenge/challenge.component';
       apiKey: 'AIzaSyAuWYQMjlgGD0hyuVTavbz5uXAENMWV6LA'
     }),
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCAywy9aaWOwm4NKexDKM02Vko-_I_GIH0'
+    }),
+    ClarityModule,
+    AgmJsMarkerClustererModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

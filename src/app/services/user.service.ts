@@ -4,11 +4,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from './../model/User';
 import { AuthService } from './auth.service';
 import { environment } from './../../environments/environment';
-import { Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Challenge } from '../model/Challenge';
-import {throwError} from 'rxjs';
+import { throwError } from 'rxjs';
 
 const API_URL: string = environment.apiUrl;
 
@@ -27,6 +27,20 @@ export class UserService {
       return throwError(new Error('The user is not signed in.'));
     }
     return this.http.get<User>(API_URL + '/users/' + username, this.getRequestOptions()).map(
+      response => {
+        return new User(response['result']);
+      },
+      error => {
+        return error['error']['result']['Error'];
+      }
+    );
+  }
+
+  public getCurrentUser(): Observable<User> {
+    if (!this.auth.isSignedIn()) {
+      return throwError(new Error('The user is not signed in.'));
+    }
+    return this.http.get<User>(API_URL + '/users/me', this.getRequestOptions()).map(
       response => {
         return new User(response['result']);
       },
@@ -68,13 +82,13 @@ export class UserService {
   }
 
   public updateUser(username: string, updateObject: object): Observable<User> {
-    if (!this.auth.isSignedIn())  {
+    if (!this.auth.isSignedIn()) {
       return throwError(new Error('The user is not signed in.'));
     }
     if (!this.IsUpdateUserObjectFieldsValid(updateObject)) {
       return throwError(new Error('One of the fields is not allowed to be updated. '));
     }
-    this.http.patch(API_URL + '/users/' + username, updateObject, this.getRequestOptions()).map(
+    return this.http.patch(API_URL + '/users/' + username, updateObject, this.getRequestOptions()).map(
       response => {
         return new User(response['result']);
       },
@@ -84,11 +98,11 @@ export class UserService {
     );
   }
 
-  public deleteUser(username: string): Observable<object> {
+  public deleteUser(username: string): Observable<any> {
     if (!this.auth.isSignedIn()) {
       return throwError(new Error('The user is not signed in.'));
     }
-    this.http.delete(API_URL + '/users/' + username, this.getRequestOptions()).map(
+    return this.http.delete(API_URL + '/users/' + username, this.getRequestOptions()).map(
       reponse => {
         return true;
       },
@@ -102,34 +116,36 @@ export class UserService {
     if (!this.auth.isSignedIn()) {
       return throwError(new Error('The user is not signed in.'));
     }
-    this.http.get(API_URL + '/users/username/challengesPosted', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
-      response => {
-        console.log(response);
-        return new Challenge(response['result'])
-        // const listOfChallenges: Challenge[] = [];
-        // response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
-        // return listOfChallenges;
-      },
-      error => {
-        return error['error']['result']['Error'];
-      }
-    );
+    return this.http.get(API_URL + '/users/' + username + '/challengesPosted', this.getRequestOptions(
+      this.getParameters(limit, sortBy))).map(
+        response => {
+          console.log(response);
+          const listOfChallenges: Challenge[] = [];
+          response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
+          return listOfChallenges;
+        },
+        error => {
+          return error['error']['result']['Error'];
+        }
+      );
   }
 
   public getChallengesTakenByUser(username: string, limit?: string, sortBy?: string): Observable<Challenge[]> {
     if (!this.auth.isSignedIn()) {
       return throwError(new Error('The user is not signed in.'));
     }
-    this.http.get(API_URL + '/users/username/challengesTakem', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
-      response => {
-        const listOfChallenges: Challenge[] = [];
-        response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
-        return listOfChallenges;
-      },
-      error => {
-        return error['error']['result']['Error'];
-      }
-    );
+    return this.http.get(API_URL + '/users/' + username + '/challengesTaken', this.getRequestOptions(
+      this.getParameters(limit, sortBy))).map(
+        response => {
+          const listOfChallenges: Challenge[] = [];
+          console.log(response['result']);
+          response['result'].forEach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
+          return listOfChallenges;
+        },
+        error => {
+          return error['error']['result']['Error'];
+        }
+      );
   }
 
   private getRequestOptions(params?: HttpParams): object {

@@ -31,14 +31,15 @@ export class ChallengeService {
         );
     }
 
-    getListOfChallenges(limit: string, sortBy: string): Observable<Challenge[]> {
-        if (!this.auth.isSignedIn()) {
-            return throwError(new Error('The user is not signed in.'));
-        }
-        return this.http.get(API_URL + '/challenges/', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
+    getListOfChallenges(limit?: string, sortBy?: string): Observable<Challenge[]> {
+        return this.http.get(API_URL + '/challenges', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
             response => {
                 const listOfChallenges: Challenge[] = [];
-                response['result'].foreach(challengeObject => listOfChallenges.push(new Challenge(challengeObject)));
+                for (let i = 0; i < response['result'].length; i++) {
+                    console.log(response['result'][i]);
+                    listOfChallenges.push(new Challenge(response['result'][i]));
+                }
+                console.log(listOfChallenges);
                 return listOfChallenges;
             },
             error => {
@@ -52,7 +53,7 @@ export class ChallengeService {
             return throwError(new Error('The user is not signed in.'));
         }
         const challengeInJson: object = JSON.parse(JSON.stringify(challenge, ['challengeName', 'tags', 'location', '_questions']));
-        this.http.post(API_URL + '/challenges/', challengeInJson, this.getRequestOptions()).map(
+        return this.http.post(API_URL + '/challenges/', challengeInJson, this.getRequestOptions()).map(
             response => {
                 return new Challenge(response['result']);
             },
@@ -69,7 +70,7 @@ export class ChallengeService {
         if (!this.IsUpdateUserObjectFieldsValid(updateObject)) {
             return throwError(new Error('One of the fields is not allowed to be updated. '));
         }
-        this.http.patch(API_URL + '/challenges' + challengeId, this.getRequestOptions()).map(
+        return this.http.patch(API_URL + '/challenges' + challengeId, this.getRequestOptions()).map(
             response => {
                 return new Challenge(response['result']);
             },
@@ -83,7 +84,7 @@ export class ChallengeService {
         if (!this.auth.isSignedIn()) {
             return throwError(new Error('The user is not signed in.'));
         }
-        this.http.delete(API_URL + '/users/' + challengeId, this.getRequestOptions()).map(
+        return this.http.delete(API_URL + '/users/' + challengeId, this.getRequestOptions()).map(
             reponse => {
                 return true;
             },
@@ -98,7 +99,7 @@ export class ChallengeService {
             return throwError(new Error('The user is not signed in.'));
         }
         const challengeResponseObject: object = JSON.parse(JSON.stringify(challengeResponse, ['numberOfQuestions', 'questionChoices']));
-        this.http.post(API_URL + '/challenges/' + challengeId + '/response', challengeResponseObject, this.getRequestOptions()).map(
+        return this.http.post(API_URL + '/challenges/' + challengeId + '/response', challengeResponseObject, this.getRequestOptions()).map(
             response => {
                 return new ChallengeResponse(response['result']);
             },
@@ -112,7 +113,7 @@ export class ChallengeService {
         if (!this.auth.isSignedIn()) {
             return throwError(new Error('The user is not signed in.'));
         }
-        this.http.get(API_URL + '/challenges/' + challengeId + '/response', this.getRequestOptions()).map(
+        return this.http.get(API_URL + '/challenges/' + challengeId + '/response', this.getRequestOptions()).map(
             response => {
                 return new ChallengeResponse(response['result']);
             },
@@ -120,6 +121,7 @@ export class ChallengeService {
                 return error['error']['result']['Error'];
             }
         );
+    }
 
     // getGenresList(): Observable<string[]> {
     //     const url = `${this.baseUrl}/genres`

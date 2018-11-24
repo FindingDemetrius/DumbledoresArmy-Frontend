@@ -1,0 +1,10 @@
+
+<div (click)="onTakeChallenge(challenge)" class="card card-block clickable">
+  <p> {{ challenge.challengeName }}</p>
+  <p> Posted By {{ challenge.postedBy }}</p>
+  <p> Date Posted {{ challenge.datePosted }} </p>
+  <div style="border: 10px;"class="tags-container" *ngFor="let tag of challenge.tags">
+  <span style="float: left;" class="label">{{ tag }}</span>
+  </div>
+  <p> Number Of Questions {{ challenge.numberOfQuestions }} </p>
+</div>

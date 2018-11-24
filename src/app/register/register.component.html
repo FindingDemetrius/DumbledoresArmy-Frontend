@@ -1,16 +1,12 @@
-<div class="register-wrapper">
+<div class="modal-body">
     <form [formGroup]="frm">
-  
-      <h1>GeoQuiz</h1>
-  
       <!-- Email input -->
       <input type="email" formControlName="emailAddress" placeholder="Your email address">
   
       <!-- Email validation message -->
       <div
         class="input-errors"
-        *ngIf="(frm.get('emailAddress') && frm.get('emailAddress').invalid && frm.get('emailAddress').touched) || showInputErrors"
-      >
+        *ngIf="(frm.get('emailAddress') && frm.get('emailAddress').invalid && frm.get('emailAddress').touched) || showInputErrors">
         <div *ngIf="frm.get('emailAddress').hasError('required')">
           Please enter your email address.
         </div>
@@ -22,8 +18,7 @@
       <!-- Date validation message -->
       <div
         class="input-errors"
-        *ngIf="(frm.get('dateOfBirth').invalid && frm.get('dateOfBirth').touched) || showInputErrors"
-      >
+        *ngIf="(frm.get('dateOfBirth').invalid && frm.get('dateOfBirth').touched) || showInputErrors">
         <div *ngIf="frm.get('dateOfBirth').hasError('required')">
           Please enter your email address.
         </div>
@@ -35,8 +30,7 @@
       <!-- Username validation message -->
       <div
         class="input-errors"
-        *ngIf="(frm.get('username').invalid && frm.get('username').touched) || showInputErrors"
-      >
+        *ngIf="(frm.get('username').invalid && frm.get('username').touched) || showInputErrors">
         <div *ngIf="frm.get('username').hasError('required')">
           Please enter your email address.
         </div>
@@ -48,8 +42,7 @@
       <!-- Password validation message -->
       <div
         class="input-errors"
-        *ngIf="(frm.get('password').invalid && frm.get('password').touched) || showInputErrors"
-      >
+        *ngIf="(frm.get('password').invalid && frm.get('password').touched) || showInputErrors">
         <div *ngIf="frm.get('password').hasError('required')">
           Please enter your password
         </div>
@@ -61,8 +54,7 @@
       <!-- Password validation message -->
       <div
         class="input-errors"
-        *ngIf="(frm.get('name').invalid && frm.get('name').touched) || showInputErrors"
-      >
+        *ngIf="(frm.get('name').invalid && frm.get('name').touched) || showInputErrors">
         <div *ngIf="frm.get('name').hasError('required')">
           Please enter your name. 
         </div>
@@ -74,13 +66,17 @@
       </div>
 
       <div class="sign-in-error" *ngIf="serverResponse"> {{ errorPlaceHolder }} </div>
-  
-      <!-- Sing-in button -->
-      <button (click)="doSignIn()" [disabled]="isBusy">
-        <div *ngIf="!isBusy">Sign up</div>
-        <div *ngIf="isBusy">Signing up, please wait...</div>
-      </button>
-  
     </form>
   </div>
+<div class="modal-footer">
+  <button (click)="doSignIn()" [disabled]="isBusy" type="button" class="btn btn-primary btn-sm">
+    <div *ngIf="!isBusy">Sign Up</div>
+    <div *ngIf="isBusy">Signing Up ...</div>
+  </button>
+
+  <button (click)='doSignInWithGoogle()' [disabled]='isBusy' type="button" class="btn btn-primary btn-sm">
+    <div *ngIf="!isBusy">Sign up With Google</div>
+    <div *ngIf="isBusy">Signing up, please wait...</div>
+  </button> 
+</div>
  

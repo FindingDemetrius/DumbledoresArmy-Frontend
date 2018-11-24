@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from './../services/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { AuthService, GoogleSignInResponse } from './../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
@@ -14,13 +14,17 @@ export class RegisterComponent implements OnInit {
 
   public frm: FormGroup;
 
-  private subs: any; 
+  private subs: any;
 
   public isBusy = false;
   public hasFailed = false;
   public showInputErrors = false;
   public serverResponse = false;
   public errorPlaceHolder: String;
+  public isEmailFieldDisabled = false;
+  public isNameFieldDisabled = false;
+  public isGoogleButtonDisabled = false;
+  private isSecondPartyAuth = false;
 
   constructor(
     private auth: AuthService,
@@ -65,26 +69,61 @@ export class RegisterComponent implements OnInit {
       'name': name,
       'dateOfBirth': dateOfBirth
     });
-    this.auth
-      .signUpWithFirebase(email, password)
-      .then(authToken => {
-        this.auth.setAuthToken(String(authToken));
-        this.userService.createUser(user)
-          .subscribe((u: User) => {
-            this.auth.setUsername(u.username);
-            this.router.navigate(['home']);
-          },
+    if (this.isSecondPartyAuth) {
+      this.userService.createUser(user)
+        .subscribe((u: User) => {
+          this.router.navigate(['home']);
+        },
           errorMessage => {
-              this.isBusy = false;
-              this.serverResponse = true;
-              this.errorPlaceHolder = errorMessage;
-            });
+            this.isBusy = false;
+            this.serverResponse = true;
+            this.errorPlaceHolder = errorMessage;
+          });
+    } else {
+      this.auth
+        .signUpWithFirebase(email, password)
+        .then(authToken => {
+          this.auth.setAuthToken(String(authToken));
+          this.userService.createUser(user)
+            .subscribe((u: User) => {
+              this.router.navigate(['home']);
+            },
+              errorMessage => {
+                this.isBusy = false;
+                this.serverResponse = true;
+                this.errorPlaceHolder = errorMessage;
+              });
+        })
+        .catch(error => {
+          this.isBusy = false;
+          this.serverResponse = true;
+          this.errorPlaceHolder = error['message'];
+        });
+    }
+  }
+
+  public doSignInWithGoogle() {
+    this.isGoogleButtonDisabled = true;
+    this.isBusy = true;
+    this.hasFailed = false;
+    this.isSecondPartyAuth = true;
+    this.auth.signUpWithFirebaseGooglePopup()
+      .then((googleAuthData: GoogleSignInResponse) => {
+        this.auth.setAuthToken(googleAuthData.idToken);
+        this.isBusy = false;
+        this.frm.get('emailAddress').setValue(googleAuthData.email);
+        this.frm.get('name').setValue(googleAuthData.name);
+        this.frm.controls['emailAddress'].disable();
+        this.frm.controls['name'].disable();
+
+        // TODO fill fields in form and set editiing to disabled.
       })
       .catch(error => {
+        this.isGoogleButtonDisabled = false;
+        this.hasFailed = true;
         this.isBusy = false;
-        this.serverResponse = true;
-        this.errorPlaceHolder = error['message'];
       });
   }
 }
+
 

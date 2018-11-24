@@ -1,70 +1,52 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { ChallengeService } from "../services/challenge.service";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ChallengeService } from '../services/challenge.service';
 
-import { User } from "../model/User";
-import { Challenge } from "../model/Challenge";
-import { UserService } from "../services/user.service";
+import { User } from '../model/User';
+import { Challenge } from '../model/Challenge';
+import { UserService } from '../services/user.service';
+import { Observable } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
-  selector: "app-profile",
-  templateUrl: "profile.component.html",
-  styleUrls: ["profile.component.css"]
+  selector: 'app-profile',
+  templateUrl: 'profile.component.html',
+  styleUrls: ['profile.component.css']
 })
-export class ProfileComponent implements OnInit, OnDestroy {
 
+export class ProfileComponent implements OnInit {
   user: User = new User();
-  serverErrorResponse: String = "";
-  challengeListArray: Challenge[];
+  listOfChallengesPosted$: Observable<Challenge[]>;
+  listOfChallengesTaken$: Observable<Challenge[]>;
 
   sub: any;
-  username: string = "";
+  username = '';
 
-  constructor(
-    private route: ActivatedRoute,
-    private userService: UserService,
-    private challengeService: ChallengeService
-  ) {}
-
-  ngOnInit() {
-    // this.getUserProfile()
-    // this.getChallenges()
-    this.sub = this.route.params.subscribe(params => {
-      this.username = params["username"];
-    });
-
-    this.userService.getUser(this.username).subscribe(
-      user => {
-        console.log(user)  
-        this.user = user;
-      },
-      errorResponse => {
-        this.serverErrorResponse = errorResponse;
-      }
-    );
-    this.userService.getChallengesPostedByUser(this.username).subscribe(
-        listOfChallenges => {
-          console.log(listOfChallenges)  
-          this.challengeListArray = listOfChallenges;
-        },
-        errorResponse => {
-          this.serverErrorResponse = errorResponse;
-        }
-      );
+  constructor(private authService: AuthService,
+    private route: ActivatedRoute, private router: Router,
+    private userService: UserService) {
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+  ngOnInit() {
+    if (!this.authService.isSignedIn()) {
+      this.router.navigate(['']);
+    }
+    this.getUserProfile();
   }
 
   getUserProfile() {
-    // const username = this.route.snapshot.paramMap.get('username')
-    // this.challengeService.getUser(username)
-    //     .subscribe(user => this.user = user)
+    // Check if username specified in the URL
+    const username = this.route.snapshot.paramMap.get('username');
+    if (username === null) {
+      this.userService.getCurrentUser()
+        .subscribe(user => {
+          this.user = user;
+          this.listOfChallengesPosted$ = this.userService.getChallengesPostedByUser(this.user.username, '10');
+          this.listOfChallengesTaken$ = this.userService.getChallengesTakenByUser(this.user.username, '10');
+        });
+    } else {
+      this.userService.getUser(username)
+        .subscribe(user => this.user = user);
+    }
   }
-
-  // getChallenges() {
-  //     this.challengeService.getChallengeByUser(this.user.getUserId())
-  //         .subscribe(challenges => this.challengeList = challenges)
-  // }
 }
