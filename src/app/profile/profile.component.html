@@ -1,26 +1,36 @@
-<div class="profile-page">
-    <div class="user-info">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12 col-md-10 offset-md-1">
-              <h4>Username: {{ user.username }}</h4>
-              <h5>User score: {{ user.totalScore }}</h5>
-              <br><br>
-              <h6>Number of Posted Challenges: {{user.numberOfChallengesPosted}}</h6>
-            
-              <div *ngFor="let challenge of listOfChallengesPosted$ | async">
-                <h1>{{challenge.challengeName}}</h1>
-              </div>
-               
-              <h6>Number of Taken Challenges: {{user.numberOfChallengesTaken}}</h6>
-            
-               <div *ngFor="let challengeResponse of listOfChallengesTaken$ | async">
-                <h1>{{ challengeResponse.challenge.challengeName }}</h1>
-              </div>
-               
-            <!-- <follow-btn user="$ctrl.profile" ng-hide="$ctrl.isUser"></follow-btn> -->
-          </div>
-        </div>
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<h1>TEST</h1>
+<div class="card">
+  <!--Figure out why the image isn't acting like circle-->
+  <img src="assets/images/johnlegend.jpg" alt="Profile Image" class="img-circle">
+  <h1 class="name">John Doe</h1>
+  <p class="rank">Newbie</p>
+  <p>Howard University</p>
+
+  <!--Creates a container that neatly puts 3 divs on a line-->
+  <div class="userFacts">
+      <div class="Column float-left inline" background-color: yellow>
+        <h2>250</h2>
+        <p>Points</p>
       </div>
-    </div>
+      <div class="Column float-left inline">
+        <h2>4</h2>
+        <p>Post Questions</p>
+      </div>
+      <div class="Column float-left inline">
+          <h2>5</h2>
+          <p>Challenges Completed</p>
+      </div>
   </div>
+  <!-- <div class="userChallenges">
+    <h2>List the user challenges</h2>
+  </div> -->
+
+  <a href="#"><i class="fa fa-dribbble"></i></a> 
+  <a href="#"><i class="fa fa-twitter"></i></a> 
+  <a href="#"><i class="fa fa-linkedin"></i></a> 
+  <a href="#"><i class="fa fa-facebook"></i></a> 
+  <p><button>Follow</button></p>
+</div>

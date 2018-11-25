@@ -1,13 +1,51 @@
-
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
+.card {
+    max-width: 500px;
+    margin: auto;
+    text-align: center;
+    background-color: green;
+    background-color:#cccccc;
+    overflow: hidden;
 }
+
+.rank {
+    color: grey;
+    font-size: 18px;
+}
+
+button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+a {
+    text-decoration: none;
+    font-size: 22px;
+    margin: 20px;
+    color: black;
+}
+
+button:hover, a:hover {
+    opacity: 0.7;
+}
+
+img {
+    border-radius: 50%;
+}
+
+.float-left {
+    float:left;
+    width:165px; 
+    background-color: #4C8EFF;
+}
+
+
+
+
