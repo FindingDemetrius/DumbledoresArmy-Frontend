@@ -32,6 +32,7 @@ export class CreateChallengeComponent {
         const longitude = this.createChallengeForm.get('longitude').value;
         console.log(challengeName, latitude, longitude, this.listOfTags, this.listOfQuestions);
         console.log('Create new challenge');
+        // Create an object for questions.
         const challenge = new Challenge({
             'challengeName': this.createChallengeForm.get('challengeName').value,
             'tags': this.listOfTags,

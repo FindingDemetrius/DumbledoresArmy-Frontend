@@ -50,4 +50,13 @@ export class Challenge {
             id: this._id
         };
     }
+
+    getChallengeWhenCreatingChallenge() {
+        return {
+            challengeName: this.challengeName,
+            tags: this.tags,
+            location: this.location,
+            questions: this._questions
+        };
+    }
 }
