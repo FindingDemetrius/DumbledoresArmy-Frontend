@@ -1,26 +1,41 @@
-<div class="profile-page">
-    <div class="user-info">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12 col-md-10 offset-md-1">
-              <h4>Username: {{ user.username }}</h4>
-              <h5>User score: {{ user.totalScore }}</h5>
-              <br><br>
-              <h6>Number of Posted Challenges: {{user.numberOfChallengesPosted}}</h6>
-            
-              <div *ngFor="let challenge of listOfChallengesPosted$ | async">
-                <h1>challenge.challengeName</h1>
-              </div>
-               
-              <h6>Number of Taken Challenges: {{user.numberOfChallengesTaken}}</h6>
-            
-               <div *ngFor="let challenge of listOfChallengesTaken$ | async">
-                <h1>{{ challenge.getChallenge().challengeName }}</h1>
-              </div>
-               
-            <!-- <follow-btn user="$ctrl.profile" ng-hide="$ctrl.isUser"></follow-btn> -->
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+
+<div class="card">
+  <img src="assets/images/image.png" alt="Profile Image" class="img-circle">
+  <h1 class="name">{{user.username}}</h1>
+  <p class="score">Score: {{user.totalScore}}</p>
+  <br><br><br>
+  
+  <div class="userChallengesTaken">
+    <h2>Challenge Posted</h2>
+    <div class="row">
+        <div class="col-lg-5 col-md-8 col-sm-12 col-xs-12">
+            <div *ngIf="listOfChallengesPosted$ | async as listOfChallengesPosted">
+            <div *ngFor="let challenge of listOfChallengesPosted">
+            <div class="card1">
+                <div class="card-header">
+                    {{challenge.challengeName}}
+                </div>
+                <div class="card-block">
+                    <div class="card-title">
+                        <div *ngFor="let q of challenge.questions">
+                          <p>{{q.questionText}}</p>
+                          <p>{{q.choices}}</p><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
           </div>
         </div>
-      </div>
     </div>
   </div>
+
+  <a href="#"><i class="fa fa-dribbble"></i></a> 
+  <a href="#"><i class="fa fa-twitter"></i></a> 
+  <a href="#"><i class="fa fa-linkedin"></i></a> 
+  <a href="#"><i class="fa fa-facebook"></i></a> 
+  <p><button>Follow</button></p>
+</div>

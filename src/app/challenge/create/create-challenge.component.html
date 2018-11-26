@@ -1,42 +1,52 @@
-<div class="create-challenge">
-    <h1>Create a new Challenge</h1>
-    <div class="challenge-form">
-        <mat-form-field>
-            <mat-label>Challenge Name</mat-label>
-            <input matInput #name>
-        </mat-form-field>
-        <mat-form-field class="genre-chip-list">
-            <mat-chip-list #chipList>
-                <mat-chip *ngFor="let genre of genres"
-                    [selectable]="selectable" [removable]="removable" 
-                    (removed)="remove(genre)" >
-                    {{genre}}
-                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                </mat-chip>
-                <input 
-                    placeholder="Genres..." #genreInput 
-                    [formControl]="genreCtrl" [matAutocomplete]="auto" 
-                    [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeyCodes"
-                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
-            </mat-chip-list>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                <mat-option *ngFor="let genre of filteredGenres | async" [value] = genre>
-                    {{genre}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-        <div class="city-country-fields">
-            <mat-form-field>
-                <mat-label>City</mat-label>
-                <input matInput #city>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Country</mat-label>
-                <input matInput #country>
-            </mat-form-field>
-        </div>
-        <questions-challenge></questions-challenge>
-        <br>
-        <button mat-flat-button>Submit</button>
+<clr-modal [(clrModalOpen)]="basic" [clrModalClosable]="true" [clrModalSize]="'lg'" >
+    <h3 class="modal-title">Create Challenge</h3>
+    <div class="modal-body">
+    <!-- Form for challenge name and location-->
+    <form [formGroup]="createChallengeForm">
+        <input type="text" formControlName="challengeName" placeholder="Challenge Name">
+    </form>
+
+    <div class = "location-input-wrapper" *ngIf="location == null">
+        <button type = "button" (click)="onShowMapButtonClicked()">Add Location</button>
     </div>
+
+    <div class = "location-coordinate-wrapper" *ngIf="location != null">
+        <p> Latitude {{ location.latitude }} Longitude {{location.longitude}} </p>
+    </div>
+
+
+    <!--Input for tags-->
+    <input type="text" [(ngModel)]="newTag" placeholder="One or more tags" (keyup.enter)="onAddNewTag()">
+    <section *ngIf="listOfTags.length > 0">
+        <ul class="tags-list">
+            <li *ngFor="let tag of listOfTags">
+                <span style="float: left; " class="label label-success">
+                    {{tag}}
+                        <clr-icon shape="times" (click) = "removeTag(tag)"></clr-icon>
+                </span>
+            </li>
+        </ul>
+    </section>
+    <br>
+
+    <app-questions-challenge (addNewQuestion) = "onCreateNewQuestion($event)"></app-questions-challenge>
+    <section *ngIf="listOfQuestions.length > 0">
+        <ul class="question-list">
+            <li *ngFor="let question of listOfQuestions">
+                <h3>{{question.questionText}}</h3>
+                <div *ngFor="let option of question.choices; let i=index">
+                    <div class="switch-container" [ngSwitch]="i === question.correctChoice">
+                        <span *ngSwitchCase = "true" style="float: left; " class="label label-success">{{option}}</span>
+                        <span *ngSwitchCase = "false" style="float: left; " class="label">{{option}}</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </section>
 </div>
+
+<div class="modal-footer">
+    <button (click)="doCreateChallenge()" [disabled]="isBusy" type="button" class="btn btn-primary">Create Challenge</button>
+</div>
+
+</clr-modal>

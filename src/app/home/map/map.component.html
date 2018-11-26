@@ -5,7 +5,7 @@
   [zoom]="zoom"
   [disableDefaultUI]="false"
   [zoomControl]="false" 
-  (mapClick)="mapClicked($event)">
+  (mapClick)="mapClickedEvent($event)">
 
 
     <div *ngIf="challengeListObservale$ | async as challengeListObservale">
@@ -13,7 +13,7 @@
         <agm-marker 
         *ngFor="let challenge of challengeListObservale"
         [latitude]="challenge.location.latitude"
-        [longitude]="challenge.location.latitude"
+        [longitude]="challenge.location.longitude"
         [label]="challenge.challengeName">
         
         <agm-info-window>

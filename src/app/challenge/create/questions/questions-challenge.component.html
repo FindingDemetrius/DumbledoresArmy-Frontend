@@ -1,28 +1,11 @@
-<form [formGroup]="challengeForm">    
-    <div formArrayName="questions">
-        <h3>Questions</h3>
-        <button mat-flat-button (click)="addQuestion()">Add Question</button>
-        <button mat-flat-button (click)="removeQuestion(i)">Remove Question</button>
-
-        <div *ngFor="let question of getQuestions(challengeForm); let i=index">
-            <label>
-                Question:
-                <input type="text" [formControlName]="i">
-            </label>
-            
-            <div formGroupName="answers">
-                <label>
-                    Correct Answer:
-                    <input type="text" [formControlName]="correctAnswer">
-                </label>
-            
-                <div formArrayName="wrongAnswers" *ngFor="let wrongAnswer of getWrongAnswers(question); let j=index">
-                    <label>
-                        Wrong Answer {{j+1}}:
-                        <input type="text" [formControlName]="j">
-                    </label>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
+<div class="create-question-component">
+    <form [formGroup]="createQuestionForm">
+        <input type="text" formControlName="questionText" placeholder="Question Text">
+        <input type="text" formControlName="option1" placeholder= "Option 1">
+        <input type="text" formControlName="option2" placeholder= "Option 2">
+        <input type="text" formControlName="option3" placeholder= "Option 3">
+        <input type="text" formControlName="option4" placeholder= "Option 4">
+        <input type="number" formControlName="correctChoice" placeholder= "Correct Choice">
+    </form>
+    <button (click)="onAddNewQuestion()" type="button" class="btn btn-primary">Add Question.</button>
+</div>

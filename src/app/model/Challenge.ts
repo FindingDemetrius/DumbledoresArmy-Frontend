@@ -1,4 +1,5 @@
 import { Question } from './Question';
+import { IQuestion } from './IQuestion';
 
 export class Challenge {
 
@@ -8,7 +9,7 @@ export class Challenge {
     tags: String[] = [];
     location: Object = null;
 
-    _questions: Question[];
+    _questions: IQuestion[];
     get questions() { return this._questions; }
     set questions(questions) { this._questions = questions; }
 
@@ -47,6 +48,15 @@ export class Challenge {
             dateModified: this._dateModified,
             numberOfAttempts: this._numberOfAttempts,
             id: this._id
+        };
+    }
+
+    getChallengeWhenCreatingChallenge() {
+        return {
+            challengeName: this.challengeName,
+            tags: this.tags,
+            location: this.location,
+            questions: this._questions
         };
     }
 }
