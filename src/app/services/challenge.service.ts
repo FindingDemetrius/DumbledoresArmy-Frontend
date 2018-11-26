@@ -55,6 +55,7 @@ export class ChallengeService {
         const challengeInJson: object = challenge.getChallengeWhenCreatingChallenge();
         return this.http.post(API_URL + '/challenges/', challengeInJson, this.getRequestOptions()).map(
             response => {
+                console.log(response);
                 return new Challenge(response['result']);
             },
             error => {

@@ -3,6 +3,8 @@ import { MouseEvent as AGMMouseEvent } from '@agm/core';
 import { Observable } from 'rxjs';
 import { Challenge } from '../../model/Challenge';
 import { ChallengeService } from '../../services/challenge.service';
+import { ComponentInteractionService } from '../../services/componentInteraction.service';
+import { CreateChallengeStateStorageService } from '../../services/create-challenge-state-storage.service';
 
 @Component({
     selector: 'app-map',
@@ -16,6 +18,8 @@ export class MapComponent implements OnInit {
     lng = 7.815982;
     isChallengeResponseDialogOpen = false;
     tappedChallenge: Challenge;
+    mapOpen = false;
+    isMapClickable = false;
 
     private challengeListObservale$: Observable<Challenge[]>;
 
@@ -25,6 +29,21 @@ export class MapComponent implements OnInit {
 
     ngOnInit() {
         console.log('Maps Component started');
+        this.challengeListObservale$ = this.challengeService.getListOfChallenges();
+
+        this.componentInteractor.changeMapOpenState.subscribe(isMapOpen => {
+            this.isMapClickable = isMapOpen;
+        });
+
+        this.componentInteractor.isNewChallengeAvailable.subscribe(isAvailable => {
+            if (isAvailable) {
+                this.challengeListObservale$ = this.challengeService.getListOfChallenges();
+                this.componentInteractor.toggleStateOfNewChallenges();
+            }
+        });
+    }
+
+    refreshHomePage() {
         this.challengeListObservale$ = this.challengeService.getListOfChallenges();
     }
 
@@ -43,6 +62,23 @@ export class MapComponent implements OnInit {
         this.isChallengeResponseDialogOpen = false;
     }
 
-    constructor(private challengeService: ChallengeService) {
+    mapClickedEvent(mouseEvent: AGMMouseEvent) {
+        // Check if mapOpen is true.
+        // Get the lat and long and pass it to the create challenge component.
+        if (this.isMapClickable) {
+            const location = {
+                'latitude': mouseEvent.coords.lat,
+                'longitude': mouseEvent.coords.lng
+            };
+            console.log('Map clicked' + location);
+            // Update the challennge storage service with the location data.
+            this.challengeDataStore.setLocation(location);
+            this.componentInteractor.sendLocationObjectToCreateChallengeCompoenent(location);
+        }
+    }
+
+    constructor(private challengeService: ChallengeService,
+        private componentInteractor: ComponentInteractionService,
+        private challengeDataStore: CreateChallengeStateStorageService) {
     }
 }
