@@ -5,7 +5,7 @@
   [zoom]="zoom"
   [disableDefaultUI]="false"
   [zoomControl]="false" 
-  (mapClick)="mapClicked($event)">
+  (mapClick)="mapClickedEvent($event)">
 
 
     <div *ngIf="challengeListObservale$ | async as challengeListObservale">

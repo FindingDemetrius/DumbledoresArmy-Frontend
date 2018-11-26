@@ -52,9 +52,10 @@ export class ChallengeService {
         if (!this.auth.isSignedIn()) {
             return throwError(new Error('The user is not signed in.'));
         }
-        const challengeInJson: object = JSON.parse(JSON.stringify(challenge, ['challengeName', 'tags', 'location', '_questions']));
+        const challengeInJson: object = challenge.getChallengeWhenCreatingChallenge();
         return this.http.post(API_URL + '/challenges/', challengeInJson, this.getRequestOptions()).map(
             response => {
+                console.log(response);
                 return new Challenge(response['result']);
             },
             error => {

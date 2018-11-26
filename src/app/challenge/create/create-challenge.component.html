@@ -1,12 +1,21 @@
-<div class="modal-body">
+<clr-modal [(clrModalOpen)]="basic" [clrModalClosable]="true" [clrModalSize]="'lg'" >
+    <h3 class="modal-title">Create Challenge</h3>
+    <div class="modal-body">
+    <!-- Form for challenge name and location-->
     <form [formGroup]="createChallengeForm">
         <input type="text" formControlName="challengeName" placeholder="Challenge Name">
-        <div class="location-input-wrapper">
-            <input type="number" formControlName="latitude" placeholder="Latitude">
-            <input type="number" formControlName="longitude" placeholder="Longitude">
-        </div>
     </form>
 
+    <div class = "location-input-wrapper" *ngIf="location == null">
+        <button type = "button" (click)="onShowMapButtonClicked()">Add Location</button>
+    </div>
+
+    <div class = "location-coordinate-wrapper" *ngIf="location != null">
+        <p> Latitude {{ location.latitude }} Longitude {{location.longitude}} </p>
+    </div>
+
+
+    <!--Input for tags-->
     <input type="text" [(ngModel)]="newTag" placeholder="One or more tags" (keyup.enter)="onAddNewTag()">
     <section *ngIf="listOfTags.length > 0">
         <ul class="tags-list">
@@ -19,8 +28,6 @@
         </ul>
     </section>
     <br>
-
-    <button (click)="doCreateChallenge()" [disabled]="isBusy" type="button" class="btn btn-primary">Create Challenge</button>
 
     <app-questions-challenge (addNewQuestion) = "onCreateNewQuestion($event)"></app-questions-challenge>
     <section *ngIf="listOfQuestions.length > 0">
@@ -37,3 +44,9 @@
         </ul>
     </section>
 </div>
+
+<div class="modal-footer">
+    <button (click)="doCreateChallenge()" [disabled]="isBusy" type="button" class="btn btn-primary">Create Challenge</button>
+</div>
+
+</clr-modal>

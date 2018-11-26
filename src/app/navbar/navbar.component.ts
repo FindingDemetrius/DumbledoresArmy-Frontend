@@ -1,9 +1,8 @@
-import { Component, DoCheck } from "@angular/core";
-import { AuthService } from "../services/auth.service";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../services/session.service";
-import { HttpClient } from "@angular/common/http";
-import { UserService } from "../services/user.service";
+import { Component, DoCheck } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { UserService } from '../services/user.service';
+import { ComponentInteractionService } from '../services/componentInteraction.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,7 +12,10 @@ import { UserService } from "../services/user.service";
 
 export class NavbarComponent {
 
-  constructor(private router: Router, private authService: AuthService, private userService: UserService) {
+  constructor(private router: Router,
+    private authService: AuthService,
+    private userService: UserService,
+    private navBarService: ComponentInteractionService) {
   }
 
   navigateToProfilePage() {
@@ -24,5 +26,10 @@ export class NavbarComponent {
   logOutCurrentUser() {
     console.log('Sign Out user.');
     this.authService.doSignOut();
+  }
+
+  onCreateNewChallenge() {
+    console.log('Create challenge tapped');
+    this.navBarService.toggleStateOfCreateChallengeComponent();
   }
 }

@@ -12,7 +12,8 @@ export class QuestionPost implements IQuestion {
     getQuestion() {
         return {
             questionText: this.questionText,
-            choices: this.choices
+            choices: this.choices,
+            correctChoice: this.correctChoice
         };
     }
 }
