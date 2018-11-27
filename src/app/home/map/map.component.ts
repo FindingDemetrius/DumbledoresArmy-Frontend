@@ -5,6 +5,10 @@ import { Challenge } from '../../model/Challenge';
 import { ChallengeService } from '../../services/challenge.service';
 import { ComponentInteractionService } from '../../services/componentInteraction.service';
 import { CreateChallengeStateStorageService } from '../../services/create-challenge-state-storage.service';
+import { UserService } from '../../services/user.service';
+import { User } from './../../model/User';
+import { SessionService } from '../../services/session.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-map',
@@ -20,6 +24,7 @@ export class MapComponent implements OnInit {
     tappedChallenge: Challenge;
     mapOpen = false;
     isMapClickable = false;
+    isLoggedIn = false;
 
     private challengeListObservale$: Observable<Challenge[]>;
 
@@ -29,6 +34,11 @@ export class MapComponent implements OnInit {
 
     ngOnInit() {
         console.log('Maps Component started');
+        this.componentInteractor.updateTheChallengesWhenTheUserIsLoggedIn.subscribe(isLoggedIn => {
+            this.isLoggedIn = isLoggedIn;
+            // Get the current user after logged in.
+        });
+
         this.challengeListObservale$ = this.challengeService.getListOfChallenges();
 
         this.componentInteractor.changeMapOpenState.subscribe(isMapOpen => {
@@ -77,8 +87,28 @@ export class MapComponent implements OnInit {
         }
     }
 
+    isChallengePostedByUser(challenge: Challenge) {
+        return this.sessionService.username === challenge.postedBy;
+    }
+
+    filterByIsPostedByUser(listOfChallenges: Challenge[]): Challenge[] {
+        if (!this.isLoggedIn) {
+            return listOfChallenges;
+        }
+        return listOfChallenges.filter(challenge => this.isChallengePostedByUser(challenge));
+    }
+
+    filterByNotPostedByUser(listOfChallenges: Challenge[]): Challenge[] {
+        if (!this.isLoggedIn) {
+            return [];
+        }
+        return listOfChallenges.filter(challenge => !this.isChallengePostedByUser(challenge));
+    }
+
     constructor(private challengeService: ChallengeService,
         private componentInteractor: ComponentInteractionService,
-        private challengeDataStore: CreateChallengeStateStorageService) {
+        private challengeDataStore: CreateChallengeStateStorageService,
+        private sessionService: SessionService,
+        private authService: AuthService) {
     }
 }

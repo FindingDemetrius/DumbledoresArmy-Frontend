@@ -7,11 +7,15 @@
     </form>
 
     <div class = "location-input-wrapper" *ngIf="location == null">
-        <button type = "button" (click)="onShowMapButtonClicked()">Add Location</button>
+        <p>Add Location</p>
+        <button (click)="onShowMapButtonClicked()"><img class = "location-img" src="assets/images/a.jpg"></button>
+        <p>Tap on the image to add location</p>
     </div>
 
     <div class = "location-coordinate-wrapper" *ngIf="location != null">
-        <p> Latitude {{ location.latitude }} Longitude {{location.longitude}} </p>
+        <img class="location-img" src="assets/images/a.jpg">
+        <p> Latitude {{ location.latitude }} </p>
+        <p> Longitude {{location.longitude}} </p>
     </div>
 
 

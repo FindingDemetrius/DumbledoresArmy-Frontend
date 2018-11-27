@@ -63,6 +63,7 @@ export class CreateChallengeComponent implements OnInit, OnDestroy {
             // After reading from the service, set the data to null.
         } else {
             this.challengeDataStore.flushStorage();
+            this.location = null;
         }
     }
 
