@@ -1,66 +1,164 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
+import { Challenge } from './../model/Challenge';
+import { environment } from './../../environments/environment';
+import { SessionService } from './session.service';
+import { ChallengeResponse } from '../model/ChallengeResponse';
+import { AuthService } from './auth.service';
+import { Observable, throwError } from 'rxjs';
 
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+const API_URL: string = environment.apiUrl;
 
-import { Challenge } from '../model/Challenge';
-import { User } from '../model/User';
-
-const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-}
-
-@Injectable({ providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class ChallengeService {
 
-    private baseUrl = "https://geoquiz-1e874.appspot.com/api/v1"
+    constructor(private http: HttpClient,
+        private session: SessionService,
+        private auth: AuthService) { }
 
-    constructor(private http: HttpClient) { }
-
-    getUser(username: string): Observable<User> {
-        const url = `${this.baseUrl}/users/${username}`
-        return this.http.get<User>(url)
+    getChallengeById(challengeId: String): Observable<Challenge> {
+        if (!this.auth.isSignedIn()) {
+            return throwError(new Error('The user is not signed in.'));
+        }
+        return this.http.get(API_URL + '/challenges/' + challengeId, this.getRequestOptions()).map(
+            response => {
+                console.log(response['result']);
+                return new Challenge(response['result']);
+            },
+            error => {
+                return error['error']['result']['Error'];
+            }
+        );
     }
 
-    getAllChallenges(): Observable<Challenge[]> {
-        const url = `${this.baseUrl}/`
-        return this.http.get<Challenge[]>(url)
-            .pipe(
-                tap(challenges => console.log('fetched challenges')),
-                catchError(this.handleError('getChallenges', []))
-            );
+    getListOfChallenges(limit?: string, sortBy?: string): Observable<Challenge[]> {
+        return this.http.get(API_URL + '/challenges', this.getRequestOptions(this.getParameters(limit, sortBy))).map(
+            response => {
+                const listOfChallenges: Challenge[] = [];
+                for (let i = 0; i < response['result'].length; i++) {
+                    console.log(response['result'][i]);
+                    listOfChallenges.push(new Challenge(response['result'][i]));
+                }
+                console.log(listOfChallenges);
+                return listOfChallenges;
+            },
+            error => {
+                return error['error']['result']['Error'];
+            }
+        );
     }
 
-    getChallengeByUser(userId): Observable<Challenge[]> {
-        const url = `${this.baseUrl}/challenges/userId`
-        return this.http.get<Challenge[]>(url)
-            .pipe(
-                tap(challenges => console.log('fetched user challenges')),
-                catchError(this.handleError('getUserChallenges', []))
-            )
+    createChallenge(challenge: Challenge): Observable<Challenge> {
+        if (!this.auth.isSignedIn()) {
+            return throwError(new Error('The user is not signed in.'));
+        }
+        const challengeInJson: object = challenge.getChallengeWhenCreatingChallenge();
+        return this.http.post(API_URL + '/challenges/', challengeInJson, this.getRequestOptions()).map(
+            response => {
+                console.log(response);
+                return new Challenge(response['result']);
+            },
+            error => {
+                return error['error']['result']['Error'];
+            }
+        );
     }
 
-    getGenresList(): Observable<string[]> {
-        const url = `${this.baseUrl}/genres`
-        return this.http.get<string[]>(url)
-            .pipe(
-                tap(genres => console.log('fetched genres')),
-                catchError(this.handleError('getGenres', []))
-            )
+    editChalleneg(updateObject: Object, challengeId: String): Observable<Challenge> {
+        if (!this.auth.isSignedIn()) {
+            return throwError(new Error('The user is not signed in.'));
+        }
+        if (!this.IsUpdateUserObjectFieldsValid(updateObject)) {
+            return throwError(new Error('One of the fields is not allowed to be updated. '));
+        }
+        return this.http.patch(API_URL + '/challenges' + challengeId, this.getRequestOptions()).map(
+            response => {
+                return new Challenge(response['result']);
+            },
+            error => {
+                return error['error']['result']['Error'];
+            }
+        );
     }
 
-    private handleError<T> (operation = 'operation', result?: T) {
-        return (error: any): Observable<T> => {
-     
-          // TODO: send the error to remote logging infrastructure
-          console.error(error); // log to console instead
-     
-          // TODO: better job of transforming error for user consumption
-          console.log(`${operation} failed: ${error.message}`);
-     
-          // Let the app keep running by returning an empty result.
-          return of(result as T);
+    deleteChallenge(challengeId: String): Observable<boolean> {
+        if (!this.auth.isSignedIn()) {
+            return throwError(new Error('The user is not signed in.'));
+        }
+        return this.http.delete(API_URL + '/users/' + challengeId, this.getRequestOptions()).map(
+            reponse => {
+                return true;
+            },
+            error => {
+                return error['error']['result']['Error'];
+            }
+        );
+    }
+
+    postChallengeResponse(challengeResponse: ChallengeResponse, challengeId: String): Observable<ChallengeResponse> {
+        if (!this.auth.isSignedIn()) {
+            return throwError(new Error('The user is not signed in.'));
+        }
+        const challengeResponseObject: object = JSON.parse(JSON.stringify(challengeResponse, ['numberOfQuestions', 'questionChoices']));
+        return this.http.post(API_URL + '/challenges/' + challengeId + '/response', challengeResponseObject, this.getRequestOptions()).map(
+            response => {
+                return new ChallengeResponse(response['result']);
+            },
+            error => {
+                return error['error']['result']['Error'];
+            }
+        );
+    }
+
+    getChallengeResponse(challengeId: String) {
+        if (!this.auth.isSignedIn()) {
+            return throwError(new Error('The user is not signed in.'));
+        }
+        return this.http.get(API_URL + '/challenges/' + challengeId + '/response', this.getRequestOptions()).map(
+            response => {
+                return new ChallengeResponse(response['result']);
+            },
+            error => {
+                return error['error']['result']['Error'];
+            }
+        );
+    }
+
+    // getGenresList(): Observable<string[]> {
+    //     const url = `${this.baseUrl}/genres`
+    //     return this.http.get<string[]>(url)
+    //         .pipe(
+    //             tap(genres => console.log('fetched genres')),
+    //             catchError(this.handleError('getGenres', []))
+    //         )
+
+    // }
+
+    private getRequestOptions(params?: HttpParams): object {
+        const requestOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.session.accessToken
+            })
         };
-      }
+        if (params !== null) {
+            requestOptions['params'] = params;
+        }
+        return requestOptions;
+    }
+
+    private getParameters(limit: string, sortBy: string): HttpParams {
+        const params = new HttpParams();
+        if (limit !== null) { params.append('limit', limit); }
+        if (sortBy !== null) { params.append('sortBy', sortBy); }
+        return params;
+    }
+
+    private IsUpdateUserObjectFieldsValid(updateObject: object): boolean {
+        // Check if the fields in the object are only within the allowed fields.
+        Object.keys(updateObject).forEach(key => {
+            if (!Challenge.FIELDS_ALLOWED_TO_UPDATE.includes(key)) { return false; }
+        });
+        return true;
+    }
 }

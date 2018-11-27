@@ -1,18 +1,35 @@
 import { Component, DoCheck } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { UserService } from '../services/user.service';
+import { ComponentInteractionService } from '../services/componentInteraction.service';
 
 @Component({
-    selector: 'nav-bar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.css']
+  selector: 'app-nav-bar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
 })
 
-export class NavbarComponent implements DoCheck {
-    login: boolean = false
+export class NavbarComponent {
 
-    constructor(private authService: AuthService) { }
+  constructor(private router: Router,
+    private authService: AuthService,
+    private userService: UserService,
+    private navBarService: ComponentInteractionService) {
+  }
 
-    ngDoCheck() {
-        this.login = this.authService.authenticated
-    }
+  navigateToProfilePage() {
+    console.log('Going to profile page');
+    this.router.navigate(['me']);
+  }
+
+  logOutCurrentUser() {
+    console.log('Sign Out user.');
+    this.authService.doSignOut();
+  }
+
+  onCreateNewChallenge() {
+    console.log('Create challenge tapped');
+    this.navBarService.toggleStateOfCreateChallengeComponent();
+  }
 }

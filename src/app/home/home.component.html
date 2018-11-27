@@ -1,6 +1,27 @@
-<div style="text-align:center">
-    <h1>Welcome to {{ title }}!</h1>
-</div>
 <div class="home-maps">
     <app-map></app-map>
+    <div class="login-placeHolder" *ngIf="!login">
+        <clr-modal [(clrModalOpen)]="isModalOpen" [clrModalClosable]="false" >
+            <h3 class="modal-title">GeoQuiz</h3>
+            <div class="modal-body">
+                <clr-tabs>
+                    <clr-tab>
+                        <button clrTabLink>Login</button>
+                        <clr-tab-content *clrIfActive>
+                            <app-login-button></app-login-button>
+                        </clr-tab-content>
+                    </clr-tab>
+                    <clr-tab>
+                        <button clrTabLink>SignUp</button>
+                        <clr-tab-content *clrIfActive="true">
+                            <app-register></app-register>
+                        </clr-tab-content>
+                    </clr-tab>
+                </clr-tabs>
+            </div>
+        </clr-modal>
+    </div>
+    <div class="create-challenge-wrapper" *ngIf="isCreateChallengeOpen">
+        <app-create-challenge></app-create-challenge>
+    </div>
 </div>

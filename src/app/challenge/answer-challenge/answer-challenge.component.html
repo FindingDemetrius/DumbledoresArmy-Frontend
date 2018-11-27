@@ -1,0 +1,83 @@
+<clr-wizard #answerChallengeWizard [(clrWizardOpen)]="mdOpen" 
+clrWizardSize="md"
+(clrWizardOnFinish) = "onChallengeAnswered()">
+    <clr-wizard-title>{{ challenge.challengeName }}</clr-wizard-title>
+
+    <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+    <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+    <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+    <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+
+    <div *ngFor="let key of Object.keys(challenge.questions)">
+      <clr-wizard-page>
+        <ng-template clrPageTitle>Page {{key}}</ng-template>
+          <h3> {{ challenge.questions[key].questionText }}</h3>
+          <div style="border: 10px;"class="tags-container" *ngFor="let tag of challenge.tags">
+            <span style="float: left;" class="label">{{ tag }}</span>
+          </div>
+          <div class="btn-group btn-primary">
+            <div *ngFor="let choice of challenge.questions[key].choices; let i = index">
+              <ul>  
+              <button style="float: bottom;" class="btn" (click)="onResponseForChallenge(key, i)">{{ choice }}</button>
+                <br>
+              </ul>
+            </div>
+          </div>
+      </clr-wizard-page>
+    </div>
+</clr-wizard>
+
+<div class="loading-wrapper" *ngIf = "isLoading">
+  <span class="spinner spinner-inverse"></span>
+</div>
+
+<div class="score-card" *ngIf="isChallengeComplete">
+  <clr-modal [(clrModalOpen)]="isScoreCardModalOpen" [clrModalClosable]="false" >
+    <h3 class="modal-title">Score</h3>
+    <div class="modal-body">
+      <h3>Congratulations</h3>
+      <h3>Score {{challengeResponse.score}} </h3>
+      <div *ngFor="let question of challengeResponse.challenge.questions; let qIndex=index">
+        <h3>{{ question.questionText }}</h3>
+        <div *ngFor="let choice of question.choices; let i=index">
+          <div class="switch-container" [ngSwitch]="colorQuestionResponseLabel(qIndex, i)">
+            <span *ngSwitchCase = "-1" style="float: left; " class="label">{{ choice }}</span>
+            <span *ngSwitchCase = "0" style="float: left; " class="label label-danger">{{ choice }}</span>
+            <span *ngSwitchCase = "1" style="float: left; " class="label label-info">{{ choice }}</span>
+            <span *ngSwitchCase = "2" style="float: left; " class="label label-success">{{ choice }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="index-wrapper">
+        <p>Index</p>
+        <span style="float: left; " class="label label-success">Correct</span>
+        <span style="float: left; " class="label label-danger">Incorrect</span>
+        <span style="float: left; " class="label label-info">Truth</span>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="onScoreCardDialogClosed()">
+            Continue
+        </button>
+    </div>
+  </clr-modal>
+</div>
+
+<div class="error-card" *ngIf="isChallengeError">
+  <clr-modal [(clrModalOpen)]="isErrorModalOpen" [clrModalClosable]="false" >
+      <h3 class="modal-title">Error</h3>
+      <div class="modal-body">
+          <h3>You seem to have already taken this challenge :'(</h3>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="onErrorDialogClosed()">
+            Continue
+        </button>
+    </div>
+  </clr-modal>
+</div>
+
+
+

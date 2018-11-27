@@ -26,11 +26,19 @@ import { MapComponent } from './home/map/map.component';
 import { RegisterComponent } from './register/register.component';
 import { CreateChallengeComponent } from './challenge/create/create-challenge.component';
 import { ProfileComponent } from './profile/profile.component';
+import { QuestionsChallengeComponent } from './challenge/create/questions/questions-challenge.component';
 
 import { AuthService } from './services/auth.service';
-
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
+import { InfoWindowComponent } from './home/map/info-window/info-window.component';
+import { AnswerChallengeComponent } from './challenge/answer-challenge/answer-challenge.component';
+import { ClarityModule } from '@clr/angular';
+import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
+
+// Code that pertains to the map API
+import { AgmCoreModule } from '@agm/core';
+import { ChallengeComponent } from './challenge/challenge.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +49,12 @@ import { environment } from '../environments/environment';
     MapComponent,
     RegisterComponent,
     CreateChallengeComponent,
-    ProfileComponent
+    ChallengeComponent,
+    ProfileComponent,
+    QuestionsChallengeComponent,
+    ProfileComponent,
+    InfoWindowComponent,
+    AnswerChallengeComponent
   ],
   imports: [
     BrowserModule,
@@ -60,8 +73,16 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAuWYQMjlgGD0hyuVTavbz5uXAENMWV6LA'
+    }),
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCAywy9aaWOwm4NKexDKM02Vko-_I_GIH0'
+    }),
+    ClarityModule,
+    AgmJsMarkerClustererModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

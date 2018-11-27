@@ -1,68 +1,93 @@
-import { Injectable } from "@angular/core";
-import { AngularFireAuth } from "@angular/fire/auth";
-import { auth } from "firebase/app";
-import { Router } from "@angular/router";
-import { Observable } from "rxjs";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-}
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import { SessionService } from './session.service';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class AuthService {
-  constructor(private afAuth: AngularFireAuth, private router: Router, private http: HttpClient) {}
+    constructor(
+        private afAuth: AngularFireAuth,
+        private session: SessionService) { }
 
-  private baseUrl = "https://geoquiz-1e874.appspot.com/api/"
+    public signUpWithFirebase(email: string, password: string): Promise<object> {
+        return new Promise<object>((res, rej) => {
+            this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+                .then(userCred => {
+                    res(userCred.user.getIdToken(true));
+                })
+                .catch(error => {
+                    rej(error);
+                });
+        });
+    }
 
-  login(email, pass) {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, pass)
-            .then(userCred => {
-                console.log(userCred.user.getIdToken())
-            })
-            .catch(error => console.log(error))
-  }
+    public signInWithFirebaseAndGetToken(email: string, password: string): Promise<object> {
+        return new Promise<object>((res, rej) => {
+            this.afAuth.auth.signInWithEmailAndPassword(email, password)
+                .then(userCred => {
+                    res(userCred.user.getIdToken(true));
+                })
+                .catch(error => {
+                    rej(error);
+                });
+        });
+    }
 
-  logout() {
-    this.afAuth.auth.signOut()
-      .then(() => this.router.navigate(["/"]))
-      .catch(error => console.log(error));
-  }
-  
-  register(email, pass): any {
-    this.afAuth.auth
-      .createUserWithEmailAndPassword(email, pass)
-      .then(userCred => {
-        var user = userCred.user;
-        user.getIdToken(true).then(idToken => {
-          console.log("IdToken", idToken);
-          return this.http.post<object>(this.baseUrl + 'users', {
-            headers: {
-              "authorization": idToken,
-              "Content-Type": 'application/json'
-            },
-            'userName': "Biswash",
-            "name": "Biswash Adhikari",
-            "dateOfBirth": "01/01/2000",
-            "emailAddress": "biswash@google.com",
-            "profileImageUrl": "sample-biswash.cdn.com"
-          })
-        })
-        .catch(error => {
-          return error;
-        })
-      });
-  }
+    public signUpWithFirebaseGooglePopup(): Promise<GoogleSignInResponse> {
+        return new Promise<GoogleSignInResponse>((res, rej) => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope('email');
+            provider.addScope('profile');
+            this.afAuth.auth
+                .signInWithPopup(provider)
+                .then(authResponse => {
+                    console.log(authResponse);
+                    authResponse.user.getIdToken(true)
+                        .then(token => {
+                            const response: GoogleSignInResponse = {
+                                email: authResponse.user.email,
+                                idToken: token,
+                                name: authResponse.user.displayName
+                            };
+                            res(response);
+                        })
+                        .catch(error => {
+                            rej(error);
+                        });
+                })
+                .catch(error => {
+                    rej(error);
+                });
+        });
+    }
 
-  get authenticated(): boolean {
-    return this.afAuth.authState !== null;
-  }
+    public isSignedIn() {
+        return !!this.session.accessToken;
+    }
 
-  get currentUser() {
-    return this.authenticated ? this.afAuth.auth : null;
-  }
+    public doSignOut() {
+        /**
+         * Destroy the session.
+         */
+        this.session.destroy();
+    }
 
-  get currentUserId() {
-    return this.authenticated ? this.afAuth.idToken : "";
-  }
+    public setAuthToken(accessToken: string) {
+        /**
+         * Setup the accessToken for the session.
+         */
+        console.log(accessToken);
+        if ((accessToken === null)) {
+            return;
+        }
+        console.log('Access token is not null');
+        this.session.accessToken = accessToken;
+    }
+}
+
+export interface GoogleSignInResponse {
+    idToken: string;
+    name: any;
+    email: string;
 }

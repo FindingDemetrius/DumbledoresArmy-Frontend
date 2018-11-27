@@ -1,3 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+.modal {
+    overflow-y: visible !important;
+    max-height: 0%;
+    max-width: fit-content;
+}
+
+.modal-dialog{
+    width: initial;
+}
+
+header {
+    background-color: #2f2f2f;
+}

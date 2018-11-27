@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiServiceService } from './../services/api-service.service';
+import { AuthService, GoogleSignInResponse } from './../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from './../services/auth.service';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
+import { User } from '../model/User';
 
 @Component({
   selector: 'app-register',
@@ -13,21 +14,30 @@ export class RegisterComponent implements OnInit {
 
   public frm: FormGroup;
 
+  private subs: any;
+
   public isBusy = false;
   public hasFailed = false;
   public showInputErrors = false;
+  public serverResponse = false;
+  public errorPlaceHolder: String;
+  public isEmailFieldDisabled = false;
+  public isNameFieldDisabled = false;
+  public isGoogleButtonDisabled = false;
+  private isSecondPartyAuth = false;
 
   constructor(
-    private api: ApiServiceService,
     private auth: AuthService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {
     this.frm = fb.group({
-      email: ['', Validators.required],
+      emailAddress: ['', Validators.email],
       password: ['', Validators.required],
-      dateofBirth: ['', Validators.required],
-      username: ['', Validators.required]
+      dateOfBirth: ['', Validators.required],
+      username: ['', Validators.required],
+      name: ['', Validators.required]
     });
   }
 
@@ -43,30 +53,77 @@ export class RegisterComponent implements OnInit {
     }
 
     // Reset status
-    // this.isBusy = true;
+    this.isBusy = true;
     this.hasFailed = false;
 
     // Grab values from form
-    const email = this.frm.get('email').value;
+    const email = this.frm.get('emailAddress').value;
+    const name = this.frm.get('name').value;
+    const dateOfBirth = new Date(this.frm.get('dateOfBirth').value).toUTCString();
     const password = this.frm.get('password').value;
-    const dateOfBirth = this.frm.get('dateOfBirth').value;
+    const username = this.frm.get('username').value;
 
-    // Submit request to API
-    this.api
-      .register(email, password)
-      .subscribe(
-        (response) => {
-          // this.auth.doSignIn(
-          //   response.token,
-          //   response.name
-          // );
+    const user = new User({
+      'emailAddress': email,
+      'username': username,
+      'name': name,
+      'dateOfBirth': dateOfBirth
+    });
+    if (this.isSecondPartyAuth) {
+      this.userService.createUser(user)
+        .subscribe((u: User) => {
           this.router.navigate(['home']);
         },
-        (error) => {
+          errorMessage => {
+            this.isBusy = false;
+            this.serverResponse = true;
+            this.errorPlaceHolder = errorMessage;
+          });
+    } else {
+      this.auth
+        .signUpWithFirebase(email, password)
+        .then(authToken => {
+          this.auth.setAuthToken(String(authToken));
+          this.userService.createUser(user)
+            .subscribe((u: User) => {
+              this.router.navigate(['home']);
+            },
+              errorMessage => {
+                this.isBusy = false;
+                this.serverResponse = true;
+                this.errorPlaceHolder = errorMessage;
+              });
+        })
+        .catch(error => {
           this.isBusy = false;
-          this.hasFailed = true;
-        }
-      );
+          this.serverResponse = true;
+          this.errorPlaceHolder = error['message'];
+        });
+    }
   }
 
+  public doSignInWithGoogle() {
+    this.isGoogleButtonDisabled = true;
+    this.isBusy = true;
+    this.hasFailed = false;
+    this.isSecondPartyAuth = true;
+    this.auth.signUpWithFirebaseGooglePopup()
+      .then((googleAuthData: GoogleSignInResponse) => {
+        this.auth.setAuthToken(googleAuthData.idToken);
+        this.isBusy = false;
+        this.frm.get('emailAddress').setValue(googleAuthData.email);
+        this.frm.get('name').setValue(googleAuthData.name);
+        this.frm.controls['emailAddress'].disable();
+        this.frm.controls['name'].disable();
+
+        // TODO fill fields in form and set editiing to disabled.
+      })
+      .catch(error => {
+        this.isGoogleButtonDisabled = false;
+        this.hasFailed = true;
+        this.isBusy = false;
+      });
+  }
 }
+
+

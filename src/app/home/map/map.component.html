@@ -1,3 +1,30 @@
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuWYQMjlgGD0hyuVTavbz5uXAENMWV6LA&callback=initMap"
-    async defer></script>
-<div #gmap style='width:100%;height:400px'></div>
+<div class='maps-wrapper'>
+<agm-map 
+  [latitude]="lat"
+  [longitude]="lng"
+  [zoom]="zoom"
+  [disableDefaultUI]="false"
+  [zoomControl]="false" 
+  (mapClick)="mapClickedEvent($event)">
+
+
+    <div *ngIf="challengeListObservale$ | async as challengeListObservale">
+      <agm-marker-cluster imagePath="https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclustererplus/images/m">
+        <agm-marker 
+        *ngFor="let challenge of challengeListObservale"
+        [latitude]="challenge.location.latitude"
+        [longitude]="challenge.location.longitude"
+        [label]="challenge.challengeName">
+        
+        <agm-info-window>
+          <app-info-window (challengeResponseEventEmitter) = "showChallengeResponseDialog($event)" [challenge] = "challenge"></app-info-window>
+        </agm-info-window>
+      
+        </agm-marker>
+      </agm-marker-cluster>
+    </div>
+</agm-map>
+<div *ngIf="isChallengeResponseDialogOpen" class = "challenge-response-dialog-wrapper">
+  <app-answer-challenge (challengeResponseCompleteEventEmitter) = "changeIsModalOpen($event)" [challenge] = "tappedChallenge"></app-answer-challenge>
+</div>
+</div>

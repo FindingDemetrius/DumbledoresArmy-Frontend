@@ -1,17 +1,37 @@
-<div class="register-wrapper">
+<div class="modal-body">
     <form [formGroup]="frm">
+      <!-- Email input -->
+      <input type="email" formControlName="emailAddress" placeholder="Your email address">
   
-      <h1>GeoQuiz</h1>
+      <!-- Email validation message -->
+      <div
+        class="input-errors"
+        *ngIf="(frm.get('emailAddress') && frm.get('emailAddress').invalid && frm.get('emailAddress').touched) || showInputErrors">
+        <div *ngIf="frm.get('emailAddress').hasError('required')">
+          Please enter your email address.
+        </div>
+      </div>
+
+      <!-- Date of birth input -->
+      <input type="date" formControlName="dateOfBirth" placeholder="Your Date of Birth">
   
+      <!-- Date validation message -->
+      <div
+        class="input-errors"
+        *ngIf="(frm.get('dateOfBirth').invalid && frm.get('dateOfBirth').touched) || showInputErrors">
+        <div *ngIf="frm.get('dateOfBirth').hasError('required')">
+          Please enter your email address.
+        </div>
+      </div>
+
       <!-- Username input -->
-      <input type="text" formControlName="email" placeholder="Your email address">
+      <input type="text" formControlName="username" placeholder="Your username">
   
       <!-- Username validation message -->
       <div
         class="input-errors"
-        *ngIf="(frm.get('email').invalid && frm.get('email').touched) || showInputErrors"
-      >
-        <div *ngIf="frm.get('email').hasError('required')">
+        *ngIf="(frm.get('username').invalid && frm.get('username').touched) || showInputErrors">
+        <div *ngIf="frm.get('username').hasError('required')">
           Please enter your email address.
         </div>
       </div>
@@ -22,23 +42,21 @@
       <!-- Password validation message -->
       <div
         class="input-errors"
-        *ngIf="(frm.get('password').invalid && frm.get('password').touched) || showInputErrors"
-      >
+        *ngIf="(frm.get('password').invalid && frm.get('password').touched) || showInputErrors">
         <div *ngIf="frm.get('password').hasError('required')">
           Please enter your password
         </div>
       </div>
-      
-      <!-- Date of Birth input -->
-      <input type="date" formControlName="dateofBirth" placeholder="">
+
+      <!-- Password input -->
+      <input type="text" formControlName="name" placeholder="Your Name">
   
       <!-- Password validation message -->
       <div
         class="input-errors"
-        *ngIf="(frm.get('dateofBirth').invalid && frm.get('dateofBirth').touched) || showInputErrors"
-      >
-        <div *ngIf="frm.get('dateofBirth').hasError('required')">
-          Please enter your dateOfBirth
+        *ngIf="(frm.get('name').invalid && frm.get('name').touched) || showInputErrors">
+        <div *ngIf="frm.get('name').hasError('required')">
+          Please enter your name. 
         </div>
       </div>
   
@@ -46,13 +64,19 @@
       <div class="sign-in-error" *ngIf="hasFailed">
         Invalid username and password.
       </div>
-  
-      <!-- Sing-in button -->
-      <button (click)="doSignIn()" [disabled]="isBusy">
-        <ng-template [ngIf]="!isBusy">Sign up</ng-template>
-        <ng-template [ngIf]="isBusy">Signing up, please wait...</ng-template>
-      </button>
-  
+
+      <div class="sign-in-error" *ngIf="serverResponse"> {{ errorPlaceHolder }} </div>
     </form>
   </div>
+<div class="modal-footer">
+  <button (click)="doSignIn()" [disabled]="isBusy" type="button" class="btn btn-primary btn-sm">
+    <div *ngIf="!isBusy">Sign Up</div>
+    <div *ngIf="isBusy">Signing Up ...</div>
+  </button>
+
+  <button (click)='doSignInWithGoogle()' [disabled]='isBusy' type="button" class="btn btn-primary btn-sm">
+    <div *ngIf="!isBusy">Sign up With Google</div>
+    <div *ngIf="isBusy">Signing up, please wait...</div>
+  </button> 
+</div>
  

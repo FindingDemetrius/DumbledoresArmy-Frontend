@@ -1,12 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { MapComponent } from './map/map.component';
+import { AuthService } from '../services/auth.service';
+import { ComponentInteractionService } from '../services/componentInteraction.service';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
-    styleUrls: [ './home.component.css' ]
+    styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent {
+export class HomeComponent implements OnInit, DoCheck {
     title = 'geo-quiz-frontend';
+    login = false;
+    isModalOpen = true;
+    isCreateChallengeOpen = false;
+
+    constructor(private authService: AuthService,
+        private componentInteractor: ComponentInteractionService) { }
+
+
+    ngOnInit() {
+        if (this.authService.isSignedIn()) {
+            this.login = true;
+            this.isModalOpen = false;
+        }
+        this.componentInteractor.change.subscribe(isChallengeModalOpen => {
+            this.isCreateChallengeOpen = isChallengeModalOpen;
+        });
+    }
+
+    ngDoCheck() {
+        if (this.authService.isSignedIn()) {
+            this.login = true;
+            this.isModalOpen = false;
+        }
+    }
+
 }

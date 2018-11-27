@@ -1,14 +1,29 @@
-<div class="navbar-container">
-    <mat-toolbar color="primary">
-        <span id="menu-item"><a routerLink="/home">Home</a></span>
-        <span id="menu-item"><a routerLink="/challenge/create">Create Challenge</a></span>
-        <span id="menu-item"><a routerLink="/profile">Profile</a></span>
-        <span class="example-spacer"></span>
-        <div *ngIf="login">
-            <span id="menu-item"><a routerLink="/login">Login</a></span>
-        </div>
-        <div *ngIf="!login">
-            <span id="menu-item"(click)="logout"><a href="#">Logout</a></span>
-        </div>
-    </mat-toolbar>
-</div>
+<header class="header-6">
+    <div class="branding">
+        <a routerLink="/home" class="nav-link">
+            <clr-icon shape="world"></clr-icon>
+            <span class="title">GeoQuiz</span>
+        </a>
+    </div>
+    <div class="header-nav">
+        <button type="button" (click) = "onCreateNewChallenge()">Create Challenge</button>
+    </div>
+    <form class="search">
+        <label for="search_input">
+            <input id="search_input" type="text" placeholder="Search for challenges...">
+        </label>
+    </form>
+    <div class="header-actions">
+        <clr-dropdown [clrCloseMenuOnItemClick]="true">
+            <button type="button" clrDropdownTrigger>
+                <clr-icon shape="cog" size="24"></clr-icon>
+                <clr-icon shape="caret down"></clr-icon>
+            </button>
+            <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+                <button (click)="navigateToProfilePage()" type="button" clrDropdownItem>Profile</button>
+                <div class="dropdown-divider"></div>
+                <button (click)="logOutCurrentUser()" type="button" clrDropdownItem >Log Out</button>
+            </clr-dropdown-menu>
+        </clr-dropdown>
+    </div>
+</header>
