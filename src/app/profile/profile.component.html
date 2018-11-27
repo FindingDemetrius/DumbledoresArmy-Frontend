@@ -1,6 +1,7 @@
 <!-- Add icon library -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
+<<<<<<< HEAD
 <h1>TEST</h1>
 <div class="card">
   <!--Figure out why the image isn't acting like circle-->
@@ -27,6 +28,39 @@
   <!-- <div class="userChallenges">
     <h2>List the user challenges</h2>
   </div> -->
+=======
+
+<div class="card">
+  <img src="assets/images/image.png" alt="Profile Image" class="img-circle">
+  <h1 class="name">{{user.username}}</h1>
+  <p class="score">Score: {{user.totalScore}}</p>
+  <br><br><br>
+  
+  <div class="userChallengesTaken">
+    <h2>Challenge Posted</h2>
+    <div class="row">
+        <div class="col-lg-5 col-md-8 col-sm-12 col-xs-12">
+            <div *ngIf="listOfChallengesPosted$ | async as listOfChallengesPosted">
+            <div *ngFor="let challenge of listOfChallengesPosted">
+            <div class="card1">
+                <div class="card-header">
+                    {{challenge.challengeName}}
+                </div>
+                <div class="card-block">
+                    <div class="card-title">
+                        <div *ngFor="let q of challenge.questions">
+                          <p>{{q.questionText}}</p>
+                          <p>{{q.choices}}</p><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          </div>
+        </div>
+    </div>
+  </div>
+>>>>>>> profile
 
   <a href="#"><i class="fa fa-dribbble"></i></a> 
   <a href="#"><i class="fa fa-twitter"></i></a> 

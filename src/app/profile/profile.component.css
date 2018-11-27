@@ -1,11 +1,16 @@
 .card {
+<<<<<<< HEAD
     max-width: 500px;
+=======
+    max-width: 1000px;
+>>>>>>> profile
     margin: auto;
     text-align: center;
     background-color: green;
     background-color:#cccccc;
     overflow: hidden;
 }
+<<<<<<< HEAD
 
 .rank {
     color: grey;
@@ -45,7 +50,60 @@ img {
     width:165px; 
     background-color: #4C8EFF;
 }
+=======
+>>>>>>> profile
 
+.score {
+    color: blue;
+    font-size: 24px;
+}
 
+<<<<<<< HEAD
+=======
+button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+a {
+    text-decoration: none;
+    font-size: 22px;
+    margin: 20px;
+    color: black;
+}
+
+button:hover, a:hover {
+    opacity: 0.7;
+}
+
+img {
+    border-radius: 50%;
+}
+
+.float-left {
+    float:left;
+    width:165px; 
+    background-color: #4C8EFF;
+}
+
+.userChallengesTaken{
+    font-size: 18px;
+    color: darkolivegreen;
+
+}
+
+.card1{
+    margin-left: auto;
+    margin-right: auto;
+}
+>>>>>>> profile
 
 

@@ -5,10 +5,13 @@ import { Challenge } from '../../model/Challenge';
 import { ChallengeService } from '../../services/challenge.service';
 import { ComponentInteractionService } from '../../services/componentInteraction.service';
 import { CreateChallengeStateStorageService } from '../../services/create-challenge-state-storage.service';
+<<<<<<< HEAD
 import { UserService } from '../../services/user.service';
 import { User } from './../../model/User';
 import { SessionService } from '../../services/session.service';
 import { AuthService } from '../../services/auth.service';
+=======
+>>>>>>> profile
 
 @Component({
     selector: 'app-map',
@@ -24,7 +27,10 @@ export class MapComponent implements OnInit {
     tappedChallenge: Challenge;
     mapOpen = false;
     isMapClickable = false;
+<<<<<<< HEAD
     isLoggedIn = false;
+=======
+>>>>>>> profile
 
     private challengeListObservale$: Observable<Challenge[]>;
 
@@ -39,6 +45,21 @@ export class MapComponent implements OnInit {
             // Get the current user after logged in.
         });
 
+        this.challengeListObservale$ = this.challengeService.getListOfChallenges();
+
+        this.componentInteractor.changeMapOpenState.subscribe(isMapOpen => {
+            this.isMapClickable = isMapOpen;
+        });
+
+        this.componentInteractor.isNewChallengeAvailable.subscribe(isAvailable => {
+            if (isAvailable) {
+                this.challengeListObservale$ = this.challengeService.getListOfChallenges();
+                this.componentInteractor.toggleStateOfNewChallenges();
+            }
+        });
+    }
+
+    refreshHomePage() {
         this.challengeListObservale$ = this.challengeService.getListOfChallenges();
 
         this.componentInteractor.changeMapOpenState.subscribe(isMapOpen => {
@@ -87,6 +108,7 @@ export class MapComponent implements OnInit {
         }
     }
 
+<<<<<<< HEAD
     isChallengePostedByUser(challenge: Challenge) {
         return this.sessionService.username === challenge.postedBy;
     }
@@ -110,5 +132,10 @@ export class MapComponent implements OnInit {
         private challengeDataStore: CreateChallengeStateStorageService,
         private sessionService: SessionService,
         private authService: AuthService) {
+=======
+    constructor(private challengeService: ChallengeService,
+        private componentInteractor: ComponentInteractionService,
+        private challengeDataStore: CreateChallengeStateStorageService) {
+>>>>>>> profile
     }
 }

@@ -58,7 +58,10 @@ export class LoginComponent implements OnInit {
         this.authService.signInWithFirebaseAndGetToken(emailAddress, password)
             .then(authToken => {
                 console.log(authToken);
+<<<<<<< HEAD
 
+=======
+>>>>>>> profile
                 this.authService.setAuthToken(String(authToken));
                 // Get the user and set username for the session service.
                 this.userService.getCurrentUser()
