@@ -1,16 +1,11 @@
 .card {
-<<<<<<< HEAD
     max-width: 500px;
-=======
-    max-width: 1000px;
->>>>>>> profile
     margin: auto;
     text-align: center;
     background-color: green;
     background-color:#cccccc;
     overflow: hidden;
 }
-<<<<<<< HEAD
 
 .rank {
     color: grey;
@@ -50,16 +45,12 @@ img {
     width:165px; 
     background-color: #4C8EFF;
 }
-=======
->>>>>>> profile
 
 .score {
     color: blue;
     font-size: 24px;
 }
 
-<<<<<<< HEAD
-=======
 button {
     border: none;
     outline: 0;
@@ -104,6 +95,5 @@ img {
     margin-left: auto;
     margin-right: auto;
 }
->>>>>>> profile
 
 
