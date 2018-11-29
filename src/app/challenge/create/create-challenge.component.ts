@@ -15,9 +15,6 @@ import { CreateChallengeStateStorageService, ChallengeFormSignature } from '../.
 
 export class CreateChallengeComponent implements OnInit, OnDestroy {
 
-
-    @Input() challengeToEdit: Challenge;
-
     public createChallengeForm: FormGroup;
     public newTag = '';
     public listOfTags: String[] = [];
@@ -49,21 +46,12 @@ export class CreateChallengeComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         console.log('Calling on init');
-        if (this.challengeToEdit !== null || this.challengeToEdit !== undefined) {
-            console.log(this.challengeToEdit);
-            this.createChallengeForm.patchValue({
-                'challengeName': this.challengeToEdit.challengeName !== null ? this.challengeToEdit.challengeName : ''
-            });
-            this.listOfTags = this.challengeToEdit.tags !== null ? this.challengeToEdit.tags : [];
-            this.location = this.challengeToEdit.location !== null ? this.challengeToEdit.location : {};
-            this.listOfQuestions = this.challengeToEdit.questions !== null ? this.challengeToEdit.questions : [];
-        }
     }
 
     ngOnDestroy() {
         console.log('Calling on Destroy.');
         // Store the data in one service so that you can use it when returning back.
-        if (this.location == null) {
+        if (this.isLocationObjectEmpty(this.location)) {
             const challengeData: ChallengeFormSignature = {
                 challengeName: this.createChallengeForm.get('challengeName').value,
                 listOfQuestions: this.listOfQuestions,
@@ -124,10 +112,12 @@ export class CreateChallengeComponent implements OnInit, OnDestroy {
         console.log('Editing a challenge');
         const updateObject = {};
 
-        if (this.createChallengeForm.get('challengeName').value !== this.challengeToEdit.challengeName) {
+        const originalChallenge = this.challengeDataStore.getChallengeData();
+
+        if (this.createChallengeForm.get('challengeName').value !== originalChallenge.challengeName) {
             updateObject['challengeName'] = this.createChallengeForm.get('challengeName').value;
         }
-        if (this.challengeToEdit.tags !== this.listOfTags) {
+        if (originalChallenge.tags !== this.listOfTags) {
             updateObject['tags'] = this.listOfTags;
         }
         // if (this.challengeToEdit.location !== this.location) {
@@ -137,17 +127,19 @@ export class CreateChallengeComponent implements OnInit, OnDestroy {
         //     updateObject['questions'] = this.listOfQuestions;
         // }
         console.log(updateObject);
-        this.challengeService.editChalleneg(updateObject, this.challengeToEdit.id)
+        this.challengeService.editChalleneg(updateObject, originalChallenge.id)
             .subscribe(challenge => {
                 this.componentInteractor.toggleStateOfCreateChallengeComponent();
+                this.componentInteractor.toggleStateOfIsEditChallenge();
+                this.componentInteractor.toggleStateOfNewChallenges();
             },
                 error => {
                     console.log(error);
                 });
     }
 
-    isChallengeToEditEmpty() {
-        return this.challengeToEdit.challengeName === '';
+    isEditingChallenge() {
+        return this.componentInteractor.isEditChallenge;
     }
 
     isLocationObjectEmpty(location: Object) {

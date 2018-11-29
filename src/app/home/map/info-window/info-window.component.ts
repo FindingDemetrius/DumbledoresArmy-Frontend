@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Challenge } from '../../../model/Challenge';
 import { ChallengeService } from '../../../services/challenge.service';
 import { AgmInfoWindow } from '@agm/core';
+import { CreateChallengeStateStorageService, ChallengeFormSignature } from '../../../services/create-challenge-state-storage.service';
+import { ComponentInteractionService } from '../../../services/componentInteraction.service';
 
 
 // TODO: Don't make req for challenges Posted after deleting a single challenge.
@@ -18,7 +20,11 @@ export class InfoWindowComponent implements OnInit {
   challengeObject: Challenge;
   isChallengeResponse = false;
 
-  constructor(private router: Router, private challengeService: ChallengeService, private agmInfoWindow: AgmInfoWindow) { }
+  constructor(private router: Router,
+    private challengeService: ChallengeService,
+    private agmInfoWindow: AgmInfoWindow,
+    private challengeStateStorage: CreateChallengeStateStorageService,
+    private componentInteractionService: ComponentInteractionService) { }
 
   @Input() challenge: Challenge;
   @Input() isBelongToUser: boolean;
@@ -56,7 +62,17 @@ export class InfoWindowComponent implements OnInit {
   }
 
   onTapEditChallenge() {
-    this.challengeEditEventEmitter.emit(this.challenge);
-    this.agmInfoWindow.close();
+    const challengeToEdit: ChallengeFormSignature = {
+      challengeName: this.challenge.challengeName,
+      tags: this.challenge.tags,
+      location: this.challenge.location,
+      listOfQuestions: this.challenge.questions,
+      id: this.challenge.id
+    };
+    console.log(challengeToEdit);
+    this.challengeStateStorage.setChallengeData(challengeToEdit);
+    this.componentInteractionService.toggleStateOfCreateChallengeComponent();
+    this.componentInteractionService.toggleStateOfIsEditChallenge();
+    // Toggle the state of isCreateChallengeModalOpen.
   }
 }

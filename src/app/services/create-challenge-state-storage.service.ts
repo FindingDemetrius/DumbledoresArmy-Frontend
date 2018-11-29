@@ -43,5 +43,6 @@ export interface ChallengeFormSignature {
   tags: String[];
   location: Object;
   listOfQuestions: Question[];
+  id?: String;
 }
 

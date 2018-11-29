@@ -9,7 +9,9 @@ export class ComponentInteractionService {
   isMapForAddingLocationOpen = false;
   newChallenges = false;
   isLoggedIn = false;
+  isEditChallenge = false;
 
+  @Output() editChallenge: EventEmitter<boolean> = new EventEmitter();
   @Output() change: EventEmitter<boolean> = new EventEmitter();
   @Output() changeMapOpenState: EventEmitter<boolean> = new EventEmitter();
   @Output() updateWhenLocationSelected: EventEmitter<Object> = new EventEmitter();
@@ -36,6 +38,11 @@ export class ComponentInteractionService {
   toggleStateOfIsLoggedIn() {
     this.isLoggedIn = !this.isLoggedIn;
     this.updateTheChallengesWhenTheUserIsLoggedIn.emit(true);
+  }
+
+  toggleStateOfIsEditChallenge() {
+    this.isEditChallenge = !this.isEditChallenge;
+    this.editChallenge.emit(this.isEditChallenge);
   }
 
   sendLocationObjectToCreateChallengeCompoenent(location: Object) {

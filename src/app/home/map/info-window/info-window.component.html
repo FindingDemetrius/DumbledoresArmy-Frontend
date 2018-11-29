@@ -13,8 +13,6 @@
 </div>
 
 <div *ngIf = "!isBelongToUser" (click)="onTakeChallenge(challenge)" class="card card-block clickable">
-  <button type="button"> Edit Challenge </button>
-  <button type="button" (click) = "onTapDeleteChallenge(challenge.id)"> Delete Challenge </button>
   <p> {{ challenge.challengeName }}</p>
   <p> Posted By {{ challenge.postedBy }}</p>
   <p> Date Posted {{ challenge.datePosted }} </p>
@@ -24,6 +22,3 @@
   <p> Number Of Questions {{ challenge.numberOfQuestions }} </p>
   <p>Latitude: {{challenge.location.latitude}} Longitude {{challenge.location.longitude}}</p>
 </div>
-<span *ngIf = "isChallengeEdit">
-  <app-create-challenge [challengeToEdit] = "challenge"></app-create-challenge>
-</span>

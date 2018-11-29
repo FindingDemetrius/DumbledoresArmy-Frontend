@@ -18,8 +18,6 @@ import { AuthService } from '../../services/auth.service';
 
 export class MapComponent implements OnInit {
 
-    @Output() editChallengeEventEmitter: EventEmitter<Challenge> = new EventEmitter();
-
     zoom = 8;
     lat = 51.673858;
     lng = 7.815982;
@@ -117,11 +115,6 @@ export class MapComponent implements OnInit {
                 }
             });
         }
-    }
-
-    onEditChallenge(challenge: Challenge) {
-        // Emit the challenge to the home component.
-        this.editChallengeEventEmitter.emit(challenge);
     }
 
     isChallengePostedByUser(challenge: Challenge) {

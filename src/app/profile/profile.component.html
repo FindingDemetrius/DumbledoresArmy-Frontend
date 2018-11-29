@@ -10,27 +10,39 @@
   
   <div class="userChallengesTaken">
     <h2>Challenge Posted</h2>
-    <div class="row">
-        <div class="col-lg-5 col-md-8 col-sm-12 col-xs-12">
-            <div *ngIf="listOfChallengesPosted$ | async as listOfChallengesPosted">
-            <div *ngFor="let challenge of listOfChallengesPosted">
-            <div class="card1">
-                <div class="card-header">
-                    {{challenge.challengeName}}
-                </div>
-                <div class="card-block">
-                    <div class="card-title">
-                        <div *ngFor="let q of challenge.questions">
-                          <p>{{q.questionText}}</p>
-                          <p>{{q.choices}}</p><br>
-                        </div>
+
+
+    <clr-datagrid>
+
+        <clr-dg-column [clrDgField] = "'challengeName'">Challenge Name</clr-dg-column>
+        <clr-dg-column [clrDgField] = "'Tags'">Tags</clr-dg-column>
+        <clr-dg-column [clrDgField] = "'location'">Location</clr-dg-column>
+        <clr-dg-column [clrDgField] = "'datePosted'">Date Posted</clr-dg-column>
+        <clr-dg-column [clrDgField] = "'numberOfAttempts'">Posted By</clr-dg-column>
+        <clr-dg-column>Number of Attempts</clr-dg-column>
+
+
+        <div *ngIf="listOfChallengesPosted$ | async as listOfChallengesPosted">
+            <clr-dg-row *clrDgItems="let challenge of listOfChallengesPosted" [clrDgItem]="challenge">
+                <clr-dg-cell>{{challenge.challengeName}}</clr-dg-cell>
+                <clr-dg-cell>
+                    <div *ngFor="let tag of challenge.tags">
+                        <span class="label">{{tag}}</span>
                     </div>
-                </div>
-            </div>
-          </div>
-          </div>
+                </clr-dg-cell>
+                <clr-dg-cell>{{challenge.location.latitude}}</clr-dg-cell>
+                <clr-dg-cell>{{challenge.datePosted}}</clr-dg-cell>
+                <clr-dg-cell>{{challenge.numberOfAttempts}}</clr-dg-cell>
+                <clr-dg-cell>
+                <button class="btn btn-sm btn-success" (click)="onLaunch(launch)" [disabled]="!canLaunch(launch)"><clr-icon shape="upload"></clr-icon> Launch</button>
+                </clr-dg-cell>
+            </clr-dg-row>
         </div>
-    </div>
+
+    
+
+        <clr-dg-placeholder>We couldn't load any challenges</clr-dg-placeholder>
+    </clr-datagrid>
   </div>
 
   <a href="#"><i class="fa fa-dribbble"></i></a> 

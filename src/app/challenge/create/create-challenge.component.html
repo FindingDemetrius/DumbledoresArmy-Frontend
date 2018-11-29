@@ -14,8 +14,7 @@
 
     <div class = "location-coordinate-wrapper" *ngIf="!isLocationObjectEmpty()">
         <img class="location-img" src="assets/images/a.jpg">
-        <p> Latitude {{ location.latitude }} </p>
-        <p> Longitude {{location.longitude}} </p>
+        <p>{{location.address}}</p>
     </div>
 
 
@@ -34,7 +33,7 @@
     <br>
 
     <app-questions-challenge (addNewQuestion) = "onCreateNewQuestion($event)"></app-questions-challenge>
-    <section *ngIf="listOfQuestions.length > 0">
+    <section *ngIf="listOfQuestions !== null && listOfQuestions.length > 0">
         <ul class="question-list">
             <li *ngFor="let question of listOfQuestions">
                 <h3>{{question.questionText}}</h3>
@@ -50,8 +49,8 @@
 </div>
 
 <div class="modal-footer">
-    <button *ngIf = "isChallengeToEditEmpty()" (click)="doCreateChallenge()" [disabled]="isBusy" type="button" class="btn btn-primary">Create Challenge</button>
-    <button *ngIf = "!isChallengeToEditEmpty()" (click)="doEditChallenge()" [disabled]="isBusy" type="button" class="btn btn-primary">Edit Challenge</button>
+    <button *ngIf = "!isEditingChallenge()" (click)="doCreateChallenge()" [disabled]="isBusy" type="button" class="btn btn-primary">Create Challenge</button>
+    <button *ngIf = "isEditingChallenge()" (click)="doEditChallenge()" [disabled]="isBusy" type="button" class="btn btn-primary">Edit Challenge</button>
 </div>
 
 </clr-modal>

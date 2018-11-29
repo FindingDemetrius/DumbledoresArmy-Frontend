@@ -16,8 +16,6 @@ export class HomeComponent implements OnInit, DoCheck {
     isModalOpen = true;
     isCreateChallengeOpen = false;
 
-    challengeToEdit: Challenge = new Challenge({});
-
     constructor(private authService: AuthService,
         private componentInteractor: ComponentInteractionService) { }
 
@@ -38,10 +36,4 @@ export class HomeComponent implements OnInit, DoCheck {
             this.isModalOpen = false;
         }
     }
-
-    onEditChallenge(challenge: Challenge) {
-        this.challengeToEdit = challenge;
-        this.componentInteractor.toggleStateOfCreateChallengeComponent();
-    }
-
 }
