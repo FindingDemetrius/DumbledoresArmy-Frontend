@@ -17,6 +17,12 @@ export class Challenge {
     get postedBy() { return this._postedBy; }
     set postedBy(postedBy) { this._postedBy = postedBy; }
 
+    _postedById: String;
+    get postedById() { return this._postedById; }
+    set postedById(postedById) { this._postedBy = postedById; }
+
+
+
     _datePosted: String;
     get datePosted() { return this._datePosted; }
     set datePosted(datePosted) { this._datePosted = datePosted; }

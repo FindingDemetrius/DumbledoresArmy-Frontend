@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 export class SessionService {
 
   public accessToken: string;
+  public username: String;
 
   constructor() { }
 
