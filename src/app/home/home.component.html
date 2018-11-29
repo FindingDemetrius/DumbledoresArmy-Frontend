@@ -1,5 +1,5 @@
 <div class="home-maps">
-    <app-map></app-map>
+    <app-map (editChallengeEventEmitter) = "onEditChallenge($event)"></app-map>
     <div class="login-placeHolder" *ngIf="!login">
         <clr-modal [(clrModalOpen)]="isModalOpen" [clrModalClosable]="false" >
             <h3 class="modal-title">GeoQuiz</h3>
@@ -22,6 +22,6 @@
         </clr-modal>
     </div>
     <div class="create-challenge-wrapper" *ngIf="isCreateChallengeOpen">
-        <app-create-challenge></app-create-challenge>
+        <app-create-challenge [challengeToEdit] = "challengeToEdit"></app-create-challenge>
     </div>
 </div>

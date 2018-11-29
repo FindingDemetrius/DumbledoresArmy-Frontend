@@ -2,6 +2,7 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 import { MapComponent } from './map/map.component';
 import { AuthService } from '../services/auth.service';
 import { ComponentInteractionService } from '../services/componentInteraction.service';
+import { Challenge } from '../model/Challenge';
 
 @Component({
     selector: 'app-home',
@@ -14,6 +15,8 @@ export class HomeComponent implements OnInit, DoCheck {
     login = false;
     isModalOpen = true;
     isCreateChallengeOpen = false;
+
+    challengeToEdit: Challenge = new Challenge({});
 
     constructor(private authService: AuthService,
         private componentInteractor: ComponentInteractionService) { }
@@ -34,6 +37,11 @@ export class HomeComponent implements OnInit, DoCheck {
             this.login = true;
             this.isModalOpen = false;
         }
+    }
+
+    onEditChallenge(challenge: Challenge) {
+        this.challengeToEdit = challenge;
+        this.componentInteractor.toggleStateOfCreateChallengeComponent();
     }
 
 }

@@ -6,30 +6,22 @@
         <input type="text" formControlName="challengeName" placeholder="Challenge Name">
     </form>
 
-    <div class = "location-input-wrapper" *ngIf="location == null">
-<<<<<<< HEAD
+    <div class = "location-input-wrapper" *ngIf="isLocationObjectEmpty()">
         <p>Add Location</p>
         <button (click)="onShowMapButtonClicked()"><img class = "location-img" src="assets/images/a.jpg"></button>
         <p>Tap on the image to add location</p>
     </div>
 
-    <div class = "location-coordinate-wrapper" *ngIf="location != null">
+    <div class = "location-coordinate-wrapper" *ngIf="!isLocationObjectEmpty()">
         <img class="location-img" src="assets/images/a.jpg">
         <p> Latitude {{ location.latitude }} </p>
         <p> Longitude {{location.longitude}} </p>
-=======
-        <button type = "button" (click)="onShowMapButtonClicked()">Add Location</button>
-    </div>
-
-    <div class = "location-coordinate-wrapper" *ngIf="location != null">
-        <p> Latitude {{ location.latitude }} Longitude {{location.longitude}} </p>
->>>>>>> profile
     </div>
 
 
     <!--Input for tags-->
     <input type="text" [(ngModel)]="newTag" placeholder="One or more tags" (keyup.enter)="onAddNewTag()">
-    <section *ngIf="listOfTags.length > 0">
+    <section *ngIf="listOfTags !== null && listOfTags.length > 0">
         <ul class="tags-list">
             <li *ngFor="let tag of listOfTags">
                 <span style="float: left; " class="label label-success">
@@ -58,7 +50,8 @@
 </div>
 
 <div class="modal-footer">
-    <button (click)="doCreateChallenge()" [disabled]="isBusy" type="button" class="btn btn-primary">Create Challenge</button>
+    <button *ngIf = "isChallengeToEditEmpty()" (click)="doCreateChallenge()" [disabled]="isBusy" type="button" class="btn btn-primary">Create Challenge</button>
+    <button *ngIf = "!isChallengeToEditEmpty()" (click)="doEditChallenge()" [disabled]="isBusy" type="button" class="btn btn-primary">Edit Challenge</button>
 </div>
 
 </clr-modal>

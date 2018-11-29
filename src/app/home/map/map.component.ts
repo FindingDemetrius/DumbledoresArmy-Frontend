@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, Output, EventEmitter } from '@angular/core';
 import { MouseEvent as AGMMouseEvent } from '@agm/core';
 import { Observable } from 'rxjs';
 import { Challenge } from '../../model/Challenge';
@@ -17,6 +17,9 @@ import { AuthService } from '../../services/auth.service';
 })
 
 export class MapComponent implements OnInit {
+
+    @Output() editChallengeEventEmitter: EventEmitter<Challenge> = new EventEmitter();
+
     zoom = 8;
     lat = 51.673858;
     lng = 7.815982;
@@ -25,6 +28,7 @@ export class MapComponent implements OnInit {
     mapOpen = false;
     isMapClickable = false;
     isLoggedIn = false;
+    isShowEditChallengeDialogBox = false;
 
     private challengeListObservale$: Observable<Challenge[]>;
 
@@ -87,15 +91,37 @@ export class MapComponent implements OnInit {
         // Check if mapOpen is true.
         // Get the lat and long and pass it to the create challenge component.
         if (this.isMapClickable) {
-            const location = {
-                'latitude': mouseEvent.coords.lat,
-                'longitude': mouseEvent.coords.lng
+            const geocoder = new google.maps.Geocoder();
+            const latlng = new google.maps.LatLng(mouseEvent.coords.lat, mouseEvent.coords.lng);
+            const request: google.maps.GeocoderRequest = {
+                location: latlng
             };
-            console.log('Map clicked' + location);
-            // Update the challennge storage service with the location data.
-            this.challengeDataStore.setLocation(location);
-            this.componentInteractor.sendLocationObjectToCreateChallengeCompoenent(location);
+
+            geocoder.geocode(request, (results, status) => {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    if (results[0] != null) {
+                        console.log(results[0].formatted_address);
+                        const addr = results[0].formatted_address;
+                        const location = {
+                            'latitude': mouseEvent.coords.lat,
+                            'longitude': mouseEvent.coords.lng,
+                            'address': addr
+                        };
+                        console.log('Map clicked' + location);
+                        // Update the challennge storage service with the location data.
+                        this.challengeDataStore.setLocation(location);
+                        this.componentInteractor.sendLocationObjectToCreateChallengeCompoenent(location);
+                    } else {
+                        alert('No address');
+                    }
+                }
+            });
         }
+    }
+
+    onEditChallenge(challenge: Challenge) {
+        // Emit the challenge to the home component.
+        this.editChallengeEventEmitter.emit(challenge);
     }
 
     isChallengePostedByUser(challenge: Challenge) {

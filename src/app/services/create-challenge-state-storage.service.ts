@@ -9,6 +9,7 @@ export class CreateChallengeStateStorageService {
   challengeData: ChallengeFormSignature;
 
   constructor(private componentInteractor: ComponentInteractionService) {
+    this.flushStorage();
     this.componentInteractor.updateWhenLocationSelected.subscribe(location => {
       console.log('Subscribing to location.');
       this.challengeData.location = location;

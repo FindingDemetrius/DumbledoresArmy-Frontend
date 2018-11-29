@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, OnDestroy, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { QuestionPost } from '../../model/QuestionPost';
 import { Challenge } from '../../model/Challenge';
@@ -14,6 +14,9 @@ import { CreateChallengeStateStorageService, ChallengeFormSignature } from '../.
 })
 
 export class CreateChallengeComponent implements OnInit, OnDestroy {
+
+
+    @Input() challengeToEdit: Challenge;
 
     public createChallengeForm: FormGroup;
     public newTag = '';
@@ -33,19 +36,28 @@ export class CreateChallengeComponent implements OnInit, OnDestroy {
         });
 
         const challengeData: ChallengeFormSignature = this.challengeDataStore.getChallengeData();
-        if (challengeData != null) {
+        if (challengeData !== null) {
             // Retrieve data from the challenge object.
             this.createChallengeForm.patchValue({
-                'challengeName': challengeData.challengeName != null ? challengeData.challengeName : ''
+                'challengeName': challengeData.challengeName !== null ? challengeData.challengeName : ''
             });
-            this.listOfTags = challengeData.tags != null ? challengeData.tags : [];
-            this.location = challengeData.location != null ? challengeData.location : {};
-            this.listOfQuestions = challengeData.listOfQuestions != null ? challengeData.listOfQuestions : [];
+            this.listOfTags = challengeData.tags !== null ? challengeData.tags : [];
+            this.location = challengeData.location !== null ? challengeData.location : {};
+            this.listOfQuestions = challengeData.listOfQuestions !== null ? challengeData.listOfQuestions : [];
         }
     }
 
     ngOnInit() {
         console.log('Calling on init');
+        if (this.challengeToEdit !== null || this.challengeToEdit !== undefined) {
+            console.log(this.challengeToEdit);
+            this.createChallengeForm.patchValue({
+                'challengeName': this.challengeToEdit.challengeName !== null ? this.challengeToEdit.challengeName : ''
+            });
+            this.listOfTags = this.challengeToEdit.tags !== null ? this.challengeToEdit.tags : [];
+            this.location = this.challengeToEdit.location !== null ? this.challengeToEdit.location : {};
+            this.listOfQuestions = this.challengeToEdit.questions !== null ? this.challengeToEdit.questions : [];
+        }
     }
 
     ngOnDestroy() {
@@ -106,5 +118,39 @@ export class CreateChallengeComponent implements OnInit, OnDestroy {
         // Get the location from the maps component.
         this.componentInteractor.toggleStateOfCreateChallengeComponent();
         this.componentInteractor.toggleStateOfIsMapOpen();
+    }
+
+    doEditChallenge() {
+        console.log('Editing a challenge');
+        const updateObject = {};
+
+        if (this.createChallengeForm.get('challengeName').value !== this.challengeToEdit.challengeName) {
+            updateObject['challengeName'] = this.createChallengeForm.get('challengeName').value;
+        }
+        if (this.challengeToEdit.tags !== this.listOfTags) {
+            updateObject['tags'] = this.listOfTags;
+        }
+        // if (this.challengeToEdit.location !== this.location) {
+        //     updateObject['location'] = this.location;
+        // }
+        // if (this.challengeToEdit.questions !== this.listOfQuestions) {
+        //     updateObject['questions'] = this.listOfQuestions;
+        // }
+        console.log(updateObject);
+        this.challengeService.editChalleneg(updateObject, this.challengeToEdit.id)
+            .subscribe(challenge => {
+                this.componentInteractor.toggleStateOfCreateChallengeComponent();
+            },
+                error => {
+                    console.log(error);
+                });
+    }
+
+    isChallengeToEditEmpty() {
+        return this.challengeToEdit.challengeName === '';
+    }
+
+    isLocationObjectEmpty(location: Object) {
+        return Object.keys(this.location).length === 0;
     }
 }

@@ -18,7 +18,12 @@
           [label]="challenge.challengeName">
         
         <agm-info-window>
-          <app-info-window (challengeResponseEventEmitter) = "showChallengeResponseDialog($event)" [challenge] = "challenge"></app-info-window>
+          <app-info-window  
+            (challengeResponseEventEmitter) = "showChallengeResponseDialog($event)" 
+            (challengeDeletedResponseEventEmitter) = "refreshHomePage()"
+            (challengeEditEventEmitter) = "onEditChallenge($event)"
+            [challenge] = "challenge"
+            [isBelongToUser] = true></app-info-window>
         </agm-info-window>
       
         </agm-marker>
@@ -27,11 +32,11 @@
           *ngFor="let challenge of filterByNotPostedByUser(challengeListObservale)"
           [latitude]="challenge.location.latitude"
           [longitude]="challenge.location.longitude"
-          [iconUrl]="'assets/images/personal_challenge.png'"
+          [iconUrl]="'assets/images/normal_image.png'"
           [label]="challenge.challengeName">
         
         <agm-info-window>
-          <app-info-window (challengeResponseEventEmitter) = "showChallengeResponseDialog($event)" [challenge] = "challenge"></app-info-window>
+          <app-info-window (challengeResponseEventEmitter) = "showChallengeResponseDialog($event)" [challenge] = "challenge" [isBelongToUser] = false></app-info-window>
         </agm-info-window>
       
         </agm-marker>
