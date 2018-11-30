@@ -1,53 +1,82 @@
 <!-- Add icon library -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
+ <div class="card">
+    <img src="assets/images/image.png" alt="Profile Image" class="img-circle">
+    <h1 class="name">{{user.username}}</h1>
+    <p class="score">Score: {{user.totalScore}}</p>
+</div>
 
-<div class="card">
-  <img src="assets/images/image.png" alt="Profile Image" class="img-circle">
-  <h1 class="name">{{user.username}}</h1>
-  <p class="score">Score: {{user.totalScore}}</p>
-  <br><br><br>
-  
-  <div class="userChallengesTaken">
-    <h2>Challenge Posted</h2>
+<div class = "clr-row">
+    <div class="clr-col-8">
+        <h2>Challenges Posted</h2>
+        <clr-datagrid>
+            <clr-dg-column [clrDgField] = "'challengeName'">Challenge Name</clr-dg-column>
+            <clr-dg-column [clrDgField] = "'Tags'">Tags</clr-dg-column>
+            <clr-dg-column [clrDgField] = "'location'">Location</clr-dg-column>
+            <clr-dg-column [clrDgField] = "'datePosted'">Date Posted</clr-dg-column>
+            <clr-dg-column [clrDgField] = "'numberOfAttempts'">Number of Attempts</clr-dg-column>
+
+            <div *ngIf="listOfChallengesPosted$ | async as listOfChallengesPosted">
+                <clr-dg-row *clrDgItems="let challenge of listOfChallengesPosted" [clrDgItem]="challenge">
+                    <clr-dg-cell>{{challenge.challengeName}}</clr-dg-cell>
+                    <clr-dg-cell>
+                        <div *ngFor="let tag of challenge.tags">
+                            <span class="label">{{tag}}</span>
+                        </div>
+                    </clr-dg-cell>
+                    <clr-dg-cell>{{challenge.location}}</clr-dg-cell>
+                    <clr-dg-cell>{{challenge.datePosted}}</clr-dg-cell>
+                    <clr-dg-cell>{{challenge.numberOfAttempts}}</clr-dg-cell>
+                </clr-dg-row>
+            </div>
+
+            <clr-dg-placeholder>We couldn't load any challenges</clr-dg-placeholder>
+
+            <clr-dg-footer>
+                <clr-dg-pagination #pagination [clrDgPageSize]="5">
+                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                    of {{pagination.totalItems}} users
+                </clr-dg-pagination>
+            </clr-dg-footer>
+        </clr-datagrid>
+    </div>
+
+    <div class="clr-col-4">
+        <h2>Challenges Taken</h2>
+        <clr-datagrid>
+            <clr-dg-column [clrDgField] = "'challengeName'">Challenge Name</clr-dg-column>
+            <clr-dg-column [clrDgField] = "'Tags'">Tags</clr-dg-column>
+            <clr-dg-column [clrDgField] = "'score'">Score</clr-dg-column>
+
+            <div *ngIf="listOfChallengesTaken$ | async as listOfChallengesTaken">
+                <clr-dg-row *clrDgItems="let challengeResponse of listOfChallengesTaken" [clrDgItem]="challengeResponse">
+                    <clr-dg-cell>{{challengeResponse.challenge.challengeName}}</clr-dg-cell>
+                    <clr-dg-cell>
+                        <div *ngFor="let tag of challengeResponse.challenge.tags">
+                            <span class="label">{{tag}}</span>
+                        </div>
+                    </clr-dg-cell>
+                    <clr-dg-cell>{{challengeResponse.score}}</clr-dg-cell>
+                </clr-dg-row>
+            </div>
+
+            <clr-dg-placeholder>We couldn't load any challenges</clr-dg-placeholder>
+
+            <clr-dg-footer>
+                <clr-dg-pagination #pagination [clrDgPageSize]="5">
+                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                    of {{pagination.totalItems}} users
+                </clr-dg-pagination>
+            </clr-dg-footer>
+        </clr-datagrid>
+    </div>
+</div>
 
 
-    <clr-datagrid>
-
-        <clr-dg-column [clrDgField] = "'challengeName'">Challenge Name</clr-dg-column>
-        <clr-dg-column [clrDgField] = "'Tags'">Tags</clr-dg-column>
-        <clr-dg-column [clrDgField] = "'location'">Location</clr-dg-column>
-        <clr-dg-column [clrDgField] = "'datePosted'">Date Posted</clr-dg-column>
-        <clr-dg-column [clrDgField] = "'numberOfAttempts'">Posted By</clr-dg-column>
-        <clr-dg-column>Number of Attempts</clr-dg-column>
-
-
-        <div *ngIf="listOfChallengesPosted$ | async as listOfChallengesPosted">
-            <clr-dg-row *clrDgItems="let challenge of listOfChallengesPosted" [clrDgItem]="challenge">
-                <clr-dg-cell>{{challenge.challengeName}}</clr-dg-cell>
-                <clr-dg-cell>
-                    <div *ngFor="let tag of challenge.tags">
-                        <span class="label">{{tag}}</span>
-                    </div>
-                </clr-dg-cell>
-                <clr-dg-cell>{{challenge.location.latitude}}</clr-dg-cell>
-                <clr-dg-cell>{{challenge.datePosted}}</clr-dg-cell>
-                <clr-dg-cell>{{challenge.numberOfAttempts}}</clr-dg-cell>
-                <clr-dg-cell>
-                <button class="btn btn-sm btn-success" (click)="onLaunch(launch)" [disabled]="!canLaunch(launch)"><clr-icon shape="upload"></clr-icon> Launch</button>
-                </clr-dg-cell>
-            </clr-dg-row>
-        </div>
-
-    
-
-        <clr-dg-placeholder>We couldn't load any challenges</clr-dg-placeholder>
-    </clr-datagrid>
-  </div>
 
   <a href="#"><i class="fa fa-dribbble"></i></a> 
   <a href="#"><i class="fa fa-twitter"></i></a> 
   <a href="#"><i class="fa fa-linkedin"></i></a> 
   <a href="#"><i class="fa fa-facebook"></i></a> 
   <p><button>Follow</button></p>
-</div>
