@@ -9,14 +9,14 @@
         <button type="button" (click) = "onCreateNewChallenge()">Create Challenge</button>
     </div>
 
-    <ng-template #searchItemTemplate let-model="challenge" let-index="index">
-        <h5>This is: {{model | json}} Index: {{ index }}</h5>
+    <ng-template #customItemTemplate let-item="item" let-index="index">
+        <h5>This is: {{item | json}} Index: {{ index }}</h5>
     </ng-template>
-    
-    <input id="search_input" type="text" [(ngModel)]="selected"
-       [typeahead]="searchChallenge"
-       [typeaheadItemTemplate]="searchItemTemplate"
-       class="form-control">
+    <input [(ngModel)]="selected"
+        [typeahead]="listOfChallenges"
+        [typeaheadItemTemplate]="customItemTemplate"
+        (typeaheadOnSelect) = "onChallengeSelected($event)"
+        class="form-control">
     <div class="header-actions">
         <clr-dropdown [clrCloseMenuOnItemClick]="true">
             <button type="button" clrDropdownTrigger>

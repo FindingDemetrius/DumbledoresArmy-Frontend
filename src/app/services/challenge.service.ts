@@ -12,6 +12,8 @@ const API_URL: string = environment.apiUrl;
 @Injectable({ providedIn: 'root' })
 export class ChallengeService {
 
+    private challengeList: Challenge[];
+
     constructor(private http: HttpClient,
         private session: SessionService,
         private auth: AuthService) { }
@@ -40,6 +42,7 @@ export class ChallengeService {
                     listOfChallenges.push(new Challenge(response['result'][i]));
                 }
                 console.log(listOfChallenges);
+                this.challengeList = listOfChallenges;
                 return listOfChallenges;
             },
             error => {

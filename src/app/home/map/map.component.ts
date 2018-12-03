@@ -53,6 +53,11 @@ export class MapComponent implements OnInit {
                 this.componentInteractor.toggleStateOfNewChallenges();
             }
         });
+
+        this.componentInteractor.EmitterUpdateTheFocusOfMap.subscribe(location => {
+            this.lat = location[0];
+            this.lng = location[1];
+        });
     }
 
     refreshHomePage() {

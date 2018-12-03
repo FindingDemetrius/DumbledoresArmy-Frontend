@@ -11,12 +11,16 @@ export class ComponentInteractionService {
   isLoggedIn = false;
   isEditChallenge = false;
 
+  location = [51.673858, 7.815982];
+
   @Output() editChallenge: EventEmitter<boolean> = new EventEmitter();
   @Output() change: EventEmitter<boolean> = new EventEmitter();
   @Output() changeMapOpenState: EventEmitter<boolean> = new EventEmitter();
   @Output() updateWhenLocationSelected: EventEmitter<Object> = new EventEmitter();
   @Output() isNewChallengeAvailable: EventEmitter<boolean> = new EventEmitter();
   @Output() updateTheChallengesWhenTheUserIsLoggedIn: EventEmitter<boolean> = new EventEmitter();
+
+  @Output() EmitterUpdateTheFocusOfMap: EventEmitter<number[]> = new EventEmitter();
 
   constructor() { }
 
@@ -51,5 +55,10 @@ export class ComponentInteractionService {
     // Toggle state of isMapOpen.
     this.toggleStateOfCreateChallengeComponent();
     this.toggleStateOfIsMapOpen();
+  }
+
+  updateFocusOfMap(location: number[]) {
+    this.location = location;
+    this.EmitterUpdateTheFocusOfMap.emit(this.location);
   }
 }
