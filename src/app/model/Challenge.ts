@@ -17,11 +17,13 @@ export class Challenge {
     get postedBy() { return this._postedBy; }
     set postedBy(postedBy) { this._postedBy = postedBy; }
 
-    _postedById: String;
-    get postedById() { return this._postedById; }
-    set postedById(postedById) { this._postedBy = postedById; }
+    _postedByName: String;
+    get postedByName() { return this._postedByName; }
+    set postedByName(postedByName) { this._postedByName = postedByName; }
 
-
+    _postedByEmail: String;
+    get postedByEmail() { return this._postedByEmail; }
+    set postedByEmail(postedByEmail) { this._postedByEmail = postedByEmail; }
 
     _datePosted: String;
     get datePosted() { return this._datePosted; }
@@ -50,6 +52,8 @@ export class Challenge {
             location: this.location,
             questions: this._questions,
             postedBy: this._postedBy,
+            postedByName: this._postedByName,
+            postedByEmail: this._postedByEmail,
             datePosted: this._datePosted,
             dateModified: this._dateModified,
             numberOfAttempts: this._numberOfAttempts,

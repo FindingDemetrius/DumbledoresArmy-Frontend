@@ -5,6 +5,7 @@ import { ChallengeService } from '../../../services/challenge.service';
 import { AgmInfoWindow } from '@agm/core';
 import { CreateChallengeStateStorageService, ChallengeFormSignature } from '../../../services/create-challenge-state-storage.service';
 import { ComponentInteractionService } from '../../../services/componentInteraction.service';
+import { Route } from '@angular/compiler/src/core';
 
 
 // TODO: Don't make req for challenges Posted after deleting a single challenge.
@@ -16,8 +17,6 @@ import { ComponentInteractionService } from '../../../services/componentInteract
   styleUrls: ['./info-window.component.css']
 })
 export class InfoWindowComponent implements OnInit {
-
-  challengeObject: Challenge;
   isChallengeResponse = false;
 
   constructor(private router: Router,
@@ -74,5 +73,9 @@ export class InfoWindowComponent implements OnInit {
     this.componentInteractionService.toggleStateOfCreateChallengeComponent();
     this.componentInteractionService.toggleStateOfIsEditChallenge();
     // Toggle the state of isCreateChallengeModalOpen.
+  }
+
+  onUserAvatarClicked() {
+    this.router.navigate(['profile/' + this.challenge.postedBy]);
   }
 }

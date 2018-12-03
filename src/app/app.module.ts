@@ -38,6 +38,8 @@ import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 // Code that pertains to the map API
 import { AgmCoreModule } from '@agm/core';
 import { ChallengeComponent } from './challenge/challenge.component';
+import { AvatarModule } from 'ngx-avatar';
+import { GenreSelectComponent } from './genre-select/genre-select.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { ChallengeComponent } from './challenge/challenge.component';
     QuestionsChallengeComponent,
     ProfileComponent,
     InfoWindowComponent,
-    AnswerChallengeComponent
+    AnswerChallengeComponent,
+    GenreSelectComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +83,8 @@ import { ChallengeComponent } from './challenge/challenge.component';
       apiKey: 'AIzaSyCAywy9aaWOwm4NKexDKM02Vko-_I_GIH0'
     }),
     ClarityModule,
-    AgmJsMarkerClustererModule
+    AgmJsMarkerClustererModule,
+    AvatarModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
