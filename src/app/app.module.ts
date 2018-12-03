@@ -40,6 +40,7 @@ import { AgmCoreModule } from '@agm/core';
 import { ChallengeComponent } from './challenge/challenge.component';
 import { AvatarModule } from 'ngx-avatar';
 import { GenreSelectComponent } from './genre-select/genre-select.component';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { GenreSelectComponent } from './genre-select/genre-select.component';
     MatAutocompleteModule,
     HttpClientModule,
     FormsModule,
+    TypeaheadModule.forRoot(),
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAuWYQMjlgGD0hyuVTavbz5uXAENMWV6LA'

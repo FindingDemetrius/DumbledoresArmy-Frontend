@@ -1,4 +1,4 @@
-<header class="header-6">
+ <header class="header-6">
     <div class="branding">
         <a routerLink="/home" class="nav-link">
             <clr-icon shape="world"></clr-icon>
@@ -8,11 +8,15 @@
     <div class="header-nav">
         <button type="button" (click) = "onCreateNewChallenge()">Create Challenge</button>
     </div>
-    <form class="search">
-        <label for="search_input">
-            <input id="search_input" type="text" placeholder="Search for challenges...">
-        </label>
-    </form>
+
+    <ng-template #searchItemTemplate let-model="challenge" let-index="index">
+        <h5>This is: {{model | json}} Index: {{ index }}</h5>
+    </ng-template>
+    
+    <input id="search_input" type="text" [(ngModel)]="selected"
+       [typeahead]="searchChallenge"
+       [typeaheadItemTemplate]="searchItemTemplate"
+       class="form-control">
     <div class="header-actions">
         <clr-dropdown [clrCloseMenuOnItemClick]="true">
             <button type="button" clrDropdownTrigger>
