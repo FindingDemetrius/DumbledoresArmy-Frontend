@@ -15,8 +15,10 @@ import { Challenge } from '../model/Challenge';
 export class NavbarComponent implements OnInit {
   private selected: String;
   private listOfChallenges: String[];
+  private listOfChallengeObjects: Challenge[];
 
   constructor(private router: Router,
+    private componentInteractor: ComponentInteractionService,
     private authService: AuthService,
     private userService: UserService,
     private challengeService: ChallengeService,
@@ -25,13 +27,21 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.challengeService.getListOfChallenges().subscribe(challengeList => {
+      this.listOfChallengeObjects = challengeList;
       this.listOfChallenges = challengeList.map(challenge => challenge.challengeName);
     });
     console.log(this.listOfChallenges);
   }
 
   onChallengeSelected(temp: any) {
-    console.log(temp);
+    console.log(temp.item);
+    this.listOfChallengeObjects.forEach(challenge => {
+      if (challenge.challengeName === temp.item) {
+        const location: number[] = [challenge.location['latitude'], challenge.location['longitude']];
+        this.componentInteractor.updateFocusOfMap(location);
+        return;
+      }
+    });
   }
 
   navigateToProfilePage() {
