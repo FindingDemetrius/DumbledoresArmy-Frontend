@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -78,13 +79,16 @@ import { ChallengeComponent } from './challenge/challenge.component';
     }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
+    AngularFireStorageModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCAywy9aaWOwm4NKexDKM02Vko-_I_GIH0'
     }),
     ClarityModule,
     AgmJsMarkerClustererModule
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

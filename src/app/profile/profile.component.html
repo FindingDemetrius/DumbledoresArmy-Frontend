@@ -4,7 +4,8 @@
 <h1>TEST</h1>
 <div class="card">
   <!--Figure out why the image isn't acting like circle-->
-  <img src="assets/images/johnlegend.jpg" alt="Profile Image" class="img-circle">
+  <!--<img src="assets/images/johnlegend.jpg" alt="Profile Image" class="img-circle">-->
+  <img [src]="profileUrl | async" alt="Profile Image" class="img-circle" />
   <h1 class="name">John Doe</h1>
   <p class="rank">Newbie</p>
   <p>Howard University</p>

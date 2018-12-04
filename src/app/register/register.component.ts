@@ -5,6 +5,11 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../model/User';
 
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+
+import { AngularFireStorage } from '@angular/fire/storage';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -26,11 +31,15 @@ export class RegisterComponent implements OnInit {
   public isGoogleButtonDisabled = false;
   private isSecondPartyAuth = false;
 
+  uploadPercent: Observable<number>
+  downloadUrl: Observable<string>
+
   constructor(
     private auth: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private storage: AngularFireStorage
   ) {
     this.frm = fb.group({
       emailAddress: ['', Validators.email],
@@ -124,6 +133,21 @@ export class RegisterComponent implements OnInit {
         this.isBusy = false;
       });
   }
+
+  uploadFile(event) {
+    const file = event.target.files[0]
+    const filePath = this.frm.get('username').value;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, file)
+
+    // observe percentage changes
+    this.uploadPercent = task.percentageChanges();
+    // get notified when the download URL is available
+    task.snapshotChanges().pipe(
+        finalize(() => this.downloadUrl = fileRef.getDownloadURL() )
+    ).subscribe()
+  }
+
 }
 
 
