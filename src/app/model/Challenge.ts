@@ -27,7 +27,11 @@ export class Challenge {
 
     _datePosted: String;
     get datePosted() { return this._datePosted; }
-    set datePosted(datePosted) { this._datePosted = datePosted; }
+    set datePosted(datePosted) { 
+        this._datePosted = datePosted; 
+        //Cuts the excessive text out in the date
+        this._datePosted = this._datePosted.substring(0, 16);
+    }
 
     _dateModified: String;
     get dateModified() { return this._dateModified; }
@@ -36,6 +40,9 @@ export class Challenge {
     _numberOfAttempts: Number;
     get numberOfAttempts() { return this._numberOfAttempts; }
     set numberOfAttempts(numberOfAttempts) { this._numberOfAttempts = numberOfAttempts; }
+
+    _numberOfQuestions: Number;
+    get numberOfQuestions() { return this._questions.length; }
 
     _id: String;
     get id() { return this._id; }
