@@ -71,7 +71,7 @@ export class ChallengeService {
         if (!this.IsUpdateUserObjectFieldsValid(updateObject)) {
             return throwError(new Error('One of the fields is not allowed to be updated. '));
         }
-        return this.http.patch(API_URL + '/challenges' + challengeId, this.getRequestOptions()).map(
+        return this.http.patch(API_URL + '/challenges/' + challengeId, updateObject, this.getRequestOptions()).map(
             response => {
                 return new Challenge(response['result']);
             },
@@ -85,7 +85,7 @@ export class ChallengeService {
         if (!this.auth.isSignedIn()) {
             return throwError(new Error('The user is not signed in.'));
         }
-        return this.http.delete(API_URL + '/users/' + challengeId, this.getRequestOptions()).map(
+        return this.http.delete(API_URL + '/challenges/' + challengeId, this.getRequestOptions()).map(
             reponse => {
                 return true;
             },

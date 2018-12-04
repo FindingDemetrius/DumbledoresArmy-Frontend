@@ -2,6 +2,7 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 import { MapComponent } from './map/map.component';
 import { AuthService } from '../services/auth.service';
 import { ComponentInteractionService } from '../services/componentInteraction.service';
+import { Challenge } from '../model/Challenge';
 
 @Component({
     selector: 'app-home',
@@ -35,5 +36,4 @@ export class HomeComponent implements OnInit, DoCheck {
             this.isModalOpen = false;
         }
     }
-
 }
