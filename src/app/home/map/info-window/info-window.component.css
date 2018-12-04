@@ -6,3 +6,33 @@
     margin-left: 0%;
     margin-right: 0%;
 }
+
+#posted-by{
+    overflow: hidden; 
+    display: inline-block;
+    margin: 0 auto;
+}
+
+img{
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+h1 {
+    margin: 0 auto;
+}
+
+p {
+    margin: 0 auto;
+}
+
+h4 {
+    margin: 0 auto;
+}
+
+h6 {
+    margin: 0 auto;
+}
