@@ -85,16 +85,19 @@ export class RegisterComponent implements OnInit {
         .then(authToken => {
           this.auth.setAuthToken(String(authToken));
           this.userService.createUser(user)
-            .subscribe((u: User) => {
+            .subscribe((u) => {
+              console.log('Navigate');
               this.router.navigate(['home']);
             },
               errorMessage => {
+                console.log(errorMessage);
                 this.isBusy = false;
                 this.serverResponse = true;
                 this.errorPlaceHolder = errorMessage;
               });
         })
         .catch(error => {
+          console.log(error);
           this.isBusy = false;
           this.serverResponse = true;
           this.errorPlaceHolder = error['message'];

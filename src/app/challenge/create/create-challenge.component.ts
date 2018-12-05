@@ -51,7 +51,7 @@ export class CreateChallengeComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         console.log('Calling on Destroy.');
         // Store the data in one service so that you can use it when returning back.
-        if (this.isLocationObjectEmpty(this.location)) {
+        if (this.isLocationObjectEmpty()) {
             const challengeData: ChallengeFormSignature = {
                 challengeName: this.createChallengeForm.get('challengeName').value,
                 listOfQuestions: this.listOfQuestions,
@@ -142,7 +142,7 @@ export class CreateChallengeComponent implements OnInit, OnDestroy {
         return this.componentInteractor.isEditChallenge;
     }
 
-    isLocationObjectEmpty(location: Object) {
+    isLocationObjectEmpty() {
         return Object.keys(this.location).length === 0;
     }
 }

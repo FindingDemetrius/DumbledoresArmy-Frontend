@@ -39,7 +39,6 @@ import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { AgmCoreModule } from '@agm/core';
 import { ChallengeComponent } from './challenge/challenge.component';
 import { AvatarModule } from 'ngx-avatar';
-import { GenreSelectComponent } from './genre-select/genre-select.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
 @NgModule({
@@ -56,8 +55,7 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     QuestionsChallengeComponent,
     ProfileComponent,
     InfoWindowComponent,
-    AnswerChallengeComponent,
-    GenreSelectComponent
+    AnswerChallengeComponent
   ],
   imports: [
     BrowserModule,

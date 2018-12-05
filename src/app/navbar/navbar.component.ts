@@ -13,8 +13,8 @@ import { Challenge } from '../model/Challenge';
 })
 
 export class NavbarComponent implements OnInit {
-  private selected: String;
-  private listOfChallenges: String[];
+  public selected: String;
+  public listOfChallenges: String[];
   private listOfChallengeObjects: Challenge[];
 
   constructor(private router: Router,

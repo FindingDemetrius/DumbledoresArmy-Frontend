@@ -28,14 +28,14 @@ export class MapComponent implements OnInit {
     isLoggedIn = false;
     isShowEditChallengeDialogBox = false;
 
-    private challengeListObservale$: Observable<Challenge[]>;
+    public challengeListObservale$: Observable<Challenge[]>;
 
     clickedMarker(label: string, index: number) {
         console.log(`clicked the marker: ${label || index}`);
     }
 
     ngOnInit() {
-        // Set the lat and long from the component interactor service for start. 
+        // Set the lat and long from the component interactor service for start.
         this.lat = this.componentInteractor.location[0];
         this.lng = this.componentInteractor.location[1];
         console.log('Maps Component started');
