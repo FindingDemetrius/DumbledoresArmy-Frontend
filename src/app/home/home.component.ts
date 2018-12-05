@@ -10,7 +10,7 @@ import { Challenge } from '../model/Challenge';
     styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit, DoCheck {
+export class HomeComponent implements OnInit {
     title = 'geo-quiz-frontend';
     login = false;
     isModalOpen = true;
@@ -28,12 +28,10 @@ export class HomeComponent implements OnInit, DoCheck {
         this.componentInteractor.change.subscribe(isChallengeModalOpen => {
             this.isCreateChallengeOpen = isChallengeModalOpen;
         });
-    }
 
-    ngDoCheck() {
-        if (this.authService.isSignedIn()) {
-            this.login = true;
-            this.isModalOpen = false;
-        }
+        this.componentInteractor.changeInUserCurrentStatus.subscribe(isLoggedIn => {
+            this.login = isLoggedIn;
+            this.isModalOpen = true;
+        });
     }
 }

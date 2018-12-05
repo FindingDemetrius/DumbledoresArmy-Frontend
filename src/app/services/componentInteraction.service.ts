@@ -18,7 +18,7 @@ export class ComponentInteractionService {
   @Output() changeMapOpenState: EventEmitter<boolean> = new EventEmitter();
   @Output() updateWhenLocationSelected: EventEmitter<Object> = new EventEmitter();
   @Output() isNewChallengeAvailable: EventEmitter<boolean> = new EventEmitter();
-  @Output() updateTheChallengesWhenTheUserIsLoggedIn: EventEmitter<boolean> = new EventEmitter();
+  @Output() changeInUserCurrentStatus: EventEmitter<boolean> = new EventEmitter();
 
   @Output() EmitterUpdateTheFocusOfMap: EventEmitter<number[]> = new EventEmitter();
 
@@ -41,7 +41,7 @@ export class ComponentInteractionService {
 
   toggleStateOfIsLoggedIn() {
     this.isLoggedIn = !this.isLoggedIn;
-    this.updateTheChallengesWhenTheUserIsLoggedIn.emit(true);
+    this.changeInUserCurrentStatus.emit(this.isLoggedIn);
   }
 
   toggleStateOfIsEditChallenge() {

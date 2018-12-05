@@ -2,21 +2,33 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 <div *ngIf = "isBelongToUser" class="card card-block active">
-  <h1> {{ challenge.challengeName }}</h1>
+  <div class="clr-row">
+    <div class="clr-col-sm-8">
+         <h1> {{ challenge.challengeName }}</h1>
+    </div>
+    <div class="clr-col-sm-3 clr-offset-sm-1">
+         <div>
+          <clr-icon style="float: right;" (click) = "onTapDeleteChallenge(challenge.id)" shape="trash"></clr-icon>
+          <clr-icon style="float: right;" (click) = "onTapEditChallenge()" shape="pencil"></clr-icon>
+        </div>
+    </div>
+</div>
   <div id="posted-by">
-   <h5 style="display: inline-block;"> {{ challenge.postedBy }}</h5>
-   <img style="display: inline-block;" src="assets/images/johnlegend.jpg" alt="Profile Image" class="img-circle">
+    <img style="display: inline-block;" src="assets/images/johnlegend.jpg" alt="Profile Image" class="img-circle">
+    <h5 style="display: inline-block;"> {{ challenge.postedBy }}</h5>
   </div>
   <h4> {{ challenge.datePosted }} </h4>
-  <h6> {{ challenge.numberOfQuestions }} Questions </h6>
+  <span *ngIf= "challenge.numberOfQuestions > 1">
+    <h6> {{ challenge.numberOfQuestions }} Questions </h6>
+  </span>
+
+  <span *ngIf= "challenge.numberOfQuestions <= 1">
+    <h6> {{ challenge.numberOfQuestions }} Question </h6>
+  </span>
+
   <p id="location-address">{{challenge.location.address}}</p>
   <div style="border: 3px;"class="tags-container" *ngFor="let tag of challenge.tags">
     <span style="float: left;" class="label">{{ tag }}</span>
-  </div>
-  <div style="display: inline-block; margin-top:10px;">
-    <button type="button" (click) = "onTapEditChallenge()" class="btn btn-primary btn-sm" style="display: inline-block"> Edit </button>
-    <button type="button" (click) = "onTapDeleteChallenge(challenge.id)" class="btn btn-danger btn-sm" style="display: inline-block"> Delete </button>
-
   </div>
 </div>
 

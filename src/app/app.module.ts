@@ -77,13 +77,10 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     TypeaheadModule.forRoot(),
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAuWYQMjlgGD0hyuVTavbz5uXAENMWV6LA'
+      apiKey: 'AIzaSyCB3ABDwoYpgtb1TFDn0U1p68Kg3Hv-zM8'
     }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCAywy9aaWOwm4NKexDKM02Vko-_I_GIH0'
-    }),
     ClarityModule,
     AgmJsMarkerClustererModule,
     AvatarModule

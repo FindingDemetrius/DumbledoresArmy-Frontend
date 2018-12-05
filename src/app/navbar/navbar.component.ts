@@ -21,8 +21,7 @@ export class NavbarComponent implements OnInit {
     private componentInteractor: ComponentInteractionService,
     private authService: AuthService,
     private userService: UserService,
-    private challengeService: ChallengeService,
-    private navBarService: ComponentInteractionService) {
+    private challengeService: ChallengeService) {
   }
 
   ngOnInit() {
@@ -52,6 +51,7 @@ export class NavbarComponent implements OnInit {
   logOutCurrentUser() {
     console.log('Sign Out user.');
     this.authService.doSignOut();
+    this.componentInteractor.toggleStateOfIsLoggedIn();
   }
 
   onSearchBarText(searchString: String) {
@@ -60,6 +60,6 @@ export class NavbarComponent implements OnInit {
 
   onCreateNewChallenge() {
     console.log('Create challenge tapped');
-    this.navBarService.toggleStateOfCreateChallengeComponent();
+    this.componentInteractor.toggleStateOfCreateChallengeComponent();
   }
 }

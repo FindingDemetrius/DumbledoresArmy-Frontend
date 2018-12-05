@@ -36,7 +36,7 @@ export class MapComponent implements OnInit {
 
     ngOnInit() {
         console.log('Maps Component started');
-        this.componentInteractor.updateTheChallengesWhenTheUserIsLoggedIn.subscribe(isLoggedIn => {
+        this.componentInteractor.changeInUserCurrentStatus.subscribe(isLoggedIn => {
             this.isLoggedIn = isLoggedIn;
             // Get the current user after logged in.
         });
