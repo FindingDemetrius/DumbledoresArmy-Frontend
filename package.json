@@ -18,7 +18,7 @@
     "@angular/cdk": "^6.4.7",
     "@angular/common": "^6.1.0",
     "@angular/compiler": "^6.1.0",
-    "@angular/core": "^6.1.0",
+    "@angular/core": "^6.1.9",
     "@angular/fire": "^5.1.0",
     "@angular/forms": "^6.1.0",
     "@angular/http": "^6.1.0",
@@ -41,6 +41,7 @@
     "ngx-avatar": "^3.2.0",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
+    "snazzy-info-window": "^1.1.1",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

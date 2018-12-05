@@ -8,6 +8,8 @@ import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { ChallengeResponse } from '../model/ChallengeResponse';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { SessionService } from '../services/session.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,19 +25,24 @@ export class ProfileComponent implements OnInit {
   sub: any;
   username = '';
 
+  downloadUrl: Observable<string>
+  profileUrl: Observable<string | null>;
+
   constructor(private authService: AuthService,
     private route: ActivatedRoute, private router: Router,
-    private userService: UserService) {
-  }
+    private userService: UserService, private storage: AngularFireStorage,
+    private sessionService: SessionService) { }
 
   ngOnInit() {
     if (!this.authService.isSignedIn()) {
       this.router.navigate(['']);
     }
-    this.getUserProfile();
+    this.getUserProfile().then(() => {
+      this.getUserProfileImg();
+    });
   }
 
-  getUserProfile() {
+  async getUserProfile() {
     // Check if username specified in the URL
     const username = this.route.snapshot.paramMap.get('username');
     if (username === null) {
@@ -49,5 +56,13 @@ export class ProfileComponent implements OnInit {
       this.userService.getUser(username)
         .subscribe(user => this.user = user);
     }
+  }
+
+  getUserProfileImg() {
+    const username = this.sessionService.username
+    console.log('image: '+username)
+    const filePath = username.toString()
+    const ref = this.storage.ref(filePath);
+    this.profileUrl = ref.getDownloadURL();
   }
 }

@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -16,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -71,6 +73,7 @@ import { GenreSelectComponent } from './genre-select/genre-select.component';
     MatButtonModule,
     MatChipsModule,
     MatAutocompleteModule,
+    MatCardModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -79,6 +82,7 @@ import { GenreSelectComponent } from './genre-select/genre-select.component';
     }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
+    AngularFireStorageModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCAywy9aaWOwm4NKexDKM02Vko-_I_GIH0'
     }),
@@ -86,7 +90,9 @@ import { GenreSelectComponent } from './genre-select/genre-select.component';
     AgmJsMarkerClustererModule,
     AvatarModule
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

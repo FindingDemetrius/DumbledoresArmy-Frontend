@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { QuestionPost } from '../../model/QuestionPost';
 import { Challenge } from '../../model/Challenge';
 import { ChallengeService } from '../../services/challenge.service';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { IQuestion } from '../../model/IQuestion';
 import { ComponentInteractionService } from '../../services/componentInteraction.service';
 import { CreateChallengeStateStorageService, ChallengeFormSignature } from '../../services/create-challenge-state-storage.service';
