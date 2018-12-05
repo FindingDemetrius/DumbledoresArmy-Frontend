@@ -8,6 +8,7 @@ import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { ChallengeResponse } from '../model/ChallengeResponse';
+import { ComponentInteractionService } from '../services/componentInteraction.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,10 +23,11 @@ export class ProfileComponent implements OnInit {
 
   sub: any;
   username = '';
+  selected = '';
 
   constructor(private authService: AuthService,
     private route: ActivatedRoute, private router: Router,
-    private userService: UserService) {
+    private userService: UserService, private componentInteractor: ComponentInteractionService) {
   }
 
   ngOnInit() {
@@ -49,5 +51,13 @@ export class ProfileComponent implements OnInit {
       this.userService.getUser(username)
         .subscribe(user => this.user = user);
     }
+  }
+
+  selectedChanged(challengeObject: any) {
+    this.selected = challengeObject;
+    console.log(this.selected);
+    const location: number[] = [challengeObject.location.latitude, challengeObject.location.longitude];
+    this.componentInteractor.location = location;
+    this.router.navigate(['home']);
   }
 }

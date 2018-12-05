@@ -19,8 +19,8 @@ import { AuthService } from '../../services/auth.service';
 export class MapComponent implements OnInit {
 
     zoom = 8;
-    lat = 51.673858;
-    lng = 7.815982;
+    lat: Number;
+    lng: Number;
     isChallengeResponseDialogOpen = false;
     tappedChallenge: Challenge;
     mapOpen = false;
@@ -35,6 +35,9 @@ export class MapComponent implements OnInit {
     }
 
     ngOnInit() {
+        // Set the lat and long from the component interactor service for start. 
+        this.lat = this.componentInteractor.location[0];
+        this.lng = this.componentInteractor.location[1];
         console.log('Maps Component started');
         this.componentInteractor.changeInUserCurrentStatus.subscribe(isLoggedIn => {
             this.isLoggedIn = isLoggedIn;
