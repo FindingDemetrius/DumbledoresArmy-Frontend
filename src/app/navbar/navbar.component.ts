@@ -1,4 +1,5 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { DoCheck } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
@@ -17,11 +18,15 @@ export class NavbarComponent implements OnInit {
   private listOfChallenges: String[];
   private listOfChallengeObjects: Challenge[];
 
+  options: String[] = [];
+  challengeList: Challenge[];
+
   constructor(private router: Router,
     private componentInteractor: ComponentInteractionService,
     private authService: AuthService,
     private userService: UserService,
-    private challengeService: ChallengeService) {
+    private challengeService: ChallengeService,
+    private navBarService: ComponentInteractionService) {
   }
 
   ngOnInit() {

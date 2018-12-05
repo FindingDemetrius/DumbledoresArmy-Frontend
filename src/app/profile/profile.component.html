@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
  <div class="card">
-    <img src="assets/images/image.png" alt="Profile Image" class="img-circle">
+    <img [src]="profileUrl | async" alt="Profile Image" class="img-circle" />
     <h1 class="name">{{user.username}}</h1>
     <p class="score">Score: {{user.totalScore}}</p>
 </div>
@@ -72,9 +72,6 @@
         </clr-datagrid>
     </div>
 </div>
-
-
-
   <a href="#"><i class="fa fa-dribbble"></i></a> 
   <a href="#"><i class="fa fa-twitter"></i></a> 
   <a href="#"><i class="fa fa-linkedin"></i></a> 

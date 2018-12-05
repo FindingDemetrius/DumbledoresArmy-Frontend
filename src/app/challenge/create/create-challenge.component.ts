@@ -2,7 +2,13 @@ import { Component, OnInit, ViewChild, ElementRef, Output, OnDestroy, Input } fr
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { QuestionPost } from '../../model/QuestionPost';
 import { Challenge } from '../../model/Challenge';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
+
+import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material'
+
 import { ChallengeService } from '../../services/challenge.service';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { IQuestion } from '../../model/IQuestion';
 import { ComponentInteractionService } from '../../services/componentInteraction.service';
 import { CreateChallengeStateStorageService, ChallengeFormSignature } from '../../services/create-challenge-state-storage.service';

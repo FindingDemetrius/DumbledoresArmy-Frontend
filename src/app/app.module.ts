@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -16,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -72,6 +74,7 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     MatButtonModule,
     MatChipsModule,
     MatAutocompleteModule,
+    MatCardModule,
     HttpClientModule,
     FormsModule,
     TypeaheadModule.forRoot(),
@@ -85,7 +88,9 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     AgmJsMarkerClustererModule,
     AvatarModule
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
