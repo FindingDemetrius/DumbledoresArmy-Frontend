@@ -11,13 +11,33 @@
     <div *ngIf="challengeListObservale$ | async as challengeListObservale">
       <agm-marker-cluster imagePath="https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclustererplus/images/m">
         <agm-marker 
-        *ngFor="let challenge of challengeListObservale"
-        [latitude]="challenge.location.latitude"
-        [longitude]="challenge.location.longitude"
-        [label]="challenge.challengeName">
+          *ngFor="let challenge of filterByIsPostedByUser(challengeListObservale)"
+          [latitude]="challenge.location.latitude"
+          [longitude]="challenge.location.longitude"
+          [iconUrl]="'assets/images/personal_challenge.png'"
+          [label]="challenge.challengeName">
         
         <agm-info-window>
-          <app-info-window (challengeResponseEventEmitter) = "showChallengeResponseDialog($event)" [challenge] = "challenge"></app-info-window>
+          <app-info-window  
+            (challengeResponseEventEmitter) = "showChallengeResponseDialog($event)" 
+            (challengeDeletedResponseEventEmitter) = "refreshHomePage()"
+            (challengeEditEventEmitter) = "onEditChallenge($event)"
+            [challenge] = "challenge"
+            [isBelongToUser] = true>
+            </app-info-window>
+        </agm-info-window>
+      
+        </agm-marker>
+
+        <agm-marker 
+          *ngFor="let challenge of filterByNotPostedByUser(challengeListObservale)"
+          [latitude]="challenge.location.latitude"
+          [longitude]="challenge.location.longitude"
+          [iconUrl]="'assets/images/normal_image.png'"
+          [label]="challenge.challengeName">
+        
+        <agm-info-window>
+          <app-info-window (challengeResponseEventEmitter) = "showChallengeResponseDialog($event)" [challenge] = "challenge" [isBelongToUser] = false></app-info-window>
         </agm-info-window>
       
         </agm-marker>

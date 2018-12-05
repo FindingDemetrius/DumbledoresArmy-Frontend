@@ -1,14 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
-import { ENTER, COMMA } from '@angular/cdk/keycodes';
-
-import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material'
-
+import { Component, OnInit, ViewChild, ElementRef, Output, OnDestroy, Input } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { QuestionPost } from '../../model/QuestionPost';
+import { Challenge } from '../../model/Challenge';
 import { ChallengeService } from '../../services/challenge.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Challenge } from '../../model/Challenge';
-import { QuestionPost } from '../../model/QuestionPost';
 import { IQuestion } from '../../model/IQuestion';
 import { ComponentInteractionService } from '../../services/componentInteraction.service';
 import { CreateChallengeStateStorageService, ChallengeFormSignature } from '../../services/create-challenge-state-storage.service';
@@ -39,14 +35,14 @@ export class CreateChallengeComponent implements OnInit, OnDestroy {
         });
 
         const challengeData: ChallengeFormSignature = this.challengeDataStore.getChallengeData();
-        if (challengeData != null) {
+        if (challengeData !== null) {
             // Retrieve data from the challenge object.
             this.createChallengeForm.patchValue({
-                'challengeName': challengeData.challengeName != null ? challengeData.challengeName : ''
+                'challengeName': challengeData.challengeName !== null ? challengeData.challengeName : ''
             });
-            this.listOfTags = challengeData.tags != null ? challengeData.tags : [];
-            this.location = challengeData.location != null ? challengeData.location : {};
-            this.listOfQuestions = challengeData.listOfQuestions != null ? challengeData.listOfQuestions : [];
+            this.listOfTags = challengeData.tags !== null ? challengeData.tags : [];
+            this.location = challengeData.location !== null ? challengeData.location : {};
+            this.listOfQuestions = challengeData.listOfQuestions !== null ? challengeData.listOfQuestions : [];
         }
     }
 
@@ -57,7 +53,7 @@ export class CreateChallengeComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         console.log('Calling on Destroy.');
         // Store the data in one service so that you can use it when returning back.
-        if (this.location == null) {
+        if (this.isLocationObjectEmpty(this.location)) {
             const challengeData: ChallengeFormSignature = {
                 challengeName: this.createChallengeForm.get('challengeName').value,
                 listOfQuestions: this.listOfQuestions,
@@ -69,6 +65,7 @@ export class CreateChallengeComponent implements OnInit, OnDestroy {
             // After reading from the service, set the data to null.
         } else {
             this.challengeDataStore.flushStorage();
+            this.location = null;
         }
     }
 
@@ -111,5 +108,43 @@ export class CreateChallengeComponent implements OnInit, OnDestroy {
         // Get the location from the maps component.
         this.componentInteractor.toggleStateOfCreateChallengeComponent();
         this.componentInteractor.toggleStateOfIsMapOpen();
+    }
+
+    doEditChallenge() {
+        console.log('Editing a challenge');
+        const updateObject = {};
+
+        const originalChallenge = this.challengeDataStore.getChallengeData();
+
+        if (this.createChallengeForm.get('challengeName').value !== originalChallenge.challengeName) {
+            updateObject['challengeName'] = this.createChallengeForm.get('challengeName').value;
+        }
+        if (originalChallenge.tags !== this.listOfTags) {
+            updateObject['tags'] = this.listOfTags;
+        }
+        // if (this.challengeToEdit.location !== this.location) {
+        //     updateObject['location'] = this.location;
+        // }
+        // if (this.challengeToEdit.questions !== this.listOfQuestions) {
+        //     updateObject['questions'] = this.listOfQuestions;
+        // }
+        console.log(updateObject);
+        this.challengeService.editChalleneg(updateObject, originalChallenge.id)
+            .subscribe(challenge => {
+                this.componentInteractor.toggleStateOfCreateChallengeComponent();
+                this.componentInteractor.toggleStateOfIsEditChallenge();
+                this.componentInteractor.toggleStateOfNewChallenges();
+            },
+                error => {
+                    console.log(error);
+                });
+    }
+
+    isEditingChallenge() {
+        return this.componentInteractor.isEditChallenge;
+    }
+
+    isLocationObjectEmpty(location: Object) {
+        return Object.keys(this.location).length === 0;
     }
 }

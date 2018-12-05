@@ -1,11 +1,37 @@
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-<div (click)="onTakeChallenge(challenge)" class="card card-block clickable">
-  <p> {{ challenge.challengeName }}</p>
-  <p> Posted By {{ challenge.postedBy }}</p>
-  <p> Date Posted {{ challenge.datePosted }} </p>
-  <div style="border: 10px;"class="tags-container" *ngFor="let tag of challenge.tags">
-  <span style="float: left;" class="label">{{ tag }}</span>
+<div *ngIf = "isBelongToUser" class="card card-block active">
+  <h1> {{ challenge.challengeName }}</h1>
+  <div id="posted-by">
+   <h5 style="display: inline-block;"> {{ challenge.postedBy }}</h5>
+   <img style="display: inline-block;" src="assets/images/johnlegend.jpg" alt="Profile Image" class="img-circle">
   </div>
-  <p> Number Of Questions {{ challenge.numberOfQuestions }} </p>
-  <p>Latitude: {{challenge.location.latitude}} Longitude {{challenge.location.longitude}}</p>
+  <h4> {{ challenge.datePosted }} </h4>
+  <h6> {{ challenge.numberOfQuestions }} Questions </h6>
+  <p id="location-address">{{challenge.location.address}}</p>
+  <div style="border: 3px;"class="tags-container" *ngFor="let tag of challenge.tags">
+    <span style="float: left;" class="label">{{ tag }}</span>
+  </div>
+  <div style="display: inline-block; margin-top:10px;">
+    <button type="button" (click) = "onTapEditChallenge()" class="btn btn-primary btn-sm" style="display: inline-block"> Edit </button>
+    <button type="button" (click) = "onTapDeleteChallenge(challenge.id)" class="btn btn-danger btn-sm" style="display: inline-block"> Delete </button>
+
+  </div>
+</div>
+
+<div *ngIf = "!isBelongToUser" (click)="onTakeChallenge(challenge)" class="card clickable active">
+  <h1> {{ challenge.challengeName }}</h1>
+  <div id="posted-by">
+   <h5 style="display: inline-block;"> {{ challenge.postedBy }}</h5>
+   <img style="display: inline-block;" src="assets/images/johnlegend.jpg" alt="Profile Image" class="img-circle">
+  </div>
+  <h4> {{ challenge.datePosted }} </h4>
+  <h6> {{ challenge.numberOfQuestions }} Questions </h6>
+  <p id="location-address">{{challenge.location.address}}</p>
+  <div style="border: 3px;"class="tags-container" *ngFor="let tag of challenge.tags">
+    <span style="float: left;" class="label">{{ tag }}</span>
+  </div>
+  <div style="margin: 30px"></div>
+  
 </div>
